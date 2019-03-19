@@ -16,15 +16,15 @@ prefixes:
 #
 # Start of Monitor Definitions
 monitors:
-    riperis: [''] # by default this uses all available monitors
-    bgpstreamlive:
-        - routeviews
-        - ris
-    betabmp:
-        - betabmp
-    # exabgp:
-    #     - ip: exabgp
-    #       port: 5000
+    #riperis: [''] # by default this uses all available monitors
+    #bgpstreamlive:
+    #    - routeviews
+    #    - ris
+    #betabmp:
+    #    - betabmp
+    exabgp:
+        - ip: 192.168.10.2
+          port: 5000
     # bgpstreamhist:
     #     - <csv_dir_with_formatted_BGP_updates>
 # End of Monitor Definitions
