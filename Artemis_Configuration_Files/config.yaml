@@ -23,7 +23,7 @@ monitors:
     #betabmp:
     #    - betabmp
     exabgp:
-        - ip: 192.168.10.2
+        - ip: exabgp
           port: 5000
     # bgpstreamhist:
     #     - <csv_dir_with_formatted_BGP_updates>
