@@ -1,0 +1,69 @@
+Apr 02 22:38:52.465 HYPERVISOR: Release 0.2.20-amd64/Linux (tag 2019022012)
+Apr 02 22:38:52.465 HYPERVISOR: Started on IP = 127.0.0.1, TCP port = 60493.
+Apr 02 22:38:52.467 HYPERVISOR: exec_cmd: hypervisor version 
+Apr 02 22:38:52.467 HYPERVISOR: exec_cmd: hypervisor working_dir /home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/network_simulation/project-files/dynamips 
+Apr 02 22:38:52.467 GENERAL: working_dir=/home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/network_simulation/project-files/dynamips
+Apr 02 22:38:52.467 HYPERVISOR: exec_cmd: hypervisor working_dir /home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/network_simulation/project-files/dynamips/5efa3d23-8aaf-48fb-b0aa-44b302e92625 
+Apr 02 22:38:52.468 GENERAL: working_dir=/home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/network_simulation/project-files/dynamips/5efa3d23-8aaf-48fb-b0aa-44b302e92625
+Apr 02 22:38:52.468 HYPERVISOR: exec_cmd: vm create R2 2 c3725 
+Apr 02 22:38:52.468 VM: VM R2 created.
+Apr 02 22:38:52.468 HYPERVISOR: exec_cmd: vm set_con_tcp_port R2 5001 
+Apr 02 22:38:52.468 HYPERVISOR: exec_cmd: c3725 get_mac_addr R2 
+Apr 02 22:38:52.468 HYPERVISOR: exec_cmd: vm set_disk0 R2 0 
+Apr 02 22:38:52.468 HYPERVISOR: exec_cmd: vm get_status R2 
+Apr 02 22:38:52.468 HYPERVISOR: exec_cmd: vm set_idle_pc R2 0x60c086a8 
+Apr 02 22:38:52.469 HYPERVISOR: exec_cmd: vm set_ios R2 /home/george/GNS3/images/IOS/c3725-adventerprisek9-mz.124-15.T14.image 
+Apr 02 22:38:52.469 HYPERVISOR: exec_cmd: c3725 set_mac_addr R2 c202.1ac2.0000 
+Apr 02 22:38:52.469 HYPERVISOR: exec_cmd: vm set_nvram R2 256 
+Apr 02 22:38:52.470 HYPERVISOR: exec_cmd: vm set_ram R2 256 
+Apr 02 22:38:52.470 HYPERVISOR: exec_cmd: vm get_status R2 
+Apr 02 22:38:52.470 HYPERVISOR: exec_cmd: vm slot_add_binding R2 1 0 NM-1FE-TX 
+Apr 02 22:38:52.470 HYPERVISOR: exec_cmd: vm get_status R2 
+Apr 02 22:38:52.470 HYPERVISOR: exec_cmd: vm slot_add_binding R2 2 0 NM-1FE-TX 
+Apr 02 22:38:52.470 HYPERVISOR: exec_cmd: vm slot_add_binding R2 0 16 WIC-2T 
+Apr 02 22:38:52.470 HYPERVISOR: exec_cmd: vm slot_add_binding R2 0 32 WIC-2T 
+Apr 02 22:38:52.471 HYPERVISOR: exec_cmd: vm slot_add_binding R2 0 48 WIC-2T 
+Apr 02 22:38:53.387 HYPERVISOR: exec_cmd: nio create_udp udp-c7f87267-f4e7-401b-9836-0913bee6526e 10002 127.0.0.1 10003 
+Apr 02 22:38:53.603 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R2 1 0 udp-c7f87267-f4e7-401b-9836-0913bee6526e 
+Apr 02 22:38:53.605 HYPERVISOR: exec_cmd: vm get_status R2 
+Apr 02 22:38:53.889 HYPERVISOR: exec_cmd: nio create_udp udp-b72883c0-5764-499c-92cd-62d67aa5872b 10008 127.0.0.1 10009 
+Apr 02 22:38:53.890 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R2 2 0 udp-b72883c0-5764-499c-92cd-62d67aa5872b 
+Apr 02 22:38:53.890 HYPERVISOR: exec_cmd: vm get_status R2 
+Apr 02 22:38:54.757 HYPERVISOR: exec_cmd: nio create_udp udp-96abf7f4-9edd-4850-bc46-723543ca1467 10034 127.0.0.1 10035 
+Apr 02 22:38:54.758 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R2 0 0 udp-96abf7f4-9edd-4850-bc46-723543ca1467 
+Apr 02 22:38:54.759 HYPERVISOR: exec_cmd: vm get_status R2 
+Apr 02 22:39:06.395 HYPERVISOR: exec_cmd: vm create Ghost 0 c3725 
+Apr 02 22:39:06.395 VM: VM Ghost created.
+Apr 02 22:39:06.413 HYPERVISOR: exec_cmd: vm set_ios Ghost /home/george/GNS3/images/IOS/c3725-adventerprisek9-mz.124-15.T14.image 
+Apr 02 22:39:06.415 HYPERVISOR: exec_cmd: vm set_ghost_status Ghost 1 
+Apr 02 22:39:06.431 HYPERVISOR: exec_cmd: vm set_ghost_file Ghost /home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/network_simulation/project-files/dynamips/c3725-adventerprisek9-mz.124-15.T14.image-256.ghost 
+Apr 02 22:39:06.440 HYPERVISOR: exec_cmd: vm set_ram Ghost 256 
+Apr 02 22:39:06.440 HYPERVISOR: exec_cmd: vm get_status Ghost 
+Apr 02 22:39:06.447 HYPERVISOR: exec_cmd: vm set_config Ghost configs/i0_startup-config.cfg 
+Apr 02 22:39:06.447 HYPERVISOR: exec_cmd: vm start Ghost 
+Apr 02 22:39:07.079 HYPERVISOR: exec_cmd: vm get_status Ghost 
+Apr 02 22:39:07.080 HYPERVISOR: exec_cmd: vm stop Ghost 
+Apr 02 22:39:07.296 VM: VM Ghost shutdown.
+Apr 02 22:39:07.298 HYPERVISOR: exec_cmd: vm extract_config Ghost 
+Apr 02 22:39:07.300 HYPERVISOR: exec_cmd: vm clean_delete Ghost 
+Apr 02 22:39:07.301 VM: VM Ghost destroyed.
+Apr 02 22:39:07.306 HYPERVISOR: exec_cmd: vm set_ghost_status R2 2 
+Apr 02 22:39:07.307 HYPERVISOR: exec_cmd: vm set_ghost_file R2 /home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/network_simulation/project-files/dynamips/c3725-adventerprisek9-mz.124-15.T14.image-256.ghost 
+Apr 02 22:39:07.308 HYPERVISOR: exec_cmd: vm get_status R2 
+Apr 02 22:39:07.311 HYPERVISOR: exec_cmd: vm set_config R2 configs/i2_startup-config.cfg 
+Apr 02 22:39:07.312 HYPERVISOR: exec_cmd: vm start R2 
+Apr 02 22:39:37.525 HYPERVISOR: exec_cmd: vm extract_config R2 
+Apr 02 22:39:37.528 HYPERVISOR: exec_cmd: vm extract_config R2 
+Apr 03 01:13:20.709 HYPERVISOR: exec_cmd: vm get_status R2 
+Apr 03 01:13:20.711 HYPERVISOR: exec_cmd: vm stop R2 
+Apr 03 01:13:20.816 VM: VM R2 shutdown.
+Apr 03 01:13:20.817 HYPERVISOR: exec_cmd: vm extract_config R2 
+Apr 03 01:13:26.285 HYPERVISOR: exec_cmd: vm get_status R2 
+Apr 03 01:13:26.286 HYPERVISOR: exec_cmd: vm extract_config R2 
+Apr 03 01:13:26.570 HYPERVISOR: exec_cmd: vm get_status R2 
+Apr 03 01:13:26.571 HYPERVISOR: exec_cmd: vm extract_config R2 
+Apr 03 01:13:26.573 HYPERVISOR: exec_cmd: vm delete R2 
+Apr 03 01:13:26.573 VM: VM R2 destroyed.
+Apr 03 01:13:26.575 HYPERVISOR: exec_cmd: hypervisor stop 
+Apr 03 01:13:27.033 HYPERVISOR: Stopped.
+Apr 03 01:13:27.033 GENERAL: reset done.
