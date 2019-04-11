@@ -92,8 +92,8 @@
                 "drawing_id": "e0de3aa4-3c97-4315-acad-f70fd4c9f32f",
                 "rotation": 0,
                 "svg": "<svg height=\"25\" width=\"126\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">192.168.10.1/24</text></svg>",
-                "x": -817,
-                "y": 231,
+                "x": -765,
+                "y": 233,
                 "z": 1
             },
             {
@@ -156,8 +156,8 @@
                 "drawing_id": "64e83ec7-0ae4-48d7-ad85-237778954b44",
                 "rotation": 0,
                 "svg": "<svg height=\"25\" width=\"81\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">2.2.1.1/23</text></svg>",
-                "x": -693,
-                "y": 131,
+                "x": -680,
+                "y": 146,
                 "z": 1
             },
             {
@@ -422,8 +422,8 @@
                             "rotation": 0,
                             "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
                             "text": "f1/0",
-                            "x": 28,
-                            "y": 61
+                            "x": 43,
+                            "y": 50
                         },
                         "node_id": "ff30ec04-4a03-459d-97fd-e09a7efbd7c8",
                         "port_number": 0
@@ -434,8 +434,8 @@
                             "rotation": 0,
                             "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
                             "text": "e0",
-                            "x": 36,
-                            "y": -10
+                            "x": 43,
+                            "y": -19
                         },
                         "node_id": "266d29cb-6cb6-4202-b3a0-21d39dff1b34",
                         "port_number": 0
@@ -453,8 +453,8 @@
                             "rotation": 0,
                             "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
                             "text": "f2/0",
-                            "x": 61,
-                            "y": -6
+                            "x": 70,
+                            "y": -10
                         },
                         "node_id": "ff30ec04-4a03-459d-97fd-e09a7efbd7c8",
                         "port_number": 0
@@ -782,8 +782,8 @@
                     "rotation": 0,
                     "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
                     "text": "c7200_Stable",
-                    "x": -92,
-                    "y": -20
+                    "x": -106,
+                    "y": -12
                 },
                 "name": "c7200_Stable",
                 "node_id": "ff30ec04-4a03-459d-97fd-e09a7efbd7c8",
@@ -832,8 +832,8 @@
                 },
                 "symbol": ":/symbols/router.svg",
                 "width": 66,
-                "x": -644,
-                "y": 198,
+                "x": -658,
+                "y": 185,
                 "z": 0
             },
             {
