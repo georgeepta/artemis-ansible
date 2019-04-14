@@ -2,38 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d527203-25b5-4509-b90d-f669c3893f2d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/network_simulation.gns3" beforeDir="false" afterPath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/network_simulation.gns3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/builtin/e2d910fc-f89c-4220-8336-b9d69d958e3a/ubridge.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/148cf62a-423b-4c42-acfc-25c43b1dd178/c3725_i3_lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/148cf62a-423b-4c42-acfc-25c43b1dd178/c3725_i3_log.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/148cf62a-423b-4c42-acfc-25c43b1dd178/configs/i3_startup-config.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/148cf62a-423b-4c42-acfc-25c43b1dd178/configs/i3_startup-config.cfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/148cf62a-423b-4c42-acfc-25c43b1dd178/ubridge.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/5efa3d23-8aaf-48fb-b0aa-44b302e92625/c3725_i2_lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/5efa3d23-8aaf-48fb-b0aa-44b302e92625/c3725_i2_log.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/5efa3d23-8aaf-48fb-b0aa-44b302e92625/configs/i2_startup-config.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/5efa3d23-8aaf-48fb-b0aa-44b302e92625/configs/i2_startup-config.cfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/5efa3d23-8aaf-48fb-b0aa-44b302e92625/ubridge.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/dynamips_i1_log.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/dynamips_i1_stdout.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/dynamips_i2_log.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/dynamips_i2_stdout.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/dynamips_i3_log.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/dynamips_i3_stdout.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/dynamips_i4_log.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/dynamips_i4_stdout.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/f04e6db8-cb87-4373-9dad-2fbf0e6519a8/c3725_i4_lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/f04e6db8-cb87-4373-9dad-2fbf0e6519a8/c3725_i4_log.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/f04e6db8-cb87-4373-9dad-2fbf0e6519a8/configs/i4_startup-config.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/f04e6db8-cb87-4373-9dad-2fbf0e6519a8/configs/i4_startup-config.cfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/f04e6db8-cb87-4373-9dad-2fbf0e6519a8/ubridge.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/ff30ec04-4a03-459d-97fd-e09a7efbd7c8/c7200_i1_lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/ff30ec04-4a03-459d-97fd-e09a7efbd7c8/c7200_i1_log.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/ff30ec04-4a03-459d-97fd-e09a7efbd7c8/configs/i1_private-config.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/ff30ec04-4a03-459d-97fd-e09a7efbd7c8/configs/i1_private-config.cfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/ff30ec04-4a03-459d-97fd-e09a7efbd7c8/configs/i1_startup-config.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/ff30ec04-4a03-459d-97fd-e09a7efbd7c8/configs/i1_startup-config.cfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/ff30ec04-4a03-459d-97fd-e09a7efbd7c8/ubridge.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/ilt_2019022012_mips64e" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/ilt_2019022012_mips64j" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/ilt_2019022012_ppc32e" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/ilt_2019022012_ppc32j" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/virtualbox/266d29cb-6cb6-4202-b3a0-21d39dff1b34/ubridge.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/conf.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/conf_lib.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/conf_parser.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -43,11 +14,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/conf_parser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="109">
-              <caret line="50" column="40" selection-start-line="50" selection-start-column="40" selection-end-line="50" selection-end-column="40" />
+            <state relative-caret-position="234">
+              <caret line="13" selection-start-line="13" selection-end-line="13" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -55,18 +26,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/conf.yaml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-369" />
+            <state relative-caret-position="216">
+              <caret line="21" column="14" lean-forward="true" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
+            </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/conf_lib.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="27" column="78" selection-start-line="27" selection-start-column="78" selection-end-line="27" selection-end-column="78" />
+            <state relative-caret-position="270">
+              <caret line="30" column="6" selection-start-line="30" selection-start-column="6" selection-end-line="30" selection-end-column="6" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -78,7 +51,7 @@
         <entry file="file://$PROJECT_DIR$/router_data.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="100" selection-start-column="92" selection-end-column="100" />
+              <caret column="64" lean-forward="true" selection-start-column="64" selection-end-column="64" />
             </state>
           </provider>
         </entry>
@@ -100,8 +73,8 @@
       <list>
         <option value="$PROJECT_DIR$/utility.py" />
         <option value="$PROJECT_DIR$/parser.py" />
-        <option value="$PROJECT_DIR$/conf_lib.py" />
         <option value="$PROJECT_DIR$/conf_parser.py" />
+        <option value="$PROJECT_DIR$/conf_lib.py" />
       </list>
     </option>
   </component>
@@ -124,6 +97,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -135,11 +109,11 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -202,16 +176,17 @@
       <workItem from="1555010578779" duration="14473000" />
       <workItem from="1555025100338" duration="80000" />
       <workItem from="1555025239930" duration="66000" />
+      <workItem from="1555070139088" duration="1142000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25266000" />
+    <option name="totallyTimeSpent" value="26408000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1366" height="694" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2159091" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2189394" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -238,7 +213,7 @@
     <option name="version" value="1" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/python$utility.coverage" NAME="utility Coverage Results" MODIFIED="1555025248446" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/python$utility.coverage" NAME="utility Coverage Results" MODIFIED="1555070658187" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/test.txt" />
@@ -253,14 +228,21 @@
     <entry file="file://$PROJECT_DIR$/router_data.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret column="100" selection-start-column="92" selection-end-column="100" />
+          <caret column="64" lean-forward="true" selection-start-column="64" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conf.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="21" column="14" lean-forward="true" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/conf_lib.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="27" column="78" selection-start-line="27" selection-start-column="78" selection-end-line="27" selection-end-column="78" />
+        <state relative-caret-position="270">
+          <caret line="30" column="6" selection-start-line="30" selection-start-column="6" selection-end-line="30" selection-end-column="6" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
@@ -269,17 +251,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/conf_parser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="109">
-          <caret line="50" column="40" selection-start-line="50" selection-start-column="40" selection-end-line="50" selection-end-column="40" />
+        <state relative-caret-position="234">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/conf.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-369" />
       </provider>
     </entry>
   </component>

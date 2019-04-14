@@ -11,6 +11,7 @@ def create_asns_dict(filename):
 
     #Search for Asns
     for line in router_bgp_conf:
+
         if "router bgp" in line:
             my_asn = int(line.split(" ")[2])
             asns.update({my_asn: ("my_asns", None)})

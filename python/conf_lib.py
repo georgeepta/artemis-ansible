@@ -25,7 +25,10 @@ def create_monitor_defs(yaml_conf):
     yaml_conf["monitors"]["riperis"] = [""]
     yaml_conf["monitors"]["bgpstreamlive"] = ["routeviews", "ris"]
     yaml_conf["monitors"]["betabmp"] = ["betabmp"]
-    yaml_conf["monitors"]["exabgp"] = [dict(ip = "exabgp"), dict(port = 5000)]
+    yaml_conf["monitors"]["exabgp"] = [{
+        "ip": "exabgp",
+        "port": 5000
+    }]
 
 
 def create_asn_defs(yaml_conf, asns):

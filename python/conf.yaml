@@ -19,7 +19,7 @@ monitors:
   - betabmp
   exabgp:
   - ip: exabgp
-  - port: 5000
+    port: 5000
 # End of Monitor Definitions
 
 # Start of ASN Definitions
