@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d527203-25b5-4509-b90d-f669c3893f2d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/conf.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/conf.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conf_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/conf_lib.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conf_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/conf_parser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/148cf62a-423b-4c42-acfc-25c43b1dd178/configs/i3_startup-config.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/148cf62a-423b-4c42-acfc-25c43b1dd178/configs/i3_startup-config.cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/5efa3d23-8aaf-48fb-b0aa-44b302e92625/configs/i2_startup-config.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/5efa3d23-8aaf-48fb-b0aa-44b302e92625/configs/i2_startup-config.cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/f04e6db8-cb87-4373-9dad-2fbf0e6519a8/configs/i4_startup-config.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/f04e6db8-cb87-4373-9dad-2fbf0e6519a8/configs/i4_startup-config.cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/ff30ec04-4a03-459d-97fd-e09a7efbd7c8/configs/i1_startup-config.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/ff30ec04-4a03-459d-97fd-e09a7efbd7c8/configs/i1_startup-config.cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,7 +19,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/conf_parser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
+            <state relative-caret-position="135">
               <caret line="13" selection-start-line="13" selection-end-line="13" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
@@ -27,10 +29,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test_parser.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="9" column="14" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/conf.yaml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="21" column="14" lean-forward="true" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
+            <state relative-caret-position="378">
+              <caret line="21" column="14" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -38,7 +49,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/conf_lib.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
+            <state relative-caret-position="504">
               <caret line="30" column="6" selection-start-line="30" selection-start-column="6" selection-end-line="30" selection-end-column="6" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
@@ -51,7 +62,7 @@
         <entry file="file://$PROJECT_DIR$/router_data.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="64" lean-forward="true" selection-start-column="64" selection-end-column="64" />
+              <caret column="64" selection-start-column="64" selection-end-column="64" />
             </state>
           </provider>
         </entry>
@@ -75,13 +86,7 @@
         <option value="$PROJECT_DIR$/parser.py" />
         <option value="$PROJECT_DIR$/conf_parser.py" />
         <option value="$PROJECT_DIR$/conf_lib.py" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectConfigurationFiles">
-    <option name="files">
-      <list>
-        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
+        <option value="$PROJECT_DIR$/test_parser.py" />
       </list>
     </option>
   </component>
@@ -131,7 +136,29 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.test_parser">
+    <configuration name="test_parser" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="python" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_parser.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="utility" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="python" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -156,6 +183,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.test_parser" />
         <item itemvalue="Python.utility" />
       </list>
     </recent_temporary>
@@ -177,22 +205,27 @@
       <workItem from="1555025100338" duration="80000" />
       <workItem from="1555025239930" duration="66000" />
       <workItem from="1555070139088" duration="1142000" />
+      <workItem from="1555622001630" duration="2773000" />
+      <workItem from="1555677580003" duration="609000" />
+      <workItem from="1555967874340" duration="606000" />
+      <workItem from="1555972334010" duration="81000" />
+      <workItem from="1556039848177" duration="8000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26408000" />
+    <option name="totallyTimeSpent" value="30485000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1366" height="694" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2189394" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23787878" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32920355" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.48672566" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4283186" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -212,8 +245,20 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test_parser.py</url>
+          <line>2</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/python$utility.coverage" NAME="utility Coverage Results" MODIFIED="1555070658187" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/python$utility.coverage" NAME="utility Coverage Results" MODIFIED="1555622445647" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/python$test_parser.coverage" NAME="test_parser Coverage Results" MODIFIED="1555677595881" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/test.txt" />
@@ -225,23 +270,33 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/conf.txt" />
-    <entry file="file://$PROJECT_DIR$/router_data.txt">
+    <entry file="file://$PROJECT_DIR$/conf_parser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="64" lean-forward="true" selection-start-column="64" selection-end-column="64" />
+        <state relative-caret-position="135">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_parser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" column="14" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/conf.yaml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="21" column="14" lean-forward="true" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
+        <state relative-caret-position="378">
+          <caret line="21" column="14" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/conf_lib.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
+        <state relative-caret-position="504">
           <caret line="30" column="6" selection-start-line="30" selection-start-column="6" selection-end-line="30" selection-end-column="6" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
@@ -249,13 +304,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/conf_parser.py">
+    <entry file="file://$PROJECT_DIR$/router_data.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
+        <state>
+          <caret column="64" selection-start-column="64" selection-end-column="64" />
         </state>
       </provider>
     </entry>

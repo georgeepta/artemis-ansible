@@ -1,0 +1,1 @@
+{"prefixes": [{"mask": "255.255.254.0", "network": "2.2.0.0"}], "origin_as": [{"asn": 65001}], "peer-groups": [], "neighbors": [{"interface_ip": "2.2.1.2", "asn": 65002}, {"interface_ip": "192.168.10.2", "asn": 65010}]}
