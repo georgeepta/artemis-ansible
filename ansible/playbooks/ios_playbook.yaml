@@ -13,6 +13,6 @@
 
     - debug: var=output.stdout_lines   
 
-    - debug: msg="{{ output.stdout[0] | parse_cli('/etc/ansible/parsers/ios_parser.yaml') }}"
+    - debug: msg="{{ output.stdout[0] | parse_cli('/home/george/UOC-CSD/Diploma_Thesis/ansible/parsers/ios_parser.yaml') }}"
 
-    - local_action: copy content={{ output.stdout[0] | parse_cli('/etc/ansible/parsers/ios_parser.yaml') }} dest=../bgp_config_files/results.txt 
+    - local_action: copy content={{ output.stdout[0] | parse_cli('/home/george/UOC-CSD/Diploma_Thesis/ansible/parsers/ios_parser.yaml') }} dest=../bgp_config_files/results.txt 

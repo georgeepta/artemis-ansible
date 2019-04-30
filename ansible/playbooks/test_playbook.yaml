@@ -1,6 +1,6 @@
 ---
 - name: Run CISCO commands  
-  hosts: CISCO-ROUTERS
+  hosts: localhost
   connection: local
   gather_facts: false
  
@@ -8,14 +8,8 @@
     contents: "\"{{ lookup('file', '../bgp_config_files/results_stable.txt') }}\""
 
   tasks:
-    - name: Get BGP configuration
-      ios_command: 
-        commands:
-          - show run | section bgp
-      register: output
-
     - debug: msg="{{ contents }}"
 
     - debug: var=output.stdout_lines   
 
-    - debug: msg="{{ contents | parse_cli('/etc/ansible/parsers/ios_parser.yaml') }}" 
+    - debug: msg="{{ contents | parse_cli('/home/george/UOC-CSD/Diploma_Thesis/ansible/parsers/ios_parser.yaml') }}" 

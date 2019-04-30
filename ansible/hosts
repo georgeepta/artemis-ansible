@@ -8,6 +8,9 @@
 #   - You can enter hostnames or ip addresses
 #   - A hostname/ip can be a member of multiple groups
 
+[localhost]
+127.0.0.1
+
 [CISCO-ROUTERS]
 c7200_Stable ansible_host=192.168.10.1
 
