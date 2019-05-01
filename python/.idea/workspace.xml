@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3d527203-25b5-4509-b90d-f669c3893f2d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/ff30ec04-4a03-459d-97fd-e09a7efbd7c8/configs/i1_startup-config.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/../GNS3-topologies/network_simulation/project-files/dynamips/ff30ec04-4a03-459d-97fd-e09a7efbd7c8/configs/i1_startup-config.cfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ansible/bgp_config_files/results.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../ansible/bgp_config_files/results.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ansible/playbooks/test_playbook.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../ansible/playbooks/test_playbook.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/ios_generator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/ios_generator.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ios_generator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="6" column="11" lean-forward="true" selection-start-line="6" selection-start-column="11" selection-end-line="6" selection-end-column="11" />
+            <state relative-caret-position="126">
+              <caret line="7" column="42" lean-forward="true" selection-start-line="7" selection-start-column="42" selection-end-line="7" selection-end-column="42" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -76,6 +73,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -87,7 +85,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -186,16 +183,17 @@
       <workItem from="1556039848177" duration="8000" />
       <workItem from="1556645898850" duration="3489000" />
       <workItem from="1556701648352" duration="17538000" />
+      <workItem from="1556729841613" duration="5280000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="51512000" />
+    <option name="totallyTimeSpent" value="56792000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1366" height="694" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24545455" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24924242" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -223,7 +221,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/python$utility.coverage" NAME="utility Coverage Results" MODIFIED="1555622445647" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/python$test_parser.coverage" NAME="test_parser Coverage Results" MODIFIED="1556705547704" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/python$test_parser.coverage" NAME="test_parser Coverage Results" MODIFIED="1556732694139" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/test.txt" />
@@ -261,8 +259,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ios_generator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="11" lean-forward="true" selection-start-line="6" selection-start-column="11" selection-end-line="6" selection-end-column="11" />
+        <state relative-caret-position="126">
+          <caret line="7" column="42" lean-forward="true" selection-start-line="7" selection-start-column="42" selection-end-line="7" selection-end-column="42" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>

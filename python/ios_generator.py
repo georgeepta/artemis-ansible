@@ -1,10 +1,9 @@
 import sys
 import json
 
-data = sys.argv[1]
-jdata = json.loads(data)
+jdata = json.loads(sys.argv[1])
 
-print(jdata)
+print(jdata['prefixes'])
 f = open("file.txt", "w+")
-f.write(jdata)
+f.write(str(jdata['prefixes'][0]['mask']))
 f.close()

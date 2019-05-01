@@ -16,6 +16,6 @@
     - local_action: copy content="{{ json_bgp }}" dest=../bgp_config_files/results.txt
 
     - name: Execute python script
-      command: python3 ../../python/ios_generator.py "\"{{ json_bgp }}\""
+      command: python3 ../../python/ios_generator.py '{{ json_bgp | to_json}}'
       become: true
       become_user: root
