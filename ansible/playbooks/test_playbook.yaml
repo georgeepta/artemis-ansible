@@ -6,10 +6,16 @@
  
   vars:
     contents: "\"{{ lookup('file', '../bgp_config_files/results_stable.txt') }}\""
+    json_bgp: "{{ contents | parse_cli('/home/george/UOC-CSD/Diploma_Thesis/ansible/parsers/ios_parser.yaml') }}"  
 
   tasks:
-    - debug: msg="{{ contents }}"
+    - debug: msg="{{ contents }}"  
 
-    - debug: var=output.stdout_lines   
+    - debug: msg="{{ json_bgp }}" 
 
-    - debug: msg="{{ contents | parse_cli('/home/george/UOC-CSD/Diploma_Thesis/ansible/parsers/ios_parser.yaml') }}" 
+    - local_action: copy content="{{ json_bgp }}" dest=../bgp_config_files/results.txt
+
+    - name: Execute python script
+      command: python3 ../../python/ios_generator.py "\"{{ json_bgp }}\""
+      become: true
+      become_user: root

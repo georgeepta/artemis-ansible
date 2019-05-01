@@ -4,6 +4,9 @@
   connection: local
   gather_facts: false
 
+  vars:
+    json_bgp: "{{ output.stdout[0] | parse_cli('/home/george/UOC-CSD/Diploma_Thesis/ansible/parsers/ios_parser.yaml') }}"
+
   tasks:
     - name: Get BGP configuration
       ios_command: 
@@ -13,6 +16,11 @@
 
     - debug: var=output.stdout_lines   
 
-    - debug: msg="{{ output.stdout[0] | parse_cli('/home/george/UOC-CSD/Diploma_Thesis/ansible/parsers/ios_parser.yaml') }}"
+    - debug: msg="{{ json_bgp }}"
 
-    - local_action: copy content={{ output.stdout[0] | parse_cli('/home/george/UOC-CSD/Diploma_Thesis/ansible/parsers/ios_parser.yaml') }} dest=../bgp_config_files/results.txt 
+    - local_action: copy content="{{ json_bgp }}" dest=../bgp_config_files/results.txt
+
+    - name: Execute python script
+      command: python3 ../../python/ios_generator.py "\"{{ json_bgp }}\""
+      become: true
+      become_user: root 
