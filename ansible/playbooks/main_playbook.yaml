@@ -1,0 +1,15 @@
+---
+- name: EXECUTE TASKS FOR EACH CONNECTED ROUTER
+  hosts: all
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: RUN TEST LOCALHOST COMMAND's
+      include: test_playbook.yaml
+      when: true
+
+    - name: RUN IOS COMMAND's
+      include: ios_playbook.yaml
+      when: ansible_network_os == 'ios'
+

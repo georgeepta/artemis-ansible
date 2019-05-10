@@ -1,0 +1,43 @@
+#
+# ARTEMIS Configuration File
+#
+
+# Start of Prefix Definitions
+prefixes:
+  my_prefix: &my_prefix
+  - 10.0.0.0/24
+# End of Prefix Definitions
+
+# Start of Monitor Definitions
+monitors:
+  riperis:
+  - ''
+  bgpstreamlive:
+  - routeviews
+  - ris
+  betabmp:
+  - betabmp
+  exabgp:
+  - ip: exabgp
+    port: 5000
+# End of Monitor Definitions
+
+# Start of ASN Definitions
+asns:
+  PEER_GROUP_X: &PEER_GROUP_X
+  - 1234
+  - 5678
+  AS_9012: &AS_9012
+  - 9012
+# End of ASN Definitions
+
+# Start of Rule Definitions
+rules:
+- prefixes:
+  - *my_prefix
+  origin_asns:
+  - *AS_9012
+  neighbors:
+  - *PEER_GROUP_X
+  mitigation: manual
+# End of Rule Definitions

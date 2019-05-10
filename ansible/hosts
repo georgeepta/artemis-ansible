@@ -9,7 +9,7 @@
 #   - A hostname/ip can be a member of multiple groups
 
 [localhost]
-127.0.0.1
+127.0.0.1 
 
 [CISCO-ROUTERS]
 c7200_Stable ansible_host=192.168.10.1
@@ -17,7 +17,10 @@ c7200_Stable ansible_host=192.168.10.1
 [CISCO-ROUTERS:vars]
 ansible_user=admin
 ansible_ssh_pass=george
-ansible_dev_os=ios 
+ansible_connection=network_cli
+ansible_network_os=ios
+ansible_become=yes
+ansible_become_method=enable 
 
 # Ex 1: Ungrouped hosts, specify before any group headers.
 
