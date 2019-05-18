@@ -1,5 +1,5 @@
 from json import JSONDecoder, JSONDecodeError
-import re
+import re, sys
 
 
 # returns a generator which seperates the json objects in file
@@ -25,7 +25,7 @@ def decode_stacked(document, pos=0, decoder=JSONDecoder()):
 def read_json_file(filename):
 
     json_data = []
-    with open(filename) as json_file:
+    with open(filename, 'r') as json_file:
         json_stacked_data = json_file.read()
         for obj in decode_stacked(json_stacked_data):
             json_data.append(obj)
@@ -34,7 +34,7 @@ def read_json_file(filename):
 
 
 if __name__ == '__main__':
-    json_data = read_json_file('../bgp_config_files/results.json')
+    json_data = read_json_file(sys.argv[1])
     ### just for debugging ###
-    with open('file.txt') as file:
-        file.write(json_data)
+    with open('/home/george/UOC-CSD/Diploma_Thesis/python/file.txt', 'w+') as file:
+        file.write(str(json_data))

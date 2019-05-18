@@ -1,27 +1,32 @@
 ---
 - name: Print contents
   vars:
-    contents: "\"{{ lookup('file', '../bgp_config_files/results_stable.txt') }}\""
+    contents: "\"{{ lookup('file', '{{inventory_dir | dirname }}/ansible/bgp_config_files/results_stable.txt') }}\""
   debug: msg="{{ contents }}"
 
 - name: Print Json_bgp
   vars:
-    contents: "\"{{ lookup('file', '../bgp_config_files/results_stable.txt') }}\""
-    json_bgp: "{{ contents | parse_cli('/home/george/UOC-CSD/Diploma_Thesis/ansible/parsers/ios_parser.yaml') }}"
+    contents: "\"{{ lookup('file', '{{inventory_dir | dirname }}/ansible/bgp_config_files/results_stable.txt') }}\""
+    path: "{{inventory_dir | dirname }}/ansible/parsers/ios_parser.yaml"
+    json_bgp: "{{ contents | parse_cli(path) }}"
   debug: msg="{{ json_bgp }}"
 
 - name: Copy json to file
   vars:
-    contents: "\"{{ lookup('file', '../bgp_config_files/results_stable.txt') }}\""
-    json_bgp: "{{ contents | parse_cli('/home/george/UOC-CSD/Diploma_Thesis/ansible/parsers/ios_parser.yaml') }}"
+    contents: "\"{{ lookup('file', '{{inventory_dir | dirname }}/ansible/bgp_config_files/results_stable.txt') }}\""
+    path: "{{inventory_dir | dirname }}/ansible/parsers/ios_parser.yaml"
+    json_bgp: "{{ contents | parse_cli(path) }}"
   lineinfile:
-    path: ../bgp_config_files/results.json
+    path: "{{inventory_dir | dirname }}/ansible/bgp_config_files/results.json"
     create: yes
     line: "{{ json_bgp | to_json }}"
     mode: '777'
+
+- name: Print cwd
+  debug: msg="{{inventory_dir | dirname }}"
 
 
 - name: Execute python script
   become: true
   become_user: root
-  command: python3 ../../python/conf_generator.py
+  command: python3 {{inventory_dir | dirname }}/python/conf_generator.py {{inventory_dir | dirname }}/ansible/bgp_config_files/results.json
