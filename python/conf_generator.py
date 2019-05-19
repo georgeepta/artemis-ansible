@@ -1,5 +1,6 @@
+import re, sys, python.conf_lib
+from netaddr import IPAddress
 from json import JSONDecoder, JSONDecodeError
-import re, sys
 
 
 # returns a generator which seperates the json objects in file
@@ -32,9 +33,50 @@ def read_json_file(filename):
 
     return json_data
 
+# returns a dictionary with prefixes
+def create_prefixes_dict(json_data):
+    counter=0
+    prefixes = {}
+    for i in json_data:
+        prefixes_list = i["prefixes"]
+        for j in prefixes_list:
+            mask = str(IPAddress(j["mask"]).netmask_bits())
+            cidr = j["network"] + "/" + mask
+            prefixes.update({cidr: "prefix_"+str(counter)})
+            counter = counter + 1
+
+    return prefixes
+
+# returns a dictionary with asn as keys
+def create_asns_dict(json_data):
+    asns = {}
+    for i in json_data:
+        # first insert origin as in list
+        asns.update({int(i["origin_as"][0]["asn"]): ("AS_" + str(i["origin_as"][0]["asn"]), None)})
+
+        # second insert peer_groups and neighbors asns
+        neighbors_list = i["neighbors"]
+        for j in neighbors_list:
+            flag = 0
+            for k in i["peer-groups"]:
+                if(j["interface_ip"] == k["interface_ip"]):
+                    # we found peer_group match for this ip
+                    asns.update({int(j["asn"]): ("AS_" + str(j["asn"]), k["asn"])})
+                    flag = 1
+            if flag == 0:
+                # we didnt found peer_group match for this ip
+                asns.update({int(j["asn"]): ("AS_" + str(j["asn"]), None)})
+    return asns
+
 
 if __name__ == '__main__':
     json_data = read_json_file(sys.argv[1])
+    print(json_data)
+    prefixes = create_prefixes_dict(json_data)
+    print(prefixes)
+    asns = create_asns_dict(json_data)
+    print(asns)
+    python.conf_lib.generate_config_yml(prefixes, asns, {}, "conf.yaml")
     ### just for debugging ###
     with open('/home/george/UOC-CSD/Diploma_Thesis/python/file.txt', 'w+') as file:
         file.write(str(json_data))

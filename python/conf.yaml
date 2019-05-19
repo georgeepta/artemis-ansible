@@ -4,7 +4,9 @@
 
 # Start of Prefix Definitions
 prefixes:
-  my_prefix: &my_prefix
+  prefix_1:
+  - 10.1.0.0/16
+  prefix_0:
   - 2.2.0.0/23
 # End of Prefix Definitions
 
@@ -24,20 +26,22 @@ monitors:
 
 # Start of ASN Definitions
 asns:
-  my_neighbors: &my_neighbors
-  - 65002
-  - 65010
-  my_asns: &my_asns
+  CUSTOMER:
+  - 64801
+  PEER:
+  - 65312
+  UPSTREAM:
+  - 64712
+  AS_64601:
+  - 64601
+  AS_65001:
   - 65001
+  AS_65002:
+  - 65002
+  AS_65010:
+  - 65010
 # End of ASN Definitions
 
 # Start of Rule Definitions
-rules:
-- prefixes:
-  - *my_prefix
-  origin_asns:
-  - *my_asns
-  neighbors:
-  - *my_neighbors
-  mitigation: manual
+rules: []
 # End of Rule Definitions
