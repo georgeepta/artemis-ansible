@@ -68,6 +68,28 @@ def create_asns_dict(json_data):
                 asns.update({int(j["asn"]): ("AS_" + str(j["asn"]), None)})
     return asns
 
+# returns a dictionary with rules for each prefix
+def create_rules_dict(json_data):
+    prefix_pols = {}
+    for i in json_data:
+        # process each json element (configuration file) in list
+        origin_as_list = []
+        neighbors_list = []
+        prefixes_list = i["prefixes"]
+        for j in prefixes_list:
+            # for each prefix make a rule definition
+            mask = str(IPAddress(j["mask"]).netmask_bits())
+            cidr = j["network"] + "/" + mask
+            for k in i["origin_as"]:
+                origin_as_list.append(int(k["asn"]))
+            for k in i["neighbors"]:
+                neighbors_list.append(int(k["asn"]))
+
+            # Create rule definitions
+            prefix_pols.update({cidr: dict(origins=origin_as_list, neighbors=neighbors_list)})
+
+    return prefix_pols
+
 
 if __name__ == '__main__':
     json_data = read_json_file(sys.argv[1])
@@ -76,7 +98,9 @@ if __name__ == '__main__':
     print(prefixes)
     asns = create_asns_dict(json_data)
     print(asns)
-    python.conf_lib.generate_config_yml(prefixes, asns, {}, "conf.yaml")
+    prefix_pols = create_rules_dict(json_data)
+    print(prefix_pols)
+    python.conf_lib.generate_config_yml(prefixes, asns, prefix_pols, "conf.yaml")
     ### just for debugging ###
     with open('/home/george/UOC-CSD/Diploma_Thesis/python/file.txt', 'w+') as file:
         file.write(str(json_data))

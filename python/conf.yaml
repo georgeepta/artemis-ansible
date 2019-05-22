@@ -4,9 +4,9 @@
 
 # Start of Prefix Definitions
 prefixes:
-  prefix_1:
+  prefix_1: &prefix_1
   - 10.1.0.0/16
-  prefix_0:
+  prefix_0: &prefix_0
   - 2.2.0.0/23
 # End of Prefix Definitions
 
@@ -26,22 +26,35 @@ monitors:
 
 # Start of ASN Definitions
 asns:
-  CUSTOMER:
+  CUSTOMER: &CUSTOMER
   - 64801
-  PEER:
+  PEER: &PEER
   - 65312
-  UPSTREAM:
+  UPSTREAM: &UPSTREAM
   - 64712
-  AS_64601:
+  AS_64601: &AS_64601
   - 64601
-  AS_65001:
+  AS_65001: &AS_65001
   - 65001
-  AS_65002:
+  AS_65002: &AS_65002
   - 65002
-  AS_65010:
+  AS_65010: &AS_65010
   - 65010
 # End of ASN Definitions
 
 # Start of Rule Definitions
-rules: []
+rules:
+- prefixes:
+  - *prefix_1
+  - *prefix_0
+  origin_asns:
+  - *AS_65001
+  neighbors:
+  - *AS_64601
+  - *UPSTREAM
+  - *CUSTOMER
+  - *AS_65002
+  - *AS_65010
+  - *PEER
+  mitigation: manual
 # End of Rule Definitions
