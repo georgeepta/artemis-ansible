@@ -23,8 +23,3 @@
     create: yes
     line: "{{ json_bgp | to_json }}"
     mode: '777'
-
-- name: Execute python script
-  become: true
-  become_user: root
-  command: python3 {{inventory_dir | dirname }}/python/conf_generator.py {{inventory_dir | dirname }}/ansible/bgp_config_files/results.json

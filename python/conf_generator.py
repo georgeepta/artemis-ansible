@@ -1,4 +1,4 @@
-import re, sys, python.conf_lib
+import re, sys, conf_lib
 from netaddr import IPAddress
 from json import JSONDecoder, JSONDecodeError
 
@@ -90,8 +90,7 @@ def create_rules_dict(json_data):
 
     return prefix_pols
 
-
-if __name__ == '__main__':
+def main():
     json_data = read_json_file(sys.argv[1])
     print(json_data)
     prefixes = create_prefixes_dict(json_data)
@@ -100,7 +99,10 @@ if __name__ == '__main__':
     print(asns)
     prefix_pols = create_rules_dict(json_data)
     print(prefix_pols)
-    python.conf_lib.generate_config_yml(prefixes, asns, prefix_pols, "conf.yaml")
+    conf_lib.generate_config_yml(prefixes, asns, prefix_pols, "conf.yaml")
     ### just for debugging ###
     with open('/home/george/UOC-CSD/Diploma_Thesis/python/file.txt', 'w+') as file:
         file.write(str(json_data))
+
+if __name__ == '__main__':
+    main()

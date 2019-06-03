@@ -5,6 +5,12 @@
   gather_facts: false
 
   tasks:
+    - name: Delete file with json representations
+      lineinfile:
+        path: "{{inventory_dir | dirname }}/ansible/bgp_config_files/results.json"
+        state: absent
+        regexp: '.*'
+
     - name: RUN TEST LOCALHOST COMMAND's
       include: test_playbook.yaml
       when: true
@@ -12,4 +18,10 @@
     - name: RUN IOS COMMAND's
       include: ios_playbook.yaml
       when: ansible_network_os == 'ios'
+
+    - name: Execute python script to generate artemis configuration file
+      become: true
+      become_user: root
+      command: python3 {{inventory_dir | dirname }}/python/conf_generator.py {{inventory_dir | dirname }}/ansible/bgp_config_files/results.json
+
 
