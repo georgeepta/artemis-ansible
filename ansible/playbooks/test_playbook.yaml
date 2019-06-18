@@ -7,14 +7,14 @@
 - name: Print Json_bgp
   vars:
     contents: "\"{{ lookup('file', '{{inventory_dir | dirname }}/ansible/bgp_config_files/results_stable.txt') }}\""
-    path: "{{inventory_dir | dirname }}/ansible/parsers/ios_parser.yaml"
+    path: "{{ admin_configs['parsers_paths']['ios_parser'] }}"
     json_bgp: "{{ contents | parse_cli(path) }}"
   debug: msg="{{ json_bgp }}"
 
 - name: Copy json to file
   vars:
     contents: "\"{{ lookup('file', '{{inventory_dir | dirname }}/ansible/bgp_config_files/results_stable.txt') }}\""
-    path: "{{inventory_dir | dirname }}/ansible/parsers/ios_parser.yaml"
+    path: "{{ admin_configs['parsers_paths']['ios_parser'] }}"
     json_bgp: "{{ contents | parse_cli(path) }}"
   lineinfile:
     path: "{{inventory_dir | dirname }}/ansible/bgp_config_files/results.json"
@@ -25,8 +25,7 @@
 - name: Print cwd
   debug: msg="{{inventory_dir | dirname }}"
 
-
-- name: Execute python script
+- name: Execute python script to generate artemis configuration file
   become: true
   become_user: root
-  command: python3 {{inventory_dir | dirname }}/python/conf_generator.py {{inventory_dir | dirname }}/ansible/bgp_config_files/results.json
+  command: python3 {{ admin_configs['config_generator_path'] }} {{inventory_dir | dirname }}/ansible/bgp_config_files/admin_configs.json

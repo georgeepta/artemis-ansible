@@ -1,4 +1,4 @@
-import re, sys, conf_lib
+import re, sys, conf_lib, json
 from netaddr import IPAddress
 from json import JSONDecoder, JSONDecodeError
 
@@ -36,16 +36,21 @@ def read_json_file(filename):
 # returns a dictionary with prefixes
 def create_prefixes_dict(json_data):
     counter=0
-    prefixes = {}
+    prefixes_dict = {}
+    prefixes_set = set()
     for i in json_data:
         prefixes_list = i["prefixes"]
         for j in prefixes_list:
             mask = str(IPAddress(j["mask"]).netmask_bits())
             cidr = j["network"] + "/" + mask
-            prefixes.update({cidr: "prefix_"+str(counter)})
-            counter = counter + 1
+            prefixes_set.add(cidr)
 
-    return prefixes
+    for i in sorted(prefixes_set):
+        prefixes_dict.update({i: "prefix_"+str(counter)})
+        counter = counter + 1
+
+    return prefixes_dict
+
 
 # returns a dictionary with asn as keys
 def create_asns_dict(json_data):
@@ -68,6 +73,7 @@ def create_asns_dict(json_data):
                 asns.update({int(j["asn"]): ("AS_" + str(j["asn"]), None)})
     return asns
 
+
 # returns a dictionary with rules for each prefix
 def create_rules_dict(json_data):
     prefix_pols = {}
@@ -80,8 +86,8 @@ def create_rules_dict(json_data):
             # for each prefix make a rule definition
             mask = str(IPAddress(j["mask"]).netmask_bits())
             cidr = j["network"] + "/" + mask
-            for k in i["origin_as"]:
-                origin_as_list.append(int(k["asn"]))
+            for k in i["origin_as"]: #here perform check for caveats and tips
+                origin_as_list.append(int(k["asn"]))#here perform check for caveats and tips#here perform check for caveats and tips
             for k in i["neighbors"]:
                 neighbors_list.append(int(k["asn"]))
 
@@ -90,19 +96,22 @@ def create_rules_dict(json_data):
 
     return prefix_pols
 
+
 def main():
-    json_data = read_json_file(sys.argv[1])
-    print(json_data)
-    prefixes = create_prefixes_dict(json_data)
-    print(prefixes)
-    asns = create_asns_dict(json_data)
-    print(asns)
-    prefix_pols = create_rules_dict(json_data)
-    print(prefix_pols)
-    conf_lib.generate_config_yml(prefixes, asns, prefix_pols, "conf.yaml")
-    ### just for debugging ###
-    with open('/home/george/UOC-CSD/Diploma_Thesis/python/file.txt', 'w+') as file:
-        file.write(str(json_data))
+    with open(sys.argv[1]) as json_file:
+        admin_configs = json.load(json_file)
+        json_data = read_json_file(admin_configs["bgp_results_path"])
+        print(json_data)
+        prefixes = create_prefixes_dict(json_data)
+        print(prefixes)
+        asns = create_asns_dict(json_data)
+        print(asns)
+        prefix_pols = create_rules_dict(json_data)
+        print(prefix_pols)
+        conf_lib.generate_config_yml(prefixes, admin_configs["monitors"], asns, prefix_pols, admin_configs["artemis_config_file_path"])
+        ### just for debugging ###
+        with open('/home/george/UOC-CSD/Diploma_Thesis/python/file.txt', 'w+') as file:
+            file.write(str(json_data))
 
 if __name__ == '__main__':
     main()

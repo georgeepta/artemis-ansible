@@ -10,16 +10,16 @@
 
 - name: Print IOS BGP configuration as json
   vars:
-    path: "{{inventory_dir | dirname }}/ansible/parsers/ios_parser.yaml"
+    path: "{{ admin_configs['parsers_paths']['ios_parser'] }}"
     json_bgp: "{{ output.stdout[0] | parse_cli(path) }}"
   debug: msg="{{ json_bgp }}"
 
 - name: Copy json BGP configuration into file
   vars:
-    path: "{{inventory_dir | dirname }}/ansible/parsers/ios_parser.yaml"
+    path: "{{ admin_configs['parsers_paths']['ios_parser'] }}"
     json_bgp: "{{ output.stdout[0] | parse_cli(path) }}"
   lineinfile:
-    path: "{{inventory_dir | dirname }}/ansible/bgp_config_files/results.json"
+    path: "{{ admin_configs['bgp_results_path'] }}"
     create: yes
     line: "{{ json_bgp | to_json }}"
     mode: '777'

@@ -4,10 +4,13 @@
   connection: local
   gather_facts: false
 
+  vars:
+    admin_configs: "{{ lookup('file', '{{inventory_dir | dirname }}/ansible/bgp_config_files/admin_configs.json') | from_json }}"
+
   tasks:
     - name: Delete file with json representations
       lineinfile:
-        path: "{{inventory_dir | dirname }}/ansible/bgp_config_files/results.json"
+        path: "{{ admin_configs['bgp_results_path'] }}"
         state: absent
         regexp: '.*'
 
@@ -22,6 +25,4 @@
     - name: Execute python script to generate artemis configuration file
       become: true
       become_user: root
-      command: python3 {{inventory_dir | dirname }}/python/conf_generator.py {{inventory_dir | dirname }}/ansible/bgp_config_files/results.json
-
-
+      command: python3 {{ admin_configs['config_generator_path'] }} {{inventory_dir | dirname }}/ansible/bgp_config_files/admin_configs.json

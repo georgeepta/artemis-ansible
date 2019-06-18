@@ -17,18 +17,19 @@ def create_prefix_defs(yaml_conf, prefixes):
         yaml_conf["prefixes"][prefix_str].yaml_set_anchor(prefix_str)
 
 
-def create_monitor_defs(yaml_conf):
+def create_monitor_defs(yaml_conf, monitors):
     """
     Create separate monitor definitions for the ARTEMIS conf file
     """
     yaml_conf["monitors"] = ruamel.yaml.comments.CommentedMap()
-    yaml_conf["monitors"]["riperis"] = [""]
-    yaml_conf["monitors"]["bgpstreamlive"] = ["routeviews", "ris"]
-    yaml_conf["monitors"]["betabmp"] = ["betabmp"]
-    yaml_conf["monitors"]["exabgp"] = [{
-        "ip": "exabgp",
-        "port": 5000
-    }]
+    yaml_conf["monitors"]["riperis"] = monitors["riperis"]
+    yaml_conf["monitors"]["bgpstreamlive"] = monitors["bgpstreamlive"]
+    yaml_conf["monitors"]["betabmp"] = monitors["betabmp"]
+    yaml_conf["monitors"]["exabgp"] = ruamel.yaml.comments.CommentedSeq()
+    exabgp_map = ruamel.yaml.comments.CommentedMap()
+    exabgp_map["ip"] = monitors["exabgp"]["ip"]
+    exabgp_map["port"] = monitors["exabgp"]["port"]
+    yaml_conf["monitors"]["exabgp"].append(exabgp_map)
 
 
 def create_asn_defs(yaml_conf, asns):
@@ -100,7 +101,7 @@ def create_rule_defs(yaml_conf, prefixes, asns, prefix_pols):
         yaml_conf["rules"].append(pol_dict)
 
 
-def generate_config_yml(prefixes, asns, prefix_pols, yml_file=None):
+def generate_config_yml(prefixes, monitors, asns, prefix_pols, yml_file=None):
     """
     Write the config.yaml file content
     """
@@ -118,7 +119,7 @@ def generate_config_yml(prefixes, asns, prefix_pols, yml_file=None):
 
         # populate conf
         create_prefix_defs(yaml_conf, prefixes)
-        create_monitor_defs(yaml_conf)
+        create_monitor_defs(yaml_conf, monitors)
         create_asn_defs(yaml_conf, asns)
         create_rule_defs(yaml_conf, prefixes, asns, prefix_pols)
 
