@@ -53,5 +53,5 @@ rules:
   - *AS_65002
   - *AS_65010
   - *PEER
-  mitigation: manual
+  mitigation: /home/george/UOC-CSD/Diploma_Thesis/python/mitigation_trigger.py
 # End of Rule Definitions

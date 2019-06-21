@@ -4,6 +4,7 @@
   "artemis_config_file_path": "config.yaml",
   "config_generator_path": "/home/george/UOC-CSD/Diploma_Thesis/python/conf_generator.py",
   "bgp_results_path": "/home/george/UOC-CSD/Diploma_Thesis/ansible/bgp_config_files/results.json",
+  "mitigation_script_path": "/home/george/UOC-CSD/Diploma_Thesis/python/mitigation_trigger.py",
   "parsers_paths": {
     "ios_parser": "/home/george/UOC-CSD/Diploma_Thesis/ansible/parsers/ios_parser.yaml"
   },

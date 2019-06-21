@@ -57,7 +57,7 @@ def create_asn_defs(yaml_conf, asns):
             yaml_conf["asns"][asn_group].append(asn)
 
 
-def create_rule_defs(yaml_conf, prefixes, asns, prefix_pols):
+def create_rule_defs(yaml_conf, prefixes, asns, prefix_pols, mitigation_script_path):
     """
     Create grouped rule definitions for the ARTEMIS conf file
     """
@@ -97,11 +97,14 @@ def create_rule_defs(yaml_conf, prefixes, asns, prefix_pols):
                     neighbor_groups.add(asn_group)
             else:
                 pol_dict["neighbors"].append(yaml_conf["asns"][asn_str])
-        pol_dict["mitigation"] = "manual"
+        if mitigation_script_path not in ["", "manual"]:
+            pol_dict["mitigation"] = mitigation_script_path
+        else:
+            pol_dict["mitigation"] = "manual"
         yaml_conf["rules"].append(pol_dict)
 
 
-def generate_config_yml(prefixes, monitors, asns, prefix_pols, yml_file=None):
+def generate_config_yml(prefixes, monitors, asns, prefix_pols, mitigation_script_path, yml_file=None):
     """
     Write the config.yaml file content
     """
@@ -121,7 +124,7 @@ def generate_config_yml(prefixes, monitors, asns, prefix_pols, yml_file=None):
         create_prefix_defs(yaml_conf, prefixes)
         create_monitor_defs(yaml_conf, monitors)
         create_asn_defs(yaml_conf, asns)
-        create_rule_defs(yaml_conf, prefixes, asns, prefix_pols)
+        create_rule_defs(yaml_conf, prefixes, asns, prefix_pols, mitigation_script_path)
 
         # in-file comments
         yaml_conf.yaml_set_comment_before_after_key(
