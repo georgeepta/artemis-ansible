@@ -1,16 +1,11 @@
-import sys, getopt, json
+#!/usr/bin/env python
 
-def main(argv):
-   json_data = ''
-   try:
-      opts, args = getopt.getopt(argv,"i:",["ifile="])
-   except getopt.GetoptError:
-      print('mitigation_trigger.py -i <inputfile>')
-      sys.exit(2)
-   for opt, arg in opts:
-      if opt in ("-i", "--ifile"):
-          json_data =  arg
-   print ('Input data are : ', json_data)
+import argparse
 
-if __name__ == "__main__":
-   main(sys.argv[1:])
+parser = argparse.ArgumentParser(description="test ARTEMIS mitigation")
+parser.add_argument("-i", "--info_hijack", dest="info_hijack", type=str, help="hijack event information",        required=True)
+args = parser.parse_args()
+
+# write the information to a file (example script)
+with open('/root/mit.txt', 'w') as f:
+   f.write(args.info_hijack)
