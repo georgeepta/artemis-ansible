@@ -8,11 +8,21 @@
 #   - You can enter hostnames or ip addresses
 #   - A hostname/ip can be a member of multiple groups
 
+[65001:children]
+localhost
+CISCO-ROUTERS
+
 [localhost]
 127.0.0.1 
 
-[CISCO-ROUTERS]
+[CISCO-ROUTERS:children]
+192.168.10.1
+192.168.20.1
+
+[192.168.10.1]
 c7200_Stable ansible_host=192.168.10.1
+
+[192.168.20.1]
 c3725 ansible_host=192.168.20.1
 
 [CISCO-ROUTERS:vars]
