@@ -87,7 +87,7 @@ def mitigate_prefix(hijack_json, json_data, admin_configs):
     #call mitigation playbook for each
     #tuple in longest prefix match node
     for tuple in rnode.data["data_list"]:
-        host = "target="+tuple[0]+":&"+tuple[1]
+        host = "target="+tuple[0]+":&"+tuple[1]+" asn="+tuple[0]
         prefixes_str = " pr1_cidr="+prefix1_data[0]+" pr1_network="+prefix1_data[1]+" pr1_netmask="+prefix1_data[2]+" pr2_cidr="+prefix2_data[0]+" pr2_network="+prefix2_data[1]+" pr2_netmask="+prefix2_data[2]
         cla = host + prefixes_str
         subprocess.call(["sudo",

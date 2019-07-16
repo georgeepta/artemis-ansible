@@ -1,0 +1,10 @@
+---
+
+- name: Set IOS router configuration
+  ios_config:
+    lines:
+      - network '{{ pr1_network }}' mask '{{ pr1_netmask }}'
+      - network '{{ pr2_network }}' mask '{{ pr2_netmask }}'
+    parents: router bgp '{{ asn }}'
+    save_when: modified
+

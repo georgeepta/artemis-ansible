@@ -1,7 +1,7 @@
 {
   "main_playbook_path": "/home/george/UOC-CSD/Diploma_Thesis/ansible/playbooks/main_playbook.yaml",
-  "mitigation_playbook_path": "/home/george/Desktop/test/test_playbook.yaml",
-  "ansible_hosts_file_path": "/home/george/Desktop/test/hosts",
+  "mitigation_playbook_path": "/home/george/UOC-CSD/Diploma_Thesis/ansible/playbooks/mitigation_playbook.yaml",
+  "ansible_hosts_file_path": "/home/george/UOC-CSD/Diploma_Thesis/ansible/hosts",
   "artemis_config_file_path": "config.yaml",
   "config_generator_path": "/home/george/UOC-CSD/Diploma_Thesis/python/conf_generator.py",
   "bgp_results_path": "/home/george/UOC-CSD/Diploma_Thesis/ansible/bgp_config_files/results.json",

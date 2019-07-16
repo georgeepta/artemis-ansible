@@ -16,7 +16,7 @@
 
     - name: RUN TEST LOCALHOST COMMAND's
       include: test_playbook.yaml
-      when: true
+      when: false
 
     - name: RUN IOS COMMAND's
       include: ios_playbook.yaml

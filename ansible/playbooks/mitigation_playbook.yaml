@@ -1,0 +1,11 @@
+---
+- name: EXECUTE TASKS FOR EACH CONNECTED ROUTER
+  hosts: '{{ target }}'
+  connection: local
+  gather_facts: false
+
+  tasks:
+
+    - name: IOS MITIGATION
+      include: ios_mitigation.yaml
+      when: ansible_network_os == 'ios'
