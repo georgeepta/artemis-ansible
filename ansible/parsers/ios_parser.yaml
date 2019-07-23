@@ -13,6 +13,10 @@ vars:
     asn: "{{ item.peer_group }}"
   my_bgp_router_id:
     router_id: "{{ item.router_id }}"
+  my_interfaces:
+    interface_name: "{{ item.interface_name }}"
+    interface_ip: "{{ item.interface_ip }}"
+    interface_mask: "{{ item.interface_mask }}"
 
 keys:
   prefixes:
@@ -30,3 +34,6 @@ keys:
   bgp_router_id:
     value: "{{ my_bgp_router_id }}"
     items: "[^.]bgp\\s+router-id\\s+(?P<router_id>\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})"
+  interfaces:
+    value: "{{ my_interfaces }}"
+    items: "[^.]interface\\s+(?P<interface_name>.+)\\s+ip\\s+address\\s+(?P<interface_ip>\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})\\s+(?P<interface_mask>\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})"
