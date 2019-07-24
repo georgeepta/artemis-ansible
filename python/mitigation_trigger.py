@@ -2,7 +2,7 @@
 
 import re, sys, argparse, radix, json, subprocess
 from json import JSONDecoder, JSONDecodeError
-from netaddr import IPAddress, IPNetwork
+from netaddr import IPAddress, IPNetwork, IPSet
 
 
 
@@ -40,30 +40,44 @@ def read_json_file(filename):
 #create radix-prefix tree with json data (config-file) of each router
 def create_prefix_tree(json_data):
 
-   # Create a new tree
-   rtree = radix.Radix()
+    # Create a new tree
+    rtree = radix.Radix()
 
-   #Adding a node returns a RadixNode object. You can create
-   #arbitrary members in its 'data' dict to store your data.
-   #Each node contains a prefix (which a router anounce)
-   #as search value and as data asn, bgp router-id of router
-   for i in json_data:
-      prefixes_list = i["prefixes"]
-      for j in prefixes_list:
-         mask = str(IPAddress(j["mask"]).netmask_bits())
-         cidr = j["network"] + "/" + mask
-         #search if prefix already exists in tree
-         tmp_node = rtree.search_exact(cidr)
-         if tmp_node == None :
-             #prefix does not exist
-             rnode = rtree.add(cidr)
-             rnode.data["data_list"] = []
-             rnode.data["data_list"].append((str(i["origin_as"][0]["asn"]), i["bgp_router_id"][0]["router_id"]))
-         else:
-             #prefix exist -> update list
-             rnode.data["data_list"].append((str(i["origin_as"][0]["asn"]), i["bgp_router_id"][0]["router_id"]))
+    #Adding a node returns a RadixNode object. You can create
+    #arbitrary members in its 'data' dict to store your data.
+    #Each node contains a prefix (which a router anounce)
+    #as search value and as data asn, bgp router-id of router
+    for i in json_data:
+        prefixes_list = i["prefixes"]
+        for j in prefixes_list:
+            mask = str(IPAddress(j["mask"]).netmask_bits())
+            cidr = j["network"] + "/" + mask
 
-   return rtree
+            #find out in which interface name this subprefix match
+            interface_name = None
+            interfaces_list = i["interfaces"]
+            for k in interfaces_list:
+                interface_mask = str(IPAddress(k["interface_mask"]).netmask_bits())
+                interface_cidr = k["interface_ip"] + "/" + interface_mask
+                s1 = IPSet([interface_cidr])
+                s2 = IPSet([cidr])
+                if s1.issuperset(s2) == True:
+                    # we found the interface of the superprefix of current subprefix
+                    interface_name = k["interface_name"]
+                    break
+
+            #search if prefix already exists in tree
+            tmp_node = rtree.search_exact(cidr)
+            if tmp_node == None :
+                #prefix does not exist
+                rnode = rtree.add(cidr)
+                rnode.data["data_list"] = []
+                rnode.data["data_list"].append((str(i["origin_as"][0]["asn"]), i["bgp_router_id"][0]["router_id"], interface_name))
+            else:
+                #prefix exist -> update list
+                tmp_node.data["data_list"].append((str(i["origin_as"][0]["asn"]), i["bgp_router_id"][0]["router_id"], interface_name))
+
+    return rtree
 
 
 def prefix_deaggregation(hijacked_prefix):
@@ -84,11 +98,12 @@ def mitigate_prefix(hijack_json, json_data, admin_configs):
     # that contains the search term (routing-style lookup)
     rnode = rtree.search_best(str(hijacked_prefix.ip))
 
+
     #call mitigation playbook for each
     #tuple in longest prefix match node
     for tuple in rnode.data["data_list"]:
         host = "target="+tuple[0]+":&"+tuple[1]+" asn="+tuple[0]
-        prefixes_str = " pr1_cidr="+prefix1_data[0]+" pr1_network="+prefix1_data[1]+" pr1_netmask="+prefix1_data[2]+" pr2_cidr="+prefix2_data[0]+" pr2_network="+prefix2_data[1]+" pr2_netmask="+prefix2_data[2]
+        prefixes_str = " pr1_cidr="+prefix1_data[0]+" pr1_network="+prefix1_data[1]+" pr1_netmask="+prefix1_data[2]+" pr2_cidr="+prefix2_data[0]+" pr2_network="+prefix2_data[1]+" pr2_netmask="+prefix2_data[2]+" interface_name="+tuple[2]
         cla = host + prefixes_str
         subprocess.call(["sudo",
                          "ansible-playbook",
