@@ -79,20 +79,20 @@ def create_rules_dict(json_data):
     prefix_pols = {}
     for i in json_data:
         # process each json element (configuration file) in list
-        origin_as_list = []
-        neighbors_list = []
+        origin_as_set = set()
+        neighbors_set = set()
         prefixes_list = i["prefixes"]
         for j in prefixes_list:
             # for each prefix make a rule definition
             mask = str(IPAddress(j["mask"]).netmask_bits())
             cidr = j["network"] + "/" + mask
             for k in i["origin_as"]: #here perform check for caveats and tips
-                origin_as_list.append(int(k["asn"]))#here perform check for caveats and tips#here perform check for caveats and tips
+                origin_as_set.add(int(k["asn"]))#here perform check for caveats and tips#here perform check for caveats and tips
             for k in i["neighbors"]:
-                neighbors_list.append(int(k["asn"]))
+                neighbors_set.add(int(k["asn"]))
 
             # Create rule definitions
-            prefix_pols.update({cidr: dict(origins=origin_as_list, neighbors=neighbors_list)})
+            prefix_pols.update({cidr: dict(origins=list(origin_as_set), neighbors=list(neighbors_set))})
 
     return prefix_pols
 
