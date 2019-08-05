@@ -1,14 +1,9 @@
-from netaddr import IPAddress, IPNetwork, IPSet
-
-s1 = IPSet(['130.10.1.1/24'])
-s2 = IPSet(['130.10.1.64/26'])
+import subprocess
 
 
-my_set = {'Geeks', 'for', 'for', 'geeks'}
-
-my_list = list(my_set)
-
-print(my_list)
-
-
-print(type(s1.issuperset(s2)))
+subprocess.Popen(
+                ["/home/george/UOC-CSD/Diploma_Thesis/python/mitigation_trigger.py", "-i", "{\"key\": \"xxxx\", \"prefix\": \"130.10.1.0/25\"}"],
+                shell=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+)

@@ -6,16 +6,13 @@
       - network {{pr1_network}} mask {{pr1_netmask}}
       - network {{pr2_network}} mask {{pr2_netmask}}
     parents: router bgp {{asn}}
-  vars:
-    ansible_command_timeout: 60
+
 
 - name: Set IOS router configuration (ip route commands)
   ios_config:
     lines:
       - ip route {{pr1_network}} {{pr1_netmask}} {{interface_name}}
       - ip route {{pr2_network}} {{pr2_netmask}} {{interface_name}}
-  vars:
-    ansible_command_timeout: 60
 
 
 - name: Save IOS router configuration

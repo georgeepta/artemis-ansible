@@ -1,0 +1,214 @@
+version: '3'
+services:
+    backend:
+        build: ./backend
+        container_name: backend
+        depends_on:
+            - rabbitmq
+            - postgres
+        networks:
+            - artemis
+        expose:
+            - ${SUPERVISOR_PORT}
+        environment:
+            RABBITMQ_USER: ${RABBITMQ_USER}
+            RABBITMQ_PASS: ${RABBITMQ_PASS}
+            RABBITMQ_HOST: ${RABBITMQ_HOST}
+            RABBITMQ_PORT: ${RABBITMQ_PORT}
+            RIS_ID: ${RIS_ID}
+            DB_USER: ${DB_USER}
+            DB_PASS: ${DB_PASS}
+            DB_HOST: ${DB_HOST}
+            DB_PORT: ${DB_PORT}
+            DB_NAME: ${DB_NAME}
+            DB_VERSION: ${DB_VERSION}
+            SUPERVISOR_HOST: ${SUPERVISOR_HOST}
+            SUPERVISOR_PORT: ${SUPERVISOR_PORT}
+            REDIS_HOST: ${REDIS_HOST}
+            REDIS_PORT: ${REDIS_PORT}
+            HASURA_HOST: ${HASURA_HOST}
+            HASURA_PORT: ${HASURA_PORT}
+            HASURA_GRAPHQL_ACCESS_KEY: ${HASURA_SECRET_KEY}
+            GUI_ENABLED: ${GUI_ENABLED}
+            HISTORIC: ${HISTORIC}
+            HIJACK_LOG_FILTER: ${HIJACK_LOG_FILTER}
+            MON_TIMEOUT_LAST_BGP_UPDATE: ${MON_TIMEOUT_LAST_BGP_UPDATE}
+        volumes:
+            # uncomment to run from source code (only if you build from source)
+            - ./backend/:/root/
+            # comment after Step 2 of README
+            # - ./backend/configs/:/etc/artemis/
+            # uncomment after Step 2 of README
+            - ./local_configs/backend/:/etc/artemis/
+            # comment after Step 2 of README
+            # - ./backend/supervisor.d/:/etc/supervisor/conf.d/
+            # uncomment after Step 2 of README
+            - ./local_configs/backend/supervisor.d/:/etc/supervisor/conf.d/
+            - ./backend/Diploma_Thesis/ansible/bgp_config_files/admin_configs.json:/root/admin_configs.json
+            - ./backend/Diploma_Thesis/ansible/bgp_config_files/results.json:/root/results.json
+            - ./backend/Diploma_Thesis/ansible/playbooks/mitigation_playbook.yaml:/root/mitigation_playbook.yaml
+            - ./backend/Diploma_Thesis/ansible/hosts:/root/hosts
+            - ./backend/Diploma_Thesis/ansible/ansible.cfg:/root/ansible.cfg
+            - ./backend/Diploma_Thesis/python/mitigation_trigger.py:/root/mitigation_trigger.py
+            - ./backend/Diploma_Thesis/ansible/playbooks/ios_mitigation.yaml:/root/ios_mitigation.yaml
+            - ./backend/Diploma_Thesis/ansible/playbooks/g_playbook.yaml:/root/g_playbook.yaml
+            - ./backend/Diploma_Thesis/python/test.py:/root/test.py
+            
+    frontend:
+        image: inspiregroup/artemis-frontend:${SYSTEM_VERSION}
+        container_name: frontend
+        depends_on:
+            - rabbitmq
+            - postgres
+            - postgrest
+            - backend
+        networks:
+            - artemis
+        expose:
+            - ${WEBAPP_PORT}
+        environment:
+            RABBITMQ_USER: ${RABBITMQ_USER}
+            RABBITMQ_PASS: ${RABBITMQ_PASS}
+            RABBITMQ_HOST: ${RABBITMQ_HOST}
+            RABBITMQ_PORT: ${RABBITMQ_PORT}
+            DB_HOST: ${DB_HOST}
+            DB_PORT: ${DB_PORT}
+            API_HOST: ${API_HOST}
+            API_PORT: ${API_PORT}
+            HASURA_HOST: ${HASURA_HOST}
+            HASURA_PORT: ${HASURA_PORT}
+            SYSTEM_VERSION: ${SYSTEM_VERSION}
+            BIND_IP: ${BIND_IP}
+            WEBAPP_PORT: ${WEBAPP_PORT}
+            USER_ROOT_USERNAME: ${ADMIN_USER}
+            USER_ROOT_PASSWORD: ${ADMIN_PASS}
+            USER_ROOT_EMAIL: ${ADMIN_EMAIL}
+            SUPERVISOR_HOST: ${SUPERVISOR_HOST}
+            SUPERVISOR_PORT: ${SUPERVISOR_PORT}
+            JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+            FLASK_SECRET_KEY: ${FLASK_SECRET_KEY}
+            JS_VERSION: ${JS_VERSION}
+            SECURITY_PASSWORD_SALT: ${SECURITY_PASSWORD_SALT}
+        volumes:
+            # uncomment to run from source code  (only if you build from source)
+            # - ./frontend/:/root/
+            # comment after Step 2 of README
+            # - ./frontend/webapp/configs/:/etc/artemis/
+            # uncomment after Step 2 of README
+            - ./local_configs/frontend/:/etc/artemis/
+            - ./frontend/db/:/etc/webapp/db/
+    nginx:
+        image: nginx:1.15-alpine
+        container_name: nginx
+        restart: always
+        depends_on:
+            - frontend
+            - postgrest
+        networks:
+            - artemis
+        expose:
+            - 80 # HTTP
+            - 443 # HTTPS
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            # comment after Step 2 of README
+            # - ./frontend/webapp/configs/nginx.conf:/etc/nginx/nginx.conf
+            # uncomment after Step 2 of README
+            - ./local_configs/frontend/nginx.conf:/etc/nginx/nginx.conf
+            # comment after Step 2 of README
+            # - ./frontend/webapp/configs/certs/:/etc/nginx/certs/
+            # uncomment after Step 2 of README
+            - ./local_configs/frontend/certs/:/etc/nginx/certs/
+    rabbitmq:
+        image: rabbitmq:3.7.8-management-alpine
+        container_name: rabbitmq
+        restart: always
+        networks:
+            - artemis
+        expose:
+            - ${RABBITMQ_PORT}
+            # - 15672 management port
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+        volumes:
+            - ./other/rabbitmq/enabled-plugins:/etc/rabbitmq/enabled_plugins
+    postgres:
+        image: timescale/timescaledb:1.1.0-pg10
+        container_name: postgres
+        restart: always
+        networks:
+            - artemis
+        expose:
+            - ${DB_PORT}
+        environment:
+            POSTGRES_DB: ${DB_NAME}
+            POSTGRES_USER: ${DB_USER}
+            POSTGRES_PASSWORD: ${DB_PASS}
+            DB_BACKUP: ${DB_BACKUP}
+            DB_AUTOCLEAN: ${DB_AUTOCLEAN}
+            DB_HIJACK_DORMANT: ${DB_HIJACK_DORMANT}
+        volumes:
+            - ./postgres-data-current:/var/lib/postgresql/data
+            - ./other/postgres-entrypoint.sh:/postgres-entrypoint.sh
+            - ./postgres-data-backup/:/tmp/
+            - ./other/db/init.sql:/docker-entrypoint-initdb.d/zinit.sql
+            - ./other/db/data/:/docker-entrypoint-initdb.d/data/
+            - ./other/db/libs/:/docker-entrypoint-initdb.d/libs/
+        entrypoint: ["./postgres-entrypoint.sh"]
+    postgrest:
+        image: postgrest/postgrest:v5.2.0
+        container_name: postgrest
+        restart: always
+        depends_on:
+            - postgres
+            - backend
+        networks:
+            - artemis
+        expose:
+            - ${API_PORT}
+        environment:
+            PGRST_DB_URI: postgres://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+            PGRST_DB_SCHEMA: ${DB_SCHEMA}
+            PGRST_DB_ANON_ROLE: ${DB_USER}
+    pg-amqp-bridge:
+        image: subzerocloud/pg-amqp-bridge:0.0.6
+        container_name: pg-amqp-bridge
+        depends_on:
+            - postgres
+            - backend
+            - rabbitmq
+        networks:
+            - artemis
+        environment:
+            - POSTGRESQL_URI=postgres://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+            - AMQP_URI=amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@${RABBITMQ_HOST}:${RABBITMQ_PORT}//
+            - BRIDGE_CHANNELS=events:amq.direct
+            # - RUST_LOG=debug
+            # - RUST_BACKTRACE=1
+        volumes:
+            - ./backend/wait-for:/root/wait-for
+        command: ["/root/wait-for", "${RABBITMQ_HOST}:${RABBITMQ_PORT}", "-t", "0", "--", "pg-amqp-bridge"]
+    graphql:
+        image: hasura/graphql-engine:v1.0.0-alpha45
+        container_name: graphql
+        restart: always
+        depends_on:
+            - postgres
+        networks:
+            - artemis
+        expose:
+            - ${HASURA_PORT}
+        environment:
+            HASURA_GRAPHQL_DATABASE_URL: postgres://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+            HASURA_GRAPHQL_ACCESS_KEY: ${HASURA_SECRET_KEY}
+            HASURA_GRAPHQL_ENABLE_CONSOLE: ${HASURA_GUI}
+            HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256", "key":"${JWT_SECRET_KEY}"}'
+        command:
+            - graphql-engine
+            - serve
+
+networks:
+    artemis:
