@@ -46,7 +46,8 @@ def create_prefix_tree(json_data):
     # Adding a node returns a RadixNode object. You can create
     # arbitrary members in its 'data' dict to store your data.
     # Each node contains a prefix (which a router anounce)
-    # as search value and as data asn, bgp router-id of router
+    # as search value and as data --> (asn, bgp router-id, interface
+    # name of super-prefix of that prefix) of router
     for i in json_data:
         prefixes_list = i["prefixes"]
         for j in prefixes_list:
