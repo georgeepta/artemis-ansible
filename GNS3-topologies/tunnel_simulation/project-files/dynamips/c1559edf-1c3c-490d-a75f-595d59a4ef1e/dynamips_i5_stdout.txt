@@ -1,0 +1,1 @@
+vm_mmap_open_file: unable to open file 'c3725_i5_rom' (No such file or directory)
