@@ -292,8 +292,8 @@
                 "drawing_id": "40e5f4fa-01c9-462f-ae39-e875ee5966d6",
                 "rotation": 0,
                 "svg": "<svg height=\"25\" width=\"74\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">helperAS</text></svg>",
-                "x": 150,
-                "y": 163,
+                "x": 109,
+                "y": 161,
                 "z": 1
             },
             {
@@ -340,8 +340,8 @@
                 "drawing_id": "8ab3ff3e-d7fc-40a0-8e85-f13842f41253",
                 "rotation": 0,
                 "svg": "<svg height=\"25\" width=\"72\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">AS65006</text></svg>",
-                "x": 154,
-                "y": 193,
+                "x": 114,
+                "y": 188,
                 "z": 1
             },
             {
@@ -362,26 +362,26 @@
             },
             {
                 "drawing_id": "689b8e7b-4f65-4369-8e8c-847df224ebbf",
-                "rotation": 0,
+                "rotation": -5,
                 "svg": "<svg height=\"25\" width=\"110\"><text fill=\"#f57900\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">PRIVATE-LINK</text></svg>",
-                "x": -242,
-                "y": 308,
+                "x": -229,
+                "y": 313,
                 "z": 1
             },
             {
                 "drawing_id": "dc2e5e8b-3507-49bf-8bbd-3fc643f91565",
                 "rotation": 0,
-                "svg": "<svg height=\"110\" width=\"182\"><text fill=\"#204a87\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">130.10.1.2/24\n(down) because\nwe have a static \nroute instead\n#ip route 130.10.1.0 \n255.255.255.0 tunnel 0 </text></svg>",
-                "x": 243,
-                "y": 324,
+                "svg": "<svg height=\"110\" width=\"188\"><text fill=\"#204a87\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">loopack ip 130.10.1.2/24\n(down) because\nwe have a static \nroute instead\n#ip route 130.10.1.0 \n255.255.255.0 tunnel 0 </text></svg>",
+                "x": 223,
+                "y": 358,
                 "z": 1
             },
             {
                 "drawing_id": "52b80323-e633-4e6b-bb2e-84f9675b8f6c",
-                "rotation": 0,
+                "rotation": 3,
                 "svg": "<svg height=\"25\" width=\"101\"><text fill=\"#f57900\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">GRE-TUNNEL</text></svg>",
-                "x": -245,
-                "y": 251,
+                "x": -249,
+                "y": 245,
                 "z": 1
             },
             {
@@ -415,6 +415,22 @@
                 "x": -121,
                 "y": 223,
                 "z": 1
+            },
+            {
+                "drawing_id": "5a16a4b5-6f65-40d5-b6b7-bfa47afb845c",
+                "rotation": 0,
+                "svg": "<svg height=\"44\" width=\"0\"><line stroke=\"#000000\" stroke-width=\"2\" x1=\"0\" x2=\"0\" y1=\"0\" y2=\"44\" /></svg>",
+                "x": 343,
+                "y": 298,
+                "z": 0
+            },
+            {
+                "drawing_id": "448c6d7e-bfba-47e1-ac73-636935d0213a",
+                "rotation": 0,
+                "svg": "<svg height=\"0\" width=\"49\"><line stroke=\"#000000\" stroke-width=\"2\" x1=\"0\" x2=\"49\" y1=\"0\" y2=\"0\" /></svg>",
+                "x": 320,
+                "y": 345,
+                "z": 0
             }
         ],
         "links": [
@@ -878,37 +894,6 @@
                             "y": 28
                         },
                         "node_id": "042478af-38a4-456a-9fe0-d093bcb33d11",
-                        "port_number": 0
-                    }
-                ],
-                "suspend": false
-            },
-            {
-                "filters": {},
-                "link_id": "0189be72-3457-4753-a184-a0d1d9a71465",
-                "nodes": [
-                    {
-                        "adapter_number": 0,
-                        "label": {
-                            "rotation": 0,
-                            "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
-                            "text": "f0/1",
-                            "x": 58,
-                            "y": 48
-                        },
-                        "node_id": "042478af-38a4-456a-9fe0-d093bcb33d11",
-                        "port_number": 1
-                    },
-                    {
-                        "adapter_number": 0,
-                        "label": {
-                            "rotation": 0,
-                            "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
-                            "text": "e0",
-                            "x": 27,
-                            "y": -21
-                        },
-                        "node_id": "8245bba9-af52-4970-af5d-564f82273722",
                         "port_number": 0
                     }
                 ],
@@ -1539,31 +1524,6 @@
                 "width": 65,
                 "x": 259,
                 "y": -428,
-                "z": 0
-            },
-            {
-                "compute_id": "local",
-                "console": 5011,
-                "console_type": "telnet",
-                "first_port_name": null,
-                "height": 59,
-                "label": {
-                    "rotation": 0,
-                    "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
-                    "text": "PC-7",
-                    "x": 13,
-                    "y": 55
-                },
-                "name": "PC-7",
-                "node_id": "8245bba9-af52-4970-af5d-564f82273722",
-                "node_type": "vpcs",
-                "port_name_format": "Ethernet{0}",
-                "port_segment_size": 0,
-                "properties": {},
-                "symbol": ":/symbols/vpcs_guest.svg",
-                "width": 65,
-                "x": 341,
-                "y": 391,
                 "z": 0
             }
         ]

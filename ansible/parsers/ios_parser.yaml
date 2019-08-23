@@ -17,6 +17,12 @@ vars:
     interface_name: "{{ item.interface_name }}"
     interface_ip: "{{ item.interface_ip }}"
     interface_mask: "{{ item.interface_mask }}"
+  my_gre_tunnel_interfaces:
+    interface_name: "{{ item.interface_name }}"
+    interface_ip: "{{ item.interface_ip }}"
+    interface_mask: "{{ item.interface_mask }}"
+    source_ip_address: "{{ item.source_ip_address }}"
+    destination_ip_address: "{{ item.destination_ip_address }}"
 
 keys:
   prefixes:
@@ -37,3 +43,6 @@ keys:
   interfaces:
     value: "{{ my_interfaces }}"
     items: "[^.]interface\\s+(?P<interface_name>.+)\\s+ip\\s+address\\s+(?P<interface_ip>\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})\\s+(?P<interface_mask>\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})"
+  gre_tunnel_interfaces:
+    value: "{{ my_gre_tunnel_interfaces }}"
+    items: "[^.]interface\\s+(?P<interface_name>Tunnel\\d{1,10})\\s+|.*ip\\s+address\\s+(?P<interface_ip>\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})\\s+(?P<interface_mask>\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})\\s+|.*tunnel\\s+source\\s+(?P<source_ip_address>\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})\\s+|.*tunnel\\s+destination\\s+(?P<destination_ip_address>\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})"
