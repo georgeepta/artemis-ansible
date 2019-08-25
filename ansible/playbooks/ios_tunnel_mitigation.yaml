@@ -1,0 +1,20 @@
+---
+
+- name: Set IOS router configuration (network commands)
+  ios_config:
+    lines:
+      - network {{pr_network}} mask {{pr_netmask}}
+    parents: router bgp {{asn}}
+
+
+- name: Set IOS router configuration (ip route commands)
+  ios_config:
+    lines:
+      - ip route {{pr_network}} {{pr_netmask}} {{interface_name}}
+
+- name: Save IOS router configuration
+  ios_command:
+    commands:
+      - command: 'write'
+        prompt: 'Overwrite the previous NVRAM configuration?[confirm]'
+        answer: 'y'

@@ -1,11 +1,11 @@
 ---
 - name: EXECUTE TASKS FOR EACH CONNECTED ROUTER
   hosts: all
-  connection: local
+  connection: network_cli
   gather_facts: false
 
   vars:
-    admin_configs: "{{ lookup('file', '{{inventory_dir | dirname }}/ansible/bgp_config_files/admin_configs.json') | from_json }}"
+    admin_configs: "{{ lookup('file', '/home/george/artemis/backend/Diploma_Thesis/ansible/bgp_config_files/admin_configs.json') | from_json }}"
 
   tasks:
     - name: Delete file with json representations
@@ -25,4 +25,4 @@
     - name: Execute python script to generate artemis configuration file
       become: true
       become_user: root
-      command: python3 {{ admin_configs['config_generator_path'] }} {{inventory_dir | dirname }}/ansible/bgp_config_files/admin_configs.json
+      command: python3 {{ admin_configs['config_generator_path'] }} /home/george/artemis/backend/Diploma_Thesis/ansible/bgp_config_files/admin_configs.json

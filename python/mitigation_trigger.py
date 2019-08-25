@@ -93,23 +93,71 @@ def prefix_deaggregation(hijacked_prefix):
 def mitigate_prefix(hijack_json, json_data, admin_configs):
     hijacked_prefix = IPNetwork(json.loads(hijack_json)["prefix"])
     rtree = create_prefix_tree(json_data)
-    prefix1_data, prefix2_data = prefix_deaggregation(hijacked_prefix)
 
-    # Best-match search will return the longest matching prefix
-    # that contains the search term (routing-style lookup)
-    rnode = rtree.search_best(str(hijacked_prefix.ip))
+    if hijacked_prefix.prefixlen == 24:
+        ##perform tunnel technique
 
-    # call mitigation playbook for each
-    # tuple in longest prefix match node
-    for ttuple in rnode.data["data_list"]:
-        host = "target=" + ttuple[0] + ":&" + ttuple[1] + " asn=" + ttuple[0]
-        prefixes_str = " pr1_cidr=" + prefix1_data[0] + " pr1_network=" + prefix1_data[1] + " pr1_netmask=" + \
-                       prefix1_data[2] + " pr2_cidr=" + prefix2_data[0] + " pr2_network=" + prefix2_data[
-                           1] + " pr2_netmask=" + prefix2_data[2] + " interface_name=" + ttuple[2]
-        cla = host + prefixes_str
-        arg = "ansible-playbook -i " + admin_configs["ansible_hosts_file_path"] + " " + admin_configs[
-            "mitigation_playbook_path"] + " --extra-vars " + "\"" + cla + "\""
-        subprocess.call(arg, shell=True)
+        # Best-match search will return the longest matching prefix
+        # that contains the search term (routing-style lookup)
+        rnode = rtree.search_best(str(hijacked_prefix.ip))
+
+        # call mitigation playbook for each
+        # tuple in longest prefix match node
+        for ttuple in rnode.data["data_list"]:
+            host = "target=" + ttuple[0] + ":&" + ttuple[1] + " asn=" + ttuple[0]
+            prefixes_str = " pr_cidr=" + hijacked_prefix.cidr + " pr_network=" + hijacked_prefix.ip + " pr_netmask=" + hijacked_prefix.netmask + " interface_name=" + \
+                           ttuple[2]
+            cla = host + prefixes_str
+            arg = "ansible-playbook -i " + admin_configs["ansible_hosts_file_path"] + " " + admin_configs[
+                "tunnel_mitigation_playbook_path"] + " --extra-vars " + "\"" + cla + "\""
+            subprocess.call(arg, shell=True)
+
+        tunnel_json_key = ""
+        for prefix in list(admin_configs["tunnel_definitions"]["hijacked_prefix"].keys()):
+            if IPSet([prefix]).issuperset(IPSet([hijacked_prefix.cidr])):
+                ## we found the tunnel configs for this prefix
+                tunnel_json_key = prefix
+                break
+
+        if tunnel_json_key == "":
+            # better call the logger from utils
+            # from utils import get_logger
+            # log = get_logger() , log.info("...")
+            print("Tunnel definition for this prefix does not found")
+        else:
+            # call tunnel_mitigation_playbook for helper as
+            # to redirect traffic into the tunnel
+            prefix_key = admin_configs["tunnel_definitions"]["hijacked_prefix"][tunnel_json_key]
+
+            host = "target=" + prefix_key["helperAS"]["asn"] + ":&" + prefix_key["helperAS"]["router_id"] + " asn=" + \
+                   prefix_key["helperAS"]["asn"]
+            prefixes_str = " pr_cidr=" + hijacked_prefix.cidr + " pr_network=" + hijacked_prefix.ip + " pr_netmask=" + hijacked_prefix.netmask + " interface_name=" + \
+                           prefix_key["helperAS"]["tunnel_interface_name"]
+            cla = host + prefixes_str
+            arg = "ansible-playbook -i " + admin_configs["ansible_hosts_file_path"] + " " + admin_configs[
+                "tunnel_mitigation_playbook_path"] + " --extra-vars " + "\"" + cla + "\""
+            subprocess.call(arg, shell=True)
+
+    else:
+        ##perform prefix-deaggregation technique
+
+        prefix1_data, prefix2_data = prefix_deaggregation(hijacked_prefix)
+
+        # Best-match search will return the longest matching prefix
+        # that contains the search term (routing-style lookup)
+        rnode = rtree.search_best(str(hijacked_prefix.ip))
+
+        # call mitigation playbook for each
+        # tuple in longest prefix match node
+        for ttuple in rnode.data["data_list"]:
+            host = "target=" + ttuple[0] + ":&" + ttuple[1] + " asn=" + ttuple[0]
+            prefixes_str = " pr1_cidr=" + prefix1_data[0] + " pr1_network=" + prefix1_data[1] + " pr1_netmask=" + \
+                           prefix1_data[2] + " pr2_cidr=" + prefix2_data[0] + " pr2_network=" + prefix2_data[
+                               1] + " pr2_netmask=" + prefix2_data[2] + " interface_name=" + ttuple[2]
+            cla = host + prefixes_str
+            arg = "ansible-playbook -i " + admin_configs["ansible_hosts_file_path"] + " " + admin_configs[
+                "mitigation_playbook_path"] + " --extra-vars " + "\"" + cla + "\""
+            subprocess.call(arg, shell=True)
 
 
 def main():

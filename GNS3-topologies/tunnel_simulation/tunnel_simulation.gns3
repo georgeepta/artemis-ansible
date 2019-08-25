@@ -243,7 +243,7 @@
             {
                 "drawing_id": "e0716d26-36fc-450d-827f-eac525539e6f",
                 "rotation": 0,
-                "svg": "<svg height=\"25\" width=\"108\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">130.10.1.2/24</text></svg>",
+                "svg": "<svg height=\"25\" width=\"108\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">130.10.1.2/21</text></svg>",
                 "x": -960,
                 "y": 336,
                 "z": 1
@@ -251,7 +251,7 @@
             {
                 "drawing_id": "c17693b8-bf0f-4d9c-9d40-72306e433951",
                 "rotation": 0,
-                "svg": "<svg height=\"25\" width=\"108\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">130.10.1.1/24</text></svg>",
+                "svg": "<svg height=\"25\" width=\"108\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">130.10.1.1/21</text></svg>",
                 "x": -941,
                 "y": 241,
                 "z": 1
@@ -371,9 +371,9 @@
             {
                 "drawing_id": "dc2e5e8b-3507-49bf-8bbd-3fc643f91565",
                 "rotation": 0,
-                "svg": "<svg height=\"110\" width=\"188\"><text fill=\"#204a87\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">loopack ip 130.10.1.2/24\n(down) because\nwe have a static \nroute instead\n#ip route 130.10.1.0 \n255.255.255.0 tunnel 0 </text></svg>",
-                "x": 223,
-                "y": 358,
+                "svg": "<svg height=\"110\" width=\"188\"><text fill=\"#204a87\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">loopack ip 130.10.1.2/24\n(unassinged) because\nwe have a static \nroute instead\n#ip route 130.10.1.0 \n255.255.255.0 tunnel 0 </text></svg>",
+                "x": 215,
+                "y": 351,
                 "z": 1
             },
             {
@@ -1497,8 +1497,8 @@
                 },
                 "symbol": ":/symbols/router.svg",
                 "width": 66,
-                "x": 314,
-                "y": 255,
+                "x": 315,
+                "y": 256,
                 "z": 0
             },
             {
