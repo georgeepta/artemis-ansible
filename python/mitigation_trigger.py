@@ -105,8 +105,8 @@ def mitigate_prefix(hijack_json, json_data, admin_configs):
         # tuple in longest prefix match node
         for ttuple in rnode.data["data_list"]:
             host = "target=" + ttuple[0] + ":&" + ttuple[1] + " asn=" + ttuple[0]
-            prefixes_str = " pr_cidr=" + hijacked_prefix.cidr + " pr_network=" + hijacked_prefix.ip + " pr_netmask=" + hijacked_prefix.netmask + " interface_name=" + \
-                           ttuple[2]
+            prefixes_str = " pr_cidr=" + str(hijacked_prefix.cidr) + " pr_network=" + str(
+                hijacked_prefix.ip) + " pr_netmask=" + str(hijacked_prefix.netmask) + " interface_name=" + ttuple[2]
             cla = host + prefixes_str
             arg = "ansible-playbook -i " + admin_configs["ansible_hosts_file_path"] + " " + admin_configs[
                 "tunnel_mitigation_playbook_path"] + " --extra-vars " + "\"" + cla + "\""
@@ -129,10 +129,11 @@ def mitigate_prefix(hijack_json, json_data, admin_configs):
             # to redirect traffic into the tunnel
             prefix_key = admin_configs["tunnel_definitions"]["hijacked_prefix"][tunnel_json_key]
 
-            host = "target=" + prefix_key["helperAS"]["asn"] + ":&" + prefix_key["helperAS"]["router_id"] + " asn=" + \
-                   prefix_key["helperAS"]["asn"]
-            prefixes_str = " pr_cidr=" + hijacked_prefix.cidr + " pr_network=" + hijacked_prefix.ip + " pr_netmask=" + hijacked_prefix.netmask + " interface_name=" + \
-                           prefix_key["helperAS"]["tunnel_interface_name"]
+            host = "target=" + str(prefix_key["helperAS"]["asn"]) + ":&" + prefix_key["helperAS"][
+                "router_id"] + " asn=" + str(prefix_key["helperAS"]["asn"])
+            prefixes_str = " pr_cidr=" + str(hijacked_prefix.cidr) + " pr_network=" + str(
+                hijacked_prefix.ip) + " pr_netmask=" + str(hijacked_prefix.netmask) + " interface_name=" + \
+                           str(prefix_key["helperAS"]["tunnel_interface_name"])
             cla = host + prefixes_str
             arg = "ansible-playbook -i " + admin_configs["ansible_hosts_file_path"] + " " + admin_configs[
                 "tunnel_mitigation_playbook_path"] + " --extra-vars " + "\"" + cla + "\""

@@ -10,15 +10,21 @@
 
 [65001:children]
 localhost
-CISCO-ROUTERS
+CISCO-ROUTERS-65001
+
+[65006:children]
+CISCO-ROUTERS-65006
 
 [localhost]
 127.0.0.1 
 
-[CISCO-ROUTERS:children]
+[CISCO-ROUTERS-65001:children]
 192.168.10.1
 192.168.20.1
+
+[CISCO-ROUTERS-65006:children]
 192.168.100.2
+
 
 [192.168.10.1]
 c7200_Stable ansible_host=192.168.10.1
@@ -29,13 +35,22 @@ c3725 ansible_host=192.168.20.1
 [192.168.100.2]
 helper_as ansible_host=192.168.100.2
 
-[CISCO-ROUTERS:vars]
+[CISCO-ROUTERS-65001:vars]
 ansible_user=admin
 ansible_ssh_pass=george
 ansible_connection=network_cli
 ansible_network_os=ios
 ansible_become=yes
 ansible_become_method=enable 
+
+[CISCO-ROUTERS-65006:vars]
+ansible_user=admin
+ansible_ssh_pass=george
+ansible_connection=network_cli
+ansible_network_os=ios
+ansible_become=yes
+ansible_become_method=enable 
+
 
 # Ex 1: Ungrouped hosts, specify before any group headers.
 

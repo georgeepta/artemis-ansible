@@ -53,6 +53,10 @@ elem = {
 
 hijacked_prefix = IPNetwork("130.10.0.0/24")
 
+print(hijacked_prefix.prefixlen == 24)
+
+prefixes_str = " pr_cidr=" + str(hijacked_prefix.cidr) + " pr_network=" + str(hijacked_prefix.ip) + " pr_netmask=" + str(hijacked_prefix.netmask) + " interface_name="
+
 tunnel_json_key = ""
 for prefix in list(elem["tunnel_definitions"]["hijacked_prefix"].keys()):
     if IPSet([prefix]).issuperset(IPSet([hijacked_prefix.cidr])):

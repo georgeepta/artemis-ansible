@@ -109,9 +109,6 @@ def main():
         prefix_pols = create_rules_dict(json_data)
         print(prefix_pols)
         conf_lib.generate_config_yml(prefixes, admin_configs["monitors"], asns, prefix_pols, admin_configs["mitigation_script_path"], admin_configs["artemis_config_file_path"])
-        ### just for debugging ###
-        with open('/home/george/Desktop/file.txt', 'w+') as file:
-            file.write(str(json_data))
 
 if __name__ == '__main__':
     main()
