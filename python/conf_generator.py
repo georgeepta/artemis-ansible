@@ -1,4 +1,4 @@
-import re, sys, python.conf_lib, json
+import re, sys, conf_lib, json
 from netaddr import IPAddress
 from json import JSONDecoder, JSONDecodeError
 
@@ -111,7 +111,7 @@ def main():
         print(asns)
         prefix_pols = create_rules_dict(json_data)
         print(prefix_pols)
-        python.conf_lib.generate_config_yml(prefixes, admin_configs["monitors"], asns, prefix_pols, admin_configs["mitigation_script_path"], admin_configs["artemis_config_file_path"])
+        conf_lib.generate_config_yml(prefixes, admin_configs["monitors"], asns, prefix_pols, admin_configs["mitigation_script_path"], admin_configs["artemis_config_file_path"])
 
 if __name__ == '__main__':
     main()
