@@ -1,4 +1,4 @@
-import re, sys, conf_lib, json
+import re, sys, python.conf_lib, json
 from netaddr import IPAddress
 from json import JSONDecoder, JSONDecodeError
 
@@ -82,17 +82,20 @@ def create_rules_dict(json_data):
         origin_as_set = set()
         neighbors_set = set()
         prefixes_list = i["prefixes"]
-        for j in prefixes_list:
+        for prefix in prefixes_list:
             # for each prefix make a rule definition
-            mask = str(IPAddress(j["mask"]).netmask_bits())
-            cidr = j["network"] + "/" + mask
+            mask = str(IPAddress(prefix["mask"]).netmask_bits())
+            cidr = prefix["network"] + "/" + mask
             for k in i["origin_as"]: #here perform check for caveats and tips
                 origin_as_set.add(int(k["asn"]))#here perform check for caveats and tips#here perform check for caveats and tips
             for k in i["neighbors"]:
                 neighbors_set.add(int(k["asn"]))
 
             # Create rule definitions
-            prefix_pols.update({cidr: dict(origins=list(origin_as_set), neighbors=list(neighbors_set))})
+            if cidr not in prefix_pols.keys():
+                prefix_pols.update({cidr: [dict(origins=list(origin_as_set), neighbors=list(neighbors_set))]})
+            else:
+                prefix_pols[cidr].append(dict(origins=list(origin_as_set), neighbors=list(neighbors_set)))
 
     return prefix_pols
 
@@ -108,7 +111,7 @@ def main():
         print(asns)
         prefix_pols = create_rules_dict(json_data)
         print(prefix_pols)
-        conf_lib.generate_config_yml(prefixes, admin_configs["monitors"], asns, prefix_pols, admin_configs["mitigation_script_path"], admin_configs["artemis_config_file_path"])
+        python.conf_lib.generate_config_yml(prefixes, admin_configs["monitors"], asns, prefix_pols, admin_configs["mitigation_script_path"], admin_configs["artemis_config_file_path"])
 
 if __name__ == '__main__':
     main()

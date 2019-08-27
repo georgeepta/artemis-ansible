@@ -1,5 +1,5 @@
 from netaddr import IPNetwork, IPSet
-import radix
+import radix, json
 
 elem = {
     "main_playbook_path": "/home/george/UOC-CSD/Diploma_Thesis/ansible/playbooks/main_playbook.yaml",
@@ -84,3 +84,37 @@ rnode.data["data_list"] = "130.10.3.0/24"
 
 rnode = rtree.search_best("130.10.2.0")
 print(rnode.data["data_list"])
+
+prefix_pols = {}
+origin_as_set = set()
+origin_as_set.add(65001)
+print(origin_as_set)
+neighbors_set = set()
+neighbors_set.add(65002)
+neighbors_set.add(65010)
+
+prefix_pols = {
+    "10.0.0.0/24":[
+        {
+            "origins":[9012],
+            "neighbors":[1234,5678]
+        },
+        {
+            "origins": [65001],
+            "neighbors": [65002, 65006]
+        },
+    ]
+}
+
+print(prefix_pols["10.0.0.0/24"])
+
+
+prefixes_per_orig_neighb_group = {}
+for prefix in sorted(prefix_pols):
+    for dict_item in prefix_pols[prefix]:
+        origin_asns = sorted(list(dict_item["origins"]))
+        neighbors = sorted(list(dict_item["neighbors"]))
+        key = (json.dumps(origin_asns), json.dumps(neighbors))
+        if key not in prefixes_per_orig_neighb_group:
+            prefixes_per_orig_neighb_group[key] = set()
+            prefixes_per_orig_neighb_group[key].add(prefix)

@@ -67,12 +67,13 @@ def create_rule_defs(yaml_conf, prefixes, asns, prefix_pols, mitigation_script_p
     # (i.e., which prefixes have the same origin and neighbor)
     prefixes_per_orig_neighb_group = {}
     for prefix in sorted(prefix_pols):
-        origin_asns = sorted(list(prefix_pols[prefix]["origins"]))
-        neighbors = sorted(list(prefix_pols[prefix]["neighbors"]))
-        key = (json.dumps(origin_asns), json.dumps(neighbors))
-        if key not in prefixes_per_orig_neighb_group:
-            prefixes_per_orig_neighb_group[key] = set()
-        prefixes_per_orig_neighb_group[key].add(prefix)
+        for dict_item in prefix_pols[prefix]:
+            origin_asns = sorted(list(dict_item["origins"]))
+            neighbors = sorted(list(dict_item["neighbors"]))
+            key = (json.dumps(origin_asns), json.dumps(neighbors))
+            if key not in prefixes_per_orig_neighb_group:
+                prefixes_per_orig_neighb_group[key] = set()
+            prefixes_per_orig_neighb_group[key].add(prefix)
 
     # then form the actual rules
     for key in sorted(prefixes_per_orig_neighb_group):
