@@ -17,6 +17,10 @@ vars:
     interface_name: "{{ item.interface_name }}"
     interface_ip: "{{ item.interface_ip }}"
     interface_mask: "{{ item.interface_mask }}"
+  my_routemaps_per_neighbor:
+    interface_ip: "{{ item.interface_ip }}"
+    routemap_name: "{{ item.routemap_name }}"
+    direction: "{{ item.direction }}"
 
 keys:
   prefixes:
@@ -37,3 +41,14 @@ keys:
   interfaces:
     value: "{{ my_interfaces }}"
     items: "[^.]interface\\s+(?P<interface_name>.+)\\s+ip\\s+address\\s+(?P<interface_ip>\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})\\s+(?P<interface_mask>\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})"
+  routemaps_per_neighbor:
+    value: "{{ my_routemaps_per_neighbor }}"
+    items: "[^.]neighbor\\s+(?P<interface_ip>.+)\\s+route-map(?P<routemap_name>.+)\\s+(?P<direction>.+)"
+  routemaps_definitions:
+    value: "{{ my_routemaps_definitions }}"
+    start_block: "[^.]route-map.+$"
+    end_block: "[^.]!$"
+    items:
+      - "[^.]route-map\\s+(?P<routemap_name>.+)\\s+(?P<rule>.+)\\s+(?P<sequence_number>.+)"
+      - "[^.]match\\s+ip\\s+address\\s+(?P<acl_id_list>.+)"
+      - "[^.]match\\s+ip\\s+address\\s+prefix-list\\s+(?P<prefix_list_name>.+)"

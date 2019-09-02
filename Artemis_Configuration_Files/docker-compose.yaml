@@ -47,10 +47,12 @@ services:
             - ./backend/Diploma_Thesis/ansible/bgp_config_files/admin_configs.json:/root/admin_configs.json
             - ./backend/Diploma_Thesis/ansible/bgp_config_files/results.json:/root/results.json
             - ./backend/Diploma_Thesis/ansible/playbooks/mitigation_playbook.yaml:/root/mitigation_playbook.yaml
+            - ./backend/Diploma_Thesis/ansible/playbooks/tunnel_mitigation_playbook.yaml:/root/tunnel_mitigation_playbook.yaml
             - ./backend/Diploma_Thesis/ansible/hosts:/root/hosts
             - ./backend/Diploma_Thesis/ansible/ansible.cfg:/root/ansible.cfg
             - ./backend/Diploma_Thesis/python/mitigation_trigger.py:/root/mitigation_trigger.py
             - ./backend/Diploma_Thesis/ansible/playbooks/ios_mitigation.yaml:/root/ios_mitigation.yaml
+            - ./backend/Diploma_Thesis/ansible/playbooks/ios_tunnel_mitigation.yaml:/root/ios_tunnel_mitigation.yaml
             - ./backend/Diploma_Thesis/ansible/playbooks/g_playbook.yaml:/root/g_playbook.yaml
             - ./backend/Diploma_Thesis/python/test.py:/root/test.py
             

@@ -94,52 +94,8 @@ def mitigate_prefix(hijack_json, json_data, admin_configs):
     hijacked_prefix = IPNetwork(json.loads(hijack_json)["prefix"])
     rtree = create_prefix_tree(json_data)
 
-    if hijacked_prefix.prefixlen == 24:
-        ##perform tunnel technique
+    if hijacked_prefix.prefixlen < admin_configs["tunnel_definitions"]["prefixlen_for_tunneling"]:
 
-        # Best-match search will return the longest matching prefix
-        # that contains the search term (routing-style lookup)
-        rnode = rtree.search_best(str(hijacked_prefix.ip))
-
-        # call mitigation playbook for each
-        # tuple in longest prefix match node
-        for ttuple in rnode.data["data_list"]:
-            host = "target=" + ttuple[0] + ":&" + ttuple[1] + " asn=" + ttuple[0]
-            prefixes_str = " pr_cidr=" + str(hijacked_prefix.cidr) + " pr_network=" + str(
-                hijacked_prefix.ip) + " pr_netmask=" + str(hijacked_prefix.netmask) + " interface_name=" + ttuple[2]
-            cla = host + prefixes_str
-            arg = "ansible-playbook -i " + admin_configs["ansible_hosts_file_path"] + " " + admin_configs[
-                "tunnel_mitigation_playbook_path"] + " --extra-vars " + "\"" + cla + "\""
-            subprocess.call(arg, shell=True)
-
-        tunnel_json_key = ""
-        for prefix in list(admin_configs["tunnel_definitions"]["hijacked_prefix"].keys()):
-            if IPSet([prefix]).issuperset(IPSet([hijacked_prefix.cidr])):
-                ## we found the tunnel configs for this prefix
-                tunnel_json_key = prefix
-                break
-
-        if tunnel_json_key == "":
-            # better call the logger from utils
-            # from utils import get_logger
-            # log = get_logger() , log.info("...")
-            print("Tunnel definition for this prefix does not found")
-        else:
-            # call tunnel_mitigation_playbook for helper as
-            # to redirect traffic into the tunnel
-            prefix_key = admin_configs["tunnel_definitions"]["hijacked_prefix"][tunnel_json_key]
-
-            host = "target=" + str(prefix_key["helperAS"]["asn"]) + ":&" + prefix_key["helperAS"][
-                "router_id"] + " asn=" + str(prefix_key["helperAS"]["asn"])
-            prefixes_str = " pr_cidr=" + str(hijacked_prefix.cidr) + " pr_network=" + str(
-                hijacked_prefix.ip) + " pr_netmask=" + str(hijacked_prefix.netmask) + " interface_name=" + \
-                           str(prefix_key["helperAS"]["tunnel_interface_name"])
-            cla = host + prefixes_str
-            arg = "ansible-playbook -i " + admin_configs["ansible_hosts_file_path"] + " " + admin_configs[
-                "tunnel_mitigation_playbook_path"] + " --extra-vars " + "\"" + cla + "\""
-            subprocess.call(arg, shell=True)
-
-    else:
         ##perform prefix-deaggregation technique
 
         prefix1_data, prefix2_data = prefix_deaggregation(hijacked_prefix)
@@ -160,9 +116,55 @@ def mitigate_prefix(hijack_json, json_data, admin_configs):
                 "mitigation_playbook_path"] + " --extra-vars " + "\"" + cla + "\""
             subprocess.call(arg, shell=True)
 
+    else:
+
+        ##perform tunnel technique
+
+        # Best-match search will return the longest matching prefix
+        # that contains the search term (routing-style lookup)
+        rnode = rtree.search_best(str(hijacked_prefix.ip))
+
+        # call mitigation playbook for each
+        # tuple in longest prefix match node
+        for ttuple in rnode.data["data_list"]:
+            host = "target=" + ttuple[0] + ":&" + ttuple[1] + " asn=" + ttuple[0]
+            prefixes_str = " pr_cidr=" + str(hijacked_prefix.cidr) + " pr_network=" + str(
+                hijacked_prefix.ip) + " pr_netmask=" + str(hijacked_prefix.netmask) + " interface_name=" + ttuple[2]
+            cla = host + prefixes_str
+            arg = "ansible-playbook -i " + admin_configs["ansible_hosts_file_path"] + " " + admin_configs[
+                "tunnel_mitigation_playbook_path"] + " --extra-vars " + "\"" + cla + "\""
+            subprocess.call(arg, shell=True)
+
+        tunnel_json_key = ""
+        for prefix in list(admin_configs["tunnel_definitions"]["configured_prefix"].keys()):
+            if IPSet([prefix]).issuperset(IPSet([hijacked_prefix.cidr])):
+                ## we found the tunnel configs for this prefix
+                tunnel_json_key = prefix
+                break
+
+        if tunnel_json_key == "":
+            # better call the logger from utils
+            # from utils import get_logger
+            # log = get_logger() , log.info("...")
+            print("Tunnel definition for this prefix does not found")
+        else:
+            # call tunnel_mitigation_playbook for helper as
+            # to redirect traffic into the tunnel
+            prefix_key = admin_configs["tunnel_definitions"]["configured_prefix"][tunnel_json_key]
+
+            host = "target=" + str(prefix_key["helperAS"]["asn"]) + ":&" + prefix_key["helperAS"][
+                "router_id"] + " asn=" + str(prefix_key["helperAS"]["asn"])
+            prefixes_str = " pr_cidr=" + str(hijacked_prefix.cidr) + " pr_network=" + str(
+                hijacked_prefix.ip) + " pr_netmask=" + str(hijacked_prefix.netmask) + " interface_name=" + \
+                           str(prefix_key["helperAS"]["tunnel_interface_name"])
+            cla = host + prefixes_str
+            arg = "ansible-playbook -i " + admin_configs["ansible_hosts_file_path"] + " " + admin_configs[
+                "tunnel_mitigation_playbook_path"] + " --extra-vars " + "\"" + cla + "\""
+            subprocess.call(arg, shell=True)
+
 
 def main():
-    parser = argparse.ArgumentParser(description="test ARTEMIS mitigation")
+    parser = argparse.ArgumentParser(description="ARTEMIS mitigation")
     parser.add_argument("-i", "--info_hijack", dest="info_hijack", type=str, help="hijack event information",
                         required=True)
     hijack_arg = parser.parse_args()
