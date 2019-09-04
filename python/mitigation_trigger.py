@@ -312,6 +312,7 @@ def mitigate_prefix(hijack_json, json_data, admin_configs):
             # better call the logger from utils
             # from utils import get_logger
             # log = get_logger() , log.info("...")
+            # or you can apply a default mitigation method
             print("Mitigation definition for this prefix not found")
             return False
         else:
