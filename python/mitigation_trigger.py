@@ -5,6 +5,7 @@ import json
 import radix
 import re
 import subprocess
+from json_schema import json_schema
 from json import JSONDecoder, JSONDecodeError
 from netaddr import IPAddress, IPNetwork, IPSet
 
@@ -90,77 +91,257 @@ def prefix_deaggregation(hijacked_prefix):
     return prefix1_data, prefix2_data
 
 
+def isInputValid(rtree, json_data, admin_configs):
+    prefix_keys_list = list(admin_configs["mitigation"]["configured_prefix"].keys())
+    if not prefix_keys_list:
+        # empty prefix_keys_list
+        print("No prefixes have been added in configured_prefix dictionary !!!")
+        return False
+    else:
+        # list prefix_keys_list has elements
+
+        mitigation_json_schema = '{"netmask_threshold": "int","less_than_threshold": "str","equal_greater_than_threshold": "str","tunnel_definitions": {"helperAS": {"asn": "int","router_id": "str","tunnel_interface_name": "str","tunnel_interface_ip_address": "str","tunnel_interface_ip_mask": "str","tunnel_source_ip_address": "str","tunnel_source_ip_mask": "str","tunnel_destination_ip_address": "str","tunnel_destination_ip_mask": "str"}}}'
+
+        # check only the json schema
+        ipv4_cidr_regex = re.compile(
+            r"^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$")
+        for prefix in admin_configs["mitigation"]["configured_prefix"]:
+            if type(prefix) != str or not ipv4_cidr_regex.match(prefix):
+                print("Invalid configured prefix string-cidr format !!!")
+                return False
+            else:
+                mitigation_json_input = json.dumps(admin_configs["mitigation"]["configured_prefix"][prefix])
+                if not json_schema.match(mitigation_json_input, mitigation_json_schema):
+                    print("Mitigation json input schema not matched !!!")
+                    return False
+
+        # check the values-fields
+        for prefix in admin_configs["mitigation"]["configured_prefix"]:
+            netmask_threshold = int(admin_configs["mitigation"]["configured_prefix"][prefix]["netmask_threshold"])
+            less_than_threshold = admin_configs["mitigation"]["configured_prefix"][prefix]["less_than_threshold"]
+            equal_greater_than_threshold = admin_configs["mitigation"]["configured_prefix"][prefix][
+                "equal_greater_than_threshold"]
+            asn = int(admin_configs["mitigation"]["configured_prefix"][prefix]["tunnel_definitions"]["helperAS"]["asn"])
+            router_id = admin_configs["mitigation"]["configured_prefix"][prefix]["tunnel_definitions"]["helperAS"][
+                "router_id"]
+            tunnel_interface_name = \
+                admin_configs["mitigation"]["configured_prefix"][prefix]["tunnel_definitions"]["helperAS"][
+                    "tunnel_interface_name"]
+            tunnel_interface_ip_address = \
+                admin_configs["mitigation"]["configured_prefix"][prefix]["tunnel_definitions"]["helperAS"][
+                    "tunnel_interface_ip_address"]
+            tunnel_interface_ip_mask = \
+                admin_configs["mitigation"]["configured_prefix"][prefix]["tunnel_definitions"]["helperAS"][
+                    "tunnel_interface_ip_mask"]
+            tunnel_source_ip_address = \
+                admin_configs["mitigation"]["configured_prefix"][prefix]["tunnel_definitions"]["helperAS"][
+                    "tunnel_source_ip_address"]
+            tunnel_source_ip_mask = \
+                admin_configs["mitigation"]["configured_prefix"][prefix]["tunnel_definitions"]["helperAS"][
+                    "tunnel_source_ip_mask"]
+            tunnel_destination_ip_address = \
+                admin_configs["mitigation"]["configured_prefix"][prefix]["tunnel_definitions"]["helperAS"][
+                    "tunnel_destination_ip_address"]
+            tunnel_destination_ip_mask = \
+                admin_configs["mitigation"]["configured_prefix"][prefix]["tunnel_definitions"]["helperAS"][
+                    "tunnel_destination_ip_mask"]
+
+            # check prefix value
+            node = rtree.search_exact(prefix)
+            if node == None:
+                print("Invalid configured prefix !!!")
+                return False
+
+            # check netmask_threshold, less_than_threshold, equal_greater_than_threshold values
+            if netmask_threshold < 8 or netmask_threshold > 30 or less_than_threshold not in ["deaggregate", "tunnel",
+                                                                                              "deaggregate+tunnel",
+                                                                                              "manual"] or equal_greater_than_threshold not in [
+                "tunnel", "manual"]:
+                print("netmask_threshold or less_than_threshold or equal_greater_than_threshold field is invalid")
+                return False
+
+            # check asn, router_id, tunnel_interface_name,
+            # tunnel_interface_ip_address, tunnel_interface_ip_mask values
+            check_flag = 0
+            for item in json_data:
+                if item["origin_as"][0]["asn"] == asn and item["bgp_router_id"][0]["router_id"] == router_id:
+                    for element in item["interfaces"]:
+                        if element["interface_name"] == tunnel_interface_name and element[
+                            "interface_ip"] == tunnel_interface_ip_address and element[
+                            "interface_mask"] == tunnel_interface_ip_mask:
+                            check_flag = 1
+                            break
+                    if check_flag == 1:
+                        # fields were found
+                        break
+            if check_flag == 0:
+                print(
+                    "asn or router_id or tunnel_interface_name or tunnel_interface_ip_address or tunnel_interface_ip_mask field is invalid")
+                return False
+
+            # check tunnel_source_ip_address, tunnel_source_ip_mask fields
+            ipv4_regex = re.compile(
+                r"^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$")
+            if ipv4_regex.match(tunnel_source_ip_address) and ipv4_regex.match(tunnel_source_ip_mask):
+                mask = str(IPAddress(tunnel_source_ip_mask).netmask_bits())
+                cidr = tunnel_source_ip_address + "/" + mask
+                prefix = str(IPNetwork(cidr).network) + "/" + mask
+                node = rtree.search_exact(prefix)
+                if node != None:
+                    print("Physical source interface of tunnel must not has hijacked ip !!!")
+                    return False
+                else:
+                    check_flag = 0
+                    for item in json_data:
+                        for element in item["interfaces"]:
+                            if element["interface_ip"] == tunnel_source_ip_address and element[
+                                "interface_mask"] == tunnel_source_ip_mask:
+                                check_flag = 1
+                                break
+                        if check_flag == 1:
+                            # fields were found
+                            break
+                    if check_flag == 0:
+                        print("Invalid physical tunnnel source interface !!!")
+            else:
+                print("Invalid physical tunnel_source_ip_address or tunnel_source_ip_mask format !!!")
+                return False
+
+            # check tunnel_destination_ip_address, tunnel_destination_ip_mask fields
+            if ipv4_regex.match(tunnel_destination_ip_address) and ipv4_regex.match(tunnel_destination_ip_mask):
+                mask = str(IPAddress(tunnel_destination_ip_mask).netmask_bits())
+                cidr = tunnel_destination_ip_address + "/" + mask
+                prefix = str(IPNetwork(cidr).network) + "/" + mask
+                node = rtree.search_exact(prefix)
+                if node != None:
+                    print("Physical destination interface of tunnel must not has hijacked ip !!!")
+                    return False
+                else:
+                    check_flag = 0
+                    for item in json_data:
+                        for element in item["interfaces"]:
+                            if element["interface_ip"] == tunnel_destination_ip_address and element[
+                                "interface_mask"] == tunnel_destination_ip_mask:
+                                check_flag = 1
+                                break
+                        if check_flag == 1:
+                            # fields were found
+                            break
+                    if check_flag == 0:
+                        print("Invalid physical tunnnel destination interface !!!")
+
+            else:
+                print("Invalid physical tunnel_destination_ip_address or tunnel_destination_ip_mask format !!!")
+                return False
+
+    return True
+
+
+def deaggregation_technique(hijacked_prefix, rtree, admin_configs):
+    ##perform prefix-deaggregation technique
+
+    prefix1_data, prefix2_data = prefix_deaggregation(hijacked_prefix)
+
+    # Best-match search will return the longest matching prefix
+    # that contains the search term (routing-style lookup)
+    rnode = rtree.search_best(str(hijacked_prefix.ip))
+
+    # call mitigation playbook for each
+    # tuple in longest prefix match node
+    for ttuple in rnode.data["data_list"]:
+        host = "target=" + ttuple[0] + ":&" + ttuple[1] + " asn=" + ttuple[0]
+        prefixes_str = " pr1_cidr=" + prefix1_data[0] + " pr1_network=" + prefix1_data[1] + " pr1_netmask=" + \
+                       prefix1_data[2] + " pr2_cidr=" + prefix2_data[0] + " pr2_network=" + prefix2_data[
+                           1] + " pr2_netmask=" + prefix2_data[2] + " interface_name=" + ttuple[2]
+        cla = host + prefixes_str
+        arg = "ansible-playbook -i " + admin_configs["ansible_hosts_file_path"] + " " + admin_configs[
+            "mitigation_playbook_path"] + " --extra-vars " + "\"" + cla + "\""
+        subprocess.call(arg, shell=True)
+
+
+def tunnel_technique(hijacked_prefix, json_prefix_key, rtree, admin_configs):
+    ##perform tunnel technique
+
+    # Best-match search will return the longest matching prefix
+    # that contains the search term (routing-style lookup)
+    rnode = rtree.search_best(str(hijacked_prefix.ip))
+
+    # call mitigation playbook for each
+    # tuple in longest prefix match node
+    for ttuple in rnode.data["data_list"]:
+        host = "target=" + ttuple[0] + ":&" + ttuple[1] + " asn=" + ttuple[0]
+        prefixes_str = " pr_cidr=" + str(hijacked_prefix.cidr) + " pr_network=" + str(
+            hijacked_prefix.ip) + " pr_netmask=" + str(hijacked_prefix.netmask) + " interface_name=" + ttuple[2]
+        cla = host + prefixes_str
+        arg = "ansible-playbook -i " + admin_configs["ansible_hosts_file_path"] + " " + admin_configs[
+            "tunnel_mitigation_playbook_path"] + " --extra-vars " + "\"" + cla + "\""
+        subprocess.call(arg, shell=True)
+
+    # call tunnel_mitigation_playbook for helper as
+    # to redirect traffic into the tunnel
+    prefix_key = admin_configs["mitigation"]["configured_prefix"][json_prefix_key]["tunnel_definitions"]
+
+    host = "target=" + str(prefix_key["helperAS"]["asn"]) + ":&" + prefix_key["helperAS"][
+        "router_id"] + " asn=" + str(prefix_key["helperAS"]["asn"])
+    prefixes_str = " pr_cidr=" + str(hijacked_prefix.cidr) + " pr_network=" + str(
+        hijacked_prefix.ip) + " pr_netmask=" + str(hijacked_prefix.netmask) + " interface_name=" + \
+                   str(prefix_key["helperAS"]["tunnel_interface_name"])
+    cla = host + prefixes_str
+    arg = "ansible-playbook -i " + admin_configs["ansible_hosts_file_path"] + " " + admin_configs[
+        "tunnel_mitigation_playbook_path"] + " --extra-vars " + "\"" + cla + "\""
+    subprocess.call(arg, shell=True)
+
+
+
 def mitigate_prefix(hijack_json, json_data, admin_configs):
     hijacked_prefix = IPNetwork(json.loads(hijack_json)["prefix"])
     rtree = create_prefix_tree(json_data)
 
-    if hijacked_prefix.prefixlen < admin_configs["tunnel_definitions"]["prefixlen_for_tunneling"]:
-
-        ##perform prefix-deaggregation technique
-
-        prefix1_data, prefix2_data = prefix_deaggregation(hijacked_prefix)
-
-        # Best-match search will return the longest matching prefix
-        # that contains the search term (routing-style lookup)
-        rnode = rtree.search_best(str(hijacked_prefix.ip))
-
-        # call mitigation playbook for each
-        # tuple in longest prefix match node
-        for ttuple in rnode.data["data_list"]:
-            host = "target=" + ttuple[0] + ":&" + ttuple[1] + " asn=" + ttuple[0]
-            prefixes_str = " pr1_cidr=" + prefix1_data[0] + " pr1_network=" + prefix1_data[1] + " pr1_netmask=" + \
-                           prefix1_data[2] + " pr2_cidr=" + prefix2_data[0] + " pr2_network=" + prefix2_data[
-                               1] + " pr2_netmask=" + prefix2_data[2] + " interface_name=" + ttuple[2]
-            cla = host + prefixes_str
-            arg = "ansible-playbook -i " + admin_configs["ansible_hosts_file_path"] + " " + admin_configs[
-                "mitigation_playbook_path"] + " --extra-vars " + "\"" + cla + "\""
-            subprocess.call(arg, shell=True)
-
+    if not isInputValid(rtree, json_data, admin_configs):
+        print("Invalid json input !!!")
+        return False
     else:
-
-        ##perform tunnel technique
-
-        # Best-match search will return the longest matching prefix
-        # that contains the search term (routing-style lookup)
-        rnode = rtree.search_best(str(hijacked_prefix.ip))
-
-        # call mitigation playbook for each
-        # tuple in longest prefix match node
-        for ttuple in rnode.data["data_list"]:
-            host = "target=" + ttuple[0] + ":&" + ttuple[1] + " asn=" + ttuple[0]
-            prefixes_str = " pr_cidr=" + str(hijacked_prefix.cidr) + " pr_network=" + str(
-                hijacked_prefix.ip) + " pr_netmask=" + str(hijacked_prefix.netmask) + " interface_name=" + ttuple[2]
-            cla = host + prefixes_str
-            arg = "ansible-playbook -i " + admin_configs["ansible_hosts_file_path"] + " " + admin_configs[
-                "tunnel_mitigation_playbook_path"] + " --extra-vars " + "\"" + cla + "\""
-            subprocess.call(arg, shell=True)
-
-        tunnel_json_key = ""
-        for prefix in list(admin_configs["tunnel_definitions"]["configured_prefix"].keys()):
+        json_prefix_key = ""
+        for prefix in list(admin_configs["mitigation"]["configured_prefix"].keys()):
             if IPSet([prefix]).issuperset(IPSet([hijacked_prefix.cidr])):
                 ## we found the tunnel configs for this prefix
-                tunnel_json_key = prefix
+                json_prefix_key = prefix
                 break
 
-        if tunnel_json_key == "":
+        if json_prefix_key == "":
             # better call the logger from utils
             # from utils import get_logger
             # log = get_logger() , log.info("...")
-            print("Tunnel definition for this prefix does not found")
+            print("Mitigation definition for this prefix not found")
+            return False
         else:
-            # call tunnel_mitigation_playbook for helper as
-            # to redirect traffic into the tunnel
-            prefix_key = admin_configs["tunnel_definitions"]["configured_prefix"][tunnel_json_key]
+            # perform user mitigation technique
+            netmask_threshold = admin_configs["mitigation"]["configured_prefix"][json_prefix_key]["netmask_threshold"]
+            less_than_threshold = admin_configs["mitigation"]["configured_prefix"][json_prefix_key]["less_than_threshold"]
+            equal_greater_than_threshold = admin_configs["mitigation"]["configured_prefix"][json_prefix_key][
+                "equal_greater_than_threshold"]
 
-            host = "target=" + str(prefix_key["helperAS"]["asn"]) + ":&" + prefix_key["helperAS"][
-                "router_id"] + " asn=" + str(prefix_key["helperAS"]["asn"])
-            prefixes_str = " pr_cidr=" + str(hijacked_prefix.cidr) + " pr_network=" + str(
-                hijacked_prefix.ip) + " pr_netmask=" + str(hijacked_prefix.netmask) + " interface_name=" + \
-                           str(prefix_key["helperAS"]["tunnel_interface_name"])
-            cla = host + prefixes_str
-            arg = "ansible-playbook -i " + admin_configs["ansible_hosts_file_path"] + " " + admin_configs[
-                "tunnel_mitigation_playbook_path"] + " --extra-vars " + "\"" + cla + "\""
-            subprocess.call(arg, shell=True)
+            if hijacked_prefix.prefixlen < netmask_threshold:
+                if less_than_threshold == "deaggregate":
+                    #perform prefix-deaggregation technique
+                    deaggregation_technique(hijacked_prefix, rtree, admin_configs)
+                elif less_than_threshold == "tunnel":
+                    #perform tunnel technique
+                    tunnel_technique(hijacked_prefix, json_prefix_key, rtree, admin_configs)
+                elif less_than_threshold == "deaggregate+tunnel":
+                    # perform deaggregation and tunnel technique
+                    deaggregation_technique(hijacked_prefix, rtree, admin_configs)
+                    tunnel_technique(hijacked_prefix, json_prefix_key, rtree, admin_configs)
+                else:
+                    # manual
+                    print("Manual mitigiation !!!")
+            else:
+                if equal_greater_than_threshold == "tunnel":
+                    # perform tunnel technique
+                    tunnel_technique(hijacked_prefix, json_prefix_key, rtree, admin_configs)
+                else:
+                    # manual
+                    print("Manual mitigiation !!!")
 
 
 def main():
