@@ -27,7 +27,9 @@ with open("/home/george/UOC-CSD/Diploma_Thesis/ansible/bgp_config_files/admin_co
 
 
 mask = str(IPAddress("255.255.255.252").netmask_bits())
-cidr = "192.168.200.2" + "/" + mask
+cidr = "192.168.200.0" + "/" + mask
+x = str(IPNetwork(cidr).ip)
+print(x)
 prefix = str(IPNetwork(cidr).network) + "/" + mask
 print(prefix)
 
@@ -38,3 +40,15 @@ rnode = rtree.search_exact("10.1.3.0/22")
 
 if rnode == None:
     print("george")
+
+filter_dict = {}
+
+filter_dict.update({"10.10.0.0/16":{65001}})
+filter_dict.update({"20.10.0.0/16":{65005}})
+
+
+print(filter_dict)
+
+filter_dict["10.10.0.0/16"].add(65002)
+
+print(filter_dict)

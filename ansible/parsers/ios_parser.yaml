@@ -1,5 +1,7 @@
 ---
 vars:
+  my_router_ios: 
+    name: "cisco_ios"
   my_prefixes:
     network: "{{ item.network }}"
     mask: "{{ item.mask }}"
@@ -18,11 +20,35 @@ vars:
     interface_ip: "{{ item.interface_ip }}"
     interface_mask: "{{ item.interface_mask }}"
   my_routemaps_per_neighbor:
-    interface_ip: "{{ item.interface_ip }}"
+    peerName_intIp: "{{ item.peerName_intIp }}"
     routemap_name: "{{ item.routemap_name }}"
     direction: "{{ item.direction }}"
+  my_routemaps_definitions:
+    routemap_name: "{{ item.routemap_name }}"
+    action: "{{ item.action }}"
+    sequence_number: "{{ item.sequence_number }}"
+    list_type: "{% if item.list_type == 'prefix-list' %}prefix-list{% else %}acl{% endif %}"
+    prefixl_acl_list: "{{ (item.prefixl_acl_list).split(' ') }}"
+  my_prefixlists_definitions:
+    prefixlist_name: "{{ item.prefixlist_name }}"
+    sequence_number: "{{ item.sequence_number }}"
+    action: "{{ item.action }}"
+    prefix: "{{ item.prefix }}"
+    symbol1: "{{ item.symbol1 }}"
+    value1: "{{ item.value1 }}"
+    symbol2: "{{ item.symbol2 }}"
+    value2: "{{ item.value2 }}"
+  my_acls_definitions:
+    type: "{{ item.type }}"
+    acl_name: "{{ item.acl_name }}"
+    action: "{{ item.action }}"
+    prefix: "{{ item.prefix }}"
+    wildcard: "{{ item.wildcard }}"
+
 
 keys:
+  router_ios:
+    value: "{{ my_router_ios }}"
   prefixes:
     value: "{{ my_prefixes }}"
     items: "[^.]network\\s+(?P<network>\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})\\s+mask\\s+(?P<mask>\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})"
@@ -43,12 +69,22 @@ keys:
     items: "[^.]interface\\s+(?P<interface_name>.+)\\s+ip\\s+address\\s+(?P<interface_ip>\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})\\s+(?P<interface_mask>\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})"
   routemaps_per_neighbor:
     value: "{{ my_routemaps_per_neighbor }}"
-    items: "[^.]neighbor\\s+(?P<interface_ip>.+)\\s+route-map(?P<routemap_name>.+)\\s+(?P<direction>.+)"
+    items: "[^.]neighbor\\s+(?P<peerName_intIp>.+)\\s+route-map\\s+(?P<routemap_name>.+)\\s+(?P<direction>in|out)"
   routemaps_definitions:
     value: "{{ my_routemaps_definitions }}"
-    start_block: "[^.]route-map.+$"
-    end_block: "[^.]!$"
-    items:
-      - "[^.]route-map\\s+(?P<routemap_name>.+)\\s+(?P<rule>.+)\\s+(?P<sequence_number>.+)"
-      - "[^.]match\\s+ip\\s+address\\s+(?P<acl_id_list>.+)"
-      - "[^.]match\\s+ip\\s+address\\s+prefix-list\\s+(?P<prefix_list_name>.+)"
+    items: "[^.]route-map\\s+(?P<routemap_name>.+)\\s+(?P<action>permit|deny)\\s+(?P<sequence_number>\\d+)(\\s.*\\s)*(\\s+match\\s+ip\\s+address\\s+((?P<list_type>prefix-list)\\s+)*(?P<prefixl_acl_list>.+))"
+  prefixlists_definitions:
+    value: "{{ my_prefixlists_definitions }}"
+    items: "[^.]ip\\s+prefix-list\\s+(?P<prefixlist_name>\\S+)\\s+(seq\\s(?P<sequence_number>\\d+))*\\s+(?P<action>permit|deny)\\s+(?P<prefix>\\S+)(\\s+(?P<symbol1>(le|ge))\\s+(?P<value1>\\d+)(\\s+(?P<symbol2>le)\\s+(?P<value2>\\d+))*)*"
+  acls_definitions:
+    value: "{{ my_acls_definitions }}"
+    items: "[^.](ip\\s+)*access-list(\\s+(?P<type>standard))*\\s+(?P<acl_name>\\S+)(\\s.*\\s)*(\\s+(?P<action>permit|deny)\\s+(?P<prefix>\\S+)\\s+(?P<wildcard>\\S+))+"
+
+
+
+
+
+
+
+
+

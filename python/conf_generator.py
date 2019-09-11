@@ -1,11 +1,10 @@
-import re, sys, conf_lib, json
-from netaddr import IPAddress
+import re, sys, python.conf_lib, json
+from netaddr import IPAddress, IPNetwork
 from json import JSONDecoder, JSONDecodeError
 
 
 # returns a generator which seperates the json objects in file
 def decode_stacked(document, pos=0, decoder=JSONDecoder()):
-
     NOT_WHITESPACE = re.compile(r'[^\s]')
     while True:
         match = NOT_WHITESPACE.search(document, pos)
@@ -24,7 +23,6 @@ def decode_stacked(document, pos=0, decoder=JSONDecoder()):
 # returns a list with json objects, each object corresponds to bgp
 # configuration of each router with which artemis is connected
 def read_json_file(filename):
-
     json_data = []
     with open(filename, 'r') as json_file:
         json_stacked_data = json_file.read()
@@ -33,9 +31,10 @@ def read_json_file(filename):
 
     return json_data
 
+
 # returns a dictionary with prefixes
 def create_prefixes_dict(json_data):
-    counter=0
+    counter = 0
     prefixes_dict = {}
     prefixes_set = set()
     for i in json_data:
@@ -46,7 +45,7 @@ def create_prefixes_dict(json_data):
             prefixes_set.add(cidr)
 
     for i in sorted(prefixes_set):
-        prefixes_dict.update({i: "prefix_"+str(counter)})
+        prefixes_dict.update({i: "prefix_" + str(counter)})
         counter = counter + 1
 
     return prefixes_dict
@@ -64,7 +63,7 @@ def create_asns_dict(json_data):
         for j in neighbors_list:
             flag = 0
             for k in i["peer-groups"]:
-                if(j["interface_ip"] == k["interface_ip"]):
+                if (j["interface_ip"] == k["interface_ip"]):
                     # we found peer_group match for this ip
                     asns.update({int(j["asn"]): ("AS_" + str(j["asn"]), k["asn"])})
                     flag = 1
@@ -86,8 +85,9 @@ def create_rules_dict(json_data):
             # for each prefix make a rule definition
             mask = str(IPAddress(prefix["mask"]).netmask_bits())
             cidr = prefix["network"] + "/" + mask
-            for k in i["origin_as"]: #here perform check for caveats and tips
-                origin_as_set.add(int(k["asn"]))#here perform check for caveats and tips#here perform check for caveats and tips
+            for k in i["origin_as"]:  # here perform check for caveats and tips
+                origin_as_set.add(
+                    int(k["asn"]))  # here perform check for caveats and tips#here perform check for caveats and tips
             for k in i["neighbors"]:
                 neighbors_set.add(int(k["asn"]))
 
@@ -96,6 +96,117 @@ def create_rules_dict(json_data):
                 prefix_pols.update({cidr: [dict(origins=list(origin_as_set), neighbors=list(neighbors_set))]})
             else:
                 prefix_pols[cidr].append(dict(origins=list(origin_as_set), neighbors=list(neighbors_set)))
+
+    # check route-maps for selective prefix announcement
+
+    filter_dict = {}
+    # prefix N should not be announced to asn1 , ... ,asnN
+    # {
+    #  "prefix/mask 1": {asn1, asn2, ... ,asnN}
+    #  "prefix/mask 2": {asn1, asn2, ... ,asnN}
+    #   .............
+    #  "prefix/mask N": {asn1, asn2, ... ,asnN}
+    # }
+
+    for element in json_data:
+        for routemap_per_neighbor in element["routemaps_per_neighbor"]:
+            if routemap_per_neighbor["direction"] == "out":
+                for routemap_definition in element["routemaps_definitions"]:
+                    if routemap_definition["routemap_name"] == routemap_per_neighbor["routemap_name"] and \
+                            routemap_definition["action"] == "deny":
+                        if routemap_definition["list_type"] == "prefix-list":
+                            for prefix_list_name in routemap_definition["prefixl_acl_list"]:
+                                for prefixlist_definition in element["prefixlists_definitions"]:
+                                    if prefixlist_definition["prefixlist_name"] == prefix_list_name and \
+                                            prefixlist_definition["action"] == "permit":
+                                        for prefix in element["prefixes"]:
+
+                                            prefix_mask = str(IPAddress(prefix["mask"]).netmask_bits())
+                                            prefix_cidr = prefix["network"] + "/" + prefix_mask
+                                            definition_prefix_ip = str(IPNetwork(prefixlist_definition["prefix"]).ip)
+                                            definition_prefix_mask = str(
+                                                IPNetwork(prefixlist_definition["prefix"]).prefixlen)
+                                            concat_prefix = prefix["network"] + "/" + definition_prefix_mask
+                                            flag = 0
+
+                                            if prefixlist_definition["symbol1"] is None:
+                                                # 1st case exactly prefix match
+                                                if prefixlist_definition["prefix"] == prefix_cidr:
+                                                    flag = 1
+                                            elif prefixlist_definition["symbol1"] == "le" and prefixlist_definition[
+                                                "symbol2"] is None:
+                                                # 2nd case prefix le ...
+                                                if str(IPNetwork(
+                                                        concat_prefix).network) == definition_prefix_ip and int(
+                                                    prefix_mask) >= int(definition_prefix_mask) and int(
+                                                    prefix_mask) <= int(prefixlist_definition["value1"]):
+                                                    flag = 1
+                                            elif prefixlist_definition["symbol1"] == "ge" and prefixlist_definition[
+                                                "symbol2"] is None:
+                                                # 3rd case prefix ge ...
+                                                if str(IPNetwork(
+                                                        concat_prefix).network) == definition_prefix_ip and int(
+                                                    prefix_mask) >= int(prefixlist_definition["value1"]) and int(
+                                                    prefix_mask) <= 32:
+                                                    flag = 1
+                                            else:
+                                                # 4rth case prefix ge ... le ...
+                                                if str(IPNetwork(
+                                                        concat_prefix).network) == definition_prefix_ip and int(
+                                                    prefix_mask) >= int(prefixlist_definition["value1"]) and int(
+                                                    prefix_mask) <= int(prefixlist_definition["value2"]):
+                                                    flag = 1
+
+                                            if flag == 1:
+                                                # add or create prefix key in filter_dict
+                                                # prefix as key and set as value with asns
+
+                                                if element["peer-groups"] == []:
+                                                    #peer-groups did not defined
+                                                    for neighbor in element["neighbors"]:
+                                                        if routemap_per_neighbor["peerName_intIp"] == neighbor["interface_ip"]:
+                                                            if prefix_cidr not in filter_dict.keys():
+                                                                filter_dict.update({prefix_cidr: {neighbor["asn"]}})
+                                                            else:
+                                                                filter_dict[prefix_cidr].add(neighbor["asn"])
+                                                            break
+                                                else:
+                                                    #peer-groups defined
+                                                    peer_check = 0
+                                                    for peer_group in element["peer-groups"]:
+                                                        if peer_group["asn"] == routemap_per_neighbor["peerName_intIp"] or \
+                                                                peer_group["interface_ip"] == routemap_per_neighbor[
+                                                            "peerName_intIp"]:
+                                                            for neighbor in element["neighbors"]:
+                                                                if peer_group["asn"] == neighbor["interface_ip"] or \
+                                                                        peer_group["interface_ip"] == neighbor[
+                                                                    "interface_ip"]:
+                                                                    #we found a peer-group match
+                                                                    peer_check = 1
+                                                                    if prefix_cidr not in filter_dict.keys():
+                                                                        filter_dict.update({prefix_cidr: {neighbor["asn"]}})
+                                                                    else:
+                                                                        filter_dict[prefix_cidr].add(neighbor["asn"])
+                                                                    break
+                                                        if peer_check == 1:
+                                                            break
+                                                    if peer_check == 0:
+                                                        #we dint found a peer-group match
+                                                        for neighbor in element["neighbors"]:
+                                                            if routemap_per_neighbor["peerName_intIp"] == neighbor[
+                                                                "interface_ip"]:
+                                                                if prefix_cidr not in filter_dict.keys():
+                                                                    filter_dict.update({prefix_cidr: {neighbor["asn"]}})
+                                                                else:
+                                                                    filter_dict[prefix_cidr].add(neighbor["asn"])
+                                                                break
+
+
+    # update prefix_pols dictionary with the correct
+    # neighbors per prefix. Apply difference beetween sets
+    for prefix in filter_dict:
+        for dict_item in prefix_pols[prefix]:
+            dict_item["neighbors"] = list(set(dict_item["neighbors"]).difference(filter_dict[prefix]))
 
     return prefix_pols
 
@@ -111,7 +222,10 @@ def main():
         print(asns)
         prefix_pols = create_rules_dict(json_data)
         print(prefix_pols)
-        conf_lib.generate_config_yml(prefixes, admin_configs["monitors"], asns, prefix_pols, admin_configs["mitigation_script_path"], admin_configs["artemis_config_file_path"])
+        python.conf_lib.generate_config_yml(prefixes, admin_configs["monitors"], asns, prefix_pols,
+                                            admin_configs["mitigation_script_path"],
+                                            admin_configs["artemis_config_file_path"])
+
 
 if __name__ == '__main__':
     main()
