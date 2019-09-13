@@ -78,7 +78,7 @@ keys:
     items: "[^.]ip\\s+prefix-list\\s+(?P<prefixlist_name>\\S+)\\s+(seq\\s(?P<sequence_number>\\d+))*\\s+(?P<action>permit|deny)\\s+(?P<prefix>\\S+)(\\s+(?P<symbol1>(le|ge))\\s+(?P<value1>\\d+)(\\s+(?P<symbol2>le)\\s+(?P<value2>\\d+))*)*"
   acls_definitions:
     value: "{{ my_acls_definitions }}"
-    items: "[^.](ip\\s+)*access-list(\\s+(?P<type>standard))*\\s+(?P<acl_name>\\S+)(\\s.*\\s)*(\\s+(?P<action>permit|deny)\\s+(?P<prefix>\\S+)\\s+(?P<wildcard>\\S+))+"
+    items: "[^.](ip\\s+)*access-list(\\s+(?P<type>standard))*\\s+(?P<acl_name>\\S+)\\s+(?P<action>permit|deny)\\s+(?P<prefix>\\S+)\\s+(?P<wildcard>\\S+)"
 
 
 

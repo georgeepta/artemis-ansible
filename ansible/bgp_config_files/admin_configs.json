@@ -3,7 +3,7 @@
   "mitigation_playbook_path": "/root/mitigation_playbook.yaml",
   "tunnel_mitigation_playbook_path": "/root/tunnel_mitigation_playbook.yaml",
   "ansible_hosts_file_path": "/root/hosts",
-  "artemis_config_file_path": "/home/george/artemis/local_configs/backend/config.yaml",
+  "artemis_config_file_path": "/home/george/Desktop/config.yaml",
   "config_generator_path": "/home/george/UOC-CSD/Diploma_Thesis/python/conf_generator.py",
   "bgp_results_path": "/home/george/UOC-CSD/Diploma_Thesis/ansible/bgp_config_files/results.json",
   "mitigation_script_path": "/root/mitigation_trigger.py",

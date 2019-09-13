@@ -52,3 +52,6 @@ print(filter_dict)
 filter_dict["10.10.0.0/16"].add(65002)
 
 print(filter_dict)
+
+x = str(IPNetwork("10.10.0.0/255.255.255.240"))
+print(x)
