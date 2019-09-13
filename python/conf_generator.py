@@ -251,7 +251,7 @@ def create_rules_dict(json_data):
 
 
 def main():
-    
+
     with open(sys.argv[1]) as json_file:
         admin_configs = json.load(json_file)
         json_data = read_json_file(admin_configs["bgp_results_path"])
