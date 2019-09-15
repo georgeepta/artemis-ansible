@@ -154,14 +154,14 @@ def create_filter_dict(json_data):
                                                 IPNetwork(prefixlist_definition["prefix"]).prefixlen)
                                             concat_prefix = prefix["network"] + "/" + definition_prefix_mask
 
-                                            if prefixlist_definition["symbol1"] is None:
+                                            if prefixlist_definition["symbol1"] == "null":
                                                 # 1st case exactly prefix match
                                                 if prefixlist_definition["prefix"] == prefix_cidr:
                                                     update_filter_dict(filter_dict, prefix_cidr, element,
                                                                        routemap_per_neighbor)
                                                     break
                                             elif prefixlist_definition["symbol1"] == "le" and prefixlist_definition[
-                                                "symbol2"] is None:
+                                                "symbol2"] == "null":
                                                 # 2nd case prefix le ...
                                                 if str(IPNetwork(
                                                         concat_prefix).network) == definition_prefix_ip and int(
@@ -170,7 +170,7 @@ def create_filter_dict(json_data):
                                                     update_filter_dict(filter_dict, prefix_cidr, element,
                                                                        routemap_per_neighbor)
                                             elif prefixlist_definition["symbol1"] == "ge" and prefixlist_definition[
-                                                "symbol2"] is None:
+                                                "symbol2"] == "null":
                                                 # 3rd case prefix ge ...
                                                 if str(IPNetwork(
                                                         concat_prefix).network) == definition_prefix_ip and int(
@@ -192,7 +192,7 @@ def create_filter_dict(json_data):
                             for acl_name in routemap_definition["prefixl_acl_list"]:
                                 for acl_definition in element["acls_definitions"]:
                                     if str(acl_definition["acl_name"]) == acl_name and acl_definition[
-                                        "action"] == "permit" and acl_definition["type"] in ["standard", None]:
+                                        "action"] == "permit" and acl_definition["type"] in ["standard", "null"]:
                                         for prefix in element["prefixes"]:
                                             prefix_cidr = str(IPNetwork(prefix["network"] + "/" + prefix["mask"]))
                                             prefix_acl = str(

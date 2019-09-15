@@ -8,18 +8,11 @@
 - name: Print IOS router configuration
   debug: var=output.stdout_lines
 
-- name: Print IOS BGP configuration as json
-  vars:
-    path: "{{ admin_configs['parsers_paths']['ios_parser'] }}"
-    json_bgp: "{{ output.stdout[0] | parse_cli(path) }}"
-  debug: msg="{{ json_bgp }}"
+- name: Call ios_parser.py
+  become: true
+  become_user: root
+  command: python3 {{ admin_configs['parsers_paths']['ios_parser'] }} {{ admin_configs['tmp_config_file_path'] }} '{{ output.stdout[0] }}' {{ admin_configs['bgp_results_path'] }}
 
-- name: Copy json BGP configuration into file
-  vars:
-    path: "{{ admin_configs['parsers_paths']['ios_parser'] }}"
-    json_bgp: "{{ output.stdout[0] | parse_cli(path) }}"
-  lineinfile:
-    path: "{{ admin_configs['bgp_results_path'] }}"
-    create: yes
-    line: "{{ json_bgp | to_json }}"
-    mode: '777'
+
+
+

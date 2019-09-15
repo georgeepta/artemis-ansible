@@ -80,11 +80,3 @@ keys:
     value: "{{ my_acls_definitions }}"
     items: "[^.](ip\\s+)*access-list(\\s+(?P<type>standard))*\\s+(?P<acl_name>\\S+)\\s+(?P<action>permit|deny)\\s+(?P<prefix>\\S+)\\s+(?P<wildcard>\\S+)"
 
-
-
-
-
-
-
-
-
