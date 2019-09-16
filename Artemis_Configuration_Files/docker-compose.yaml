@@ -55,6 +55,14 @@ services:
             - ./backend/Diploma_Thesis/ansible/playbooks/ios_tunnel_mitigation.yaml:/root/ios_tunnel_mitigation.yaml
             - ./backend/Diploma_Thesis/ansible/playbooks/g_playbook.yaml:/root/g_playbook.yaml
             - ./backend/Diploma_Thesis/python/test.py:/root/test.py
+            - ./backend/Diploma_Thesis/ansible/playbooks/main_playbook.yaml:/root/main_playbook.yaml
+            - ./local_configs/backend/config.yaml:/root/config.yaml
+            - ./backend/Diploma_Thesis/python/conf_generator.py:/root/conf_generator.py
+            - ./backend/Diploma_Thesis/ansible/bgp_config_files/tmp_config.txt:/root/tmp_config.txt
+            - ./backend/Diploma_Thesis/ansible/parsers/ios_parser.py:/root/ios_parser.py
+            - ./backend/Diploma_Thesis/ansible/playbooks/ios_playbook.yaml:/root/ios_playbook.yaml
+            - ./backend/Diploma_Thesis/python/timer.py:/root/timer.py
+            - ./backend/Diploma_Thesis/python/conf_lib.py:/root/conf_lib.py
             
     frontend:
         image: inspiregroup/artemis-frontend:${SYSTEM_VERSION}

@@ -9,30 +9,27 @@
 #   - A hostname/ip can be a member of multiple groups
 
 [65001:children]
-localhost
 CISCO-ROUTERS-65001
 
 [65006:children]
 CISCO-ROUTERS-65006
 
-[localhost]
-127.0.0.1 
 
 [CISCO-ROUTERS-65001:children]
-192.168.10.1
-192.168.20.1
+65001_192.168.10.1
+65001_192.168.20.1
 
 [CISCO-ROUTERS-65006:children]
-192.168.100.2
+65006_192.168.100.2
 
 
-[192.168.10.1]
+[65001_192.168.10.1]
 c7200_Stable ansible_host=192.168.10.1
 
-[192.168.20.1]
+[65001_192.168.20.1]
 c3725 ansible_host=192.168.20.1
 
-[192.168.100.2]
+[65006_192.168.100.2]
 helper_as ansible_host=192.168.100.2
 
 [CISCO-ROUTERS-65001:vars]

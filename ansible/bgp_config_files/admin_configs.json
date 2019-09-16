@@ -1,14 +1,15 @@
 {
-  "main_playbook_path": "/home/george/UOC-CSD/Diploma_Thesis/ansible/playbooks/main_playbook.yaml",
+  "main_playbook_path": "/root/main_playbook.yaml",
   "mitigation_playbook_path": "/root/mitigation_playbook.yaml",
   "tunnel_mitigation_playbook_path": "/root/tunnel_mitigation_playbook.yaml",
   "ansible_hosts_file_path": "/root/hosts",
-  "artemis_config_file_path": "/home/george/Desktop/config.yaml",
-  "config_generator_path": "/home/george/UOC-CSD/Diploma_Thesis/python/conf_generator.py",
-  "bgp_results_path": "/home/george/UOC-CSD/Diploma_Thesis/ansible/bgp_config_files/results.json",
+  "artemis_config_file_path": "/root/config.yaml",
+  "config_generator_path": "/root/conf_generator.py",
+  "bgp_results_path": "/root/results.json",
   "mitigation_script_path": "/root/mitigation_trigger.py",
+  "tmp_config_file_path": "/root/tmp_config.txt",
   "parsers_paths": {
-    "ios_parser": "/home/george/UOC-CSD/Diploma_Thesis/ansible/parsers/ios_parser.yaml"
+    "ios_parser": "/root/ios_parser.py"
   },
   "monitors": {
     "riperis": [""],

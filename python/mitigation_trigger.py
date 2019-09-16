@@ -249,7 +249,7 @@ def deaggregation_technique(hijacked_prefix, rtree, admin_configs):
     # call mitigation playbook for each
     # tuple in longest prefix match node
     for ttuple in rnode.data["data_list"]:
-        host = "target=" + ttuple[0] + ":&" + ttuple[1] + " asn=" + ttuple[0]
+        host = "target=" + ttuple[0] + ":&" + ttuple[0] + "_" + ttuple[1] + " asn=" + ttuple[0]
         prefixes_str = " pr1_cidr=" + prefix1_data[0] + " pr1_network=" + prefix1_data[1] + " pr1_netmask=" + \
                        prefix1_data[2] + " pr2_cidr=" + prefix2_data[0] + " pr2_network=" + prefix2_data[
                            1] + " pr2_netmask=" + prefix2_data[2] + " interface_name=" + ttuple[2]
@@ -269,7 +269,7 @@ def tunnel_technique(hijacked_prefix, json_prefix_key, rtree, admin_configs):
     # call mitigation playbook for each
     # tuple in longest prefix match node
     for ttuple in rnode.data["data_list"]:
-        host = "target=" + ttuple[0] + ":&" + ttuple[1] + " asn=" + ttuple[0]
+        host = "target=" + ttuple[0] + ":&" + ttuple[0] + "_" + ttuple[1] + " asn=" + ttuple[0]
         prefixes_str = " pr_cidr=" + str(hijacked_prefix.cidr) + " pr_network=" + str(
             hijacked_prefix.ip) + " pr_netmask=" + str(hijacked_prefix.netmask) + " interface_name=" + ttuple[2]
         cla = host + prefixes_str
@@ -281,8 +281,9 @@ def tunnel_technique(hijacked_prefix, json_prefix_key, rtree, admin_configs):
     # to redirect traffic into the tunnel
     prefix_key = admin_configs["mitigation"]["configured_prefix"][json_prefix_key]["tunnel_definitions"]
 
-    host = "target=" + str(prefix_key["helperAS"]["asn"]) + ":&" + prefix_key["helperAS"][
-        "router_id"] + " asn=" + str(prefix_key["helperAS"]["asn"])
+    host = "target=" + str(prefix_key["helperAS"]["asn"]) + ":&" + str(prefix_key["helperAS"]["asn"]) + "_" + \
+           prefix_key["helperAS"][
+               "router_id"] + " asn=" + str(prefix_key["helperAS"]["asn"])
     prefixes_str = " pr_cidr=" + str(hijacked_prefix.cidr) + " pr_network=" + str(
         hijacked_prefix.ip) + " pr_netmask=" + str(hijacked_prefix.netmask) + " interface_name=" + \
                    str(prefix_key["helperAS"]["tunnel_interface_name"])
@@ -290,7 +291,6 @@ def tunnel_technique(hijacked_prefix, json_prefix_key, rtree, admin_configs):
     arg = "ansible-playbook -i " + admin_configs["ansible_hosts_file_path"] + " " + admin_configs[
         "tunnel_mitigation_playbook_path"] + " --extra-vars " + "\"" + cla + "\""
     subprocess.call(arg, shell=True)
-
 
 
 def mitigate_prefix(hijack_json, json_data, admin_configs):
@@ -318,16 +318,17 @@ def mitigate_prefix(hijack_json, json_data, admin_configs):
         else:
             # perform user mitigation technique
             netmask_threshold = admin_configs["mitigation"]["configured_prefix"][json_prefix_key]["netmask_threshold"]
-            less_than_threshold = admin_configs["mitigation"]["configured_prefix"][json_prefix_key]["less_than_threshold"]
+            less_than_threshold = admin_configs["mitigation"]["configured_prefix"][json_prefix_key][
+                "less_than_threshold"]
             equal_greater_than_threshold = admin_configs["mitigation"]["configured_prefix"][json_prefix_key][
                 "equal_greater_than_threshold"]
 
             if hijacked_prefix.prefixlen < netmask_threshold:
                 if less_than_threshold == "deaggregate":
-                    #perform prefix-deaggregation technique
+                    # perform prefix-deaggregation technique
                     deaggregation_technique(hijacked_prefix, rtree, admin_configs)
                 elif less_than_threshold == "tunnel":
-                    #perform tunnel technique
+                    # perform tunnel technique
                     tunnel_technique(hijacked_prefix, json_prefix_key, rtree, admin_configs)
                 elif less_than_threshold == "deaggregate+tunnel":
                     # perform deaggregation and tunnel technique

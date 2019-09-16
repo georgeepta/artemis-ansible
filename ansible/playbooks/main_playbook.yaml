@@ -5,7 +5,7 @@
   gather_facts: false
 
   vars:
-    admin_configs: "{{ lookup('file', '/home/george/artemis/backend/Diploma_Thesis/ansible/bgp_config_files/admin_configs.json') | from_json }}"
+    admin_configs: "{{ lookup('file', '/root/admin_configs.json') | from_json }}"
 
   tasks:
     - name: Delete file with json representations
@@ -13,10 +13,7 @@
         path: "{{ admin_configs['bgp_results_path'] }}"
         state: absent
         regexp: '.*'
-
-    - name: RUN TEST LOCALHOST COMMAND's
-      include: test_playbook.yaml
-      when: false
+        unsafe_writes: yes
 
     - name: RUN IOS COMMAND's
       include: ios_playbook.yaml
@@ -25,4 +22,4 @@
     - name: Execute python script to generate artemis configuration file
       become: true
       become_user: root
-      command: python3 {{ admin_configs['config_generator_path'] }} /home/george/artemis/backend/Diploma_Thesis/ansible/bgp_config_files/admin_configs.json
+      command: python3 {{ admin_configs['config_generator_path'] }} /root/admin_configs.json

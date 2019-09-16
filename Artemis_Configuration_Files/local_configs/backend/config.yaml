@@ -7,11 +7,17 @@ prefixes:
   prefix_0: &prefix_0
   - 10.1.0.0/16
   prefix_1: &prefix_1
-  - 130.10.1.0/24
+  - 10.10.0.0/16
   prefix_2: &prefix_2
-  - 130.10.1.0/26
+  - 130.10.0.0/21
   prefix_3: &prefix_3
-  - 130.10.1.64/26
+  - 130.10.0.0/22
+  prefix_4: &prefix_4
+  - 130.10.0.0/23
+  prefix_5: &prefix_5
+  - 130.10.1.0/24
+  prefix_6: &prefix_6
+  - 130.10.2.0/23
 # End of Prefix Definitions
 
 # Start of Monitor Definitions
@@ -42,6 +48,10 @@ asns:
   - 65001
   AS_65002: &AS_65002
   - 65002
+  AS_65005: &AS_65005
+  - 65005
+  AS_65006: &AS_65006
+  - 65006
   AS_65010: &AS_65010
   - 65010
 # End of ASN Definitions
@@ -60,13 +70,30 @@ rules:
   - *PEER
   mitigation: /root/mitigation_trigger.py
 - prefixes:
-  - *prefix_1
   - *prefix_2
   - *prefix_3
+  - *prefix_4
+  - *prefix_5
+  - *prefix_6
   origin_asns:
   - *AS_65001
   neighbors:
   - *AS_65002
   - *AS_65010
+  mitigation: /root/mitigation_trigger.py
+- prefixes:
+  - *prefix_1
+  origin_asns:
+  - *AS_65001
+  neighbors:
+  - *AS_65010
+  mitigation: /root/mitigation_trigger.py
+- prefixes:
+  - *prefix_3
+  - *prefix_5
+  origin_asns:
+  - *AS_65006
+  neighbors:
+  - *AS_65005
   mitigation: /root/mitigation_trigger.py
 # End of Rule Definitions
