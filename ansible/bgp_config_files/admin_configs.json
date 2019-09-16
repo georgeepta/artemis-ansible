@@ -14,10 +14,10 @@
     "riperis": [""],
     "bgpstreamlive": ["routeviews", "ris"],
     "betabmp": ["betabmp"],
-    "exabgp":{
+    "exabgp":[{
       "ip": "exabgp",
       "port": 5000
-    }
+    }]
   },
   "mitigation": {
     "configured_prefix":{

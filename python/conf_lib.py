@@ -26,10 +26,11 @@ def create_monitor_defs(yaml_conf, monitors):
     yaml_conf["monitors"]["bgpstreamlive"] = monitors["bgpstreamlive"]
     yaml_conf["monitors"]["betabmp"] = monitors["betabmp"]
     yaml_conf["monitors"]["exabgp"] = ruamel.yaml.comments.CommentedSeq()
-    exabgp_map = ruamel.yaml.comments.CommentedMap()
-    exabgp_map["ip"] = monitors["exabgp"]["ip"]
-    exabgp_map["port"] = monitors["exabgp"]["port"]
-    yaml_conf["monitors"]["exabgp"].append(exabgp_map)
+    for dict_elem in monitors["exabgp"]:
+        exabgp_map = ruamel.yaml.comments.CommentedMap()
+        exabgp_map["ip"] = dict_elem["ip"]
+        exabgp_map["port"] = dict_elem["port"]
+        yaml_conf["monitors"]["exabgp"].append(exabgp_map)
 
 
 def create_asn_defs(yaml_conf, asns):

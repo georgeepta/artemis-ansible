@@ -66,7 +66,7 @@ def create_asns_dict(json_data):
         for j in neighbors_list:
             flag = 0
             for k in i["peer-groups"]:
-                if (j["interface_ip"] == k["interface_ip"]):
+                if j["interface_ip"] == k["interface_ip"] or j["interface_ip"] == k["asn"]:
                     # we found peer_group match for this ip
                     asns.update({int(j["asn"]): ("AS_" + str(j["asn"]), k["asn"])})
                     flag = 1
@@ -178,7 +178,7 @@ def create_filter_dict(json_data):
                                                     prefix_mask) <= 32:
                                                     update_filter_dict(filter_dict, prefix_cidr, element,
                                                                        routemap_per_neighbor)
-                                            else:
+                                            elif prefixlist_definition["symbol1"] == "ge" and prefixlist_definition["symbol2"] == "le":
                                                 # 4rth case prefix ge ... le ...
                                                 if str(IPNetwork(
                                                         concat_prefix).network) == definition_prefix_ip and int(
