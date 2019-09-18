@@ -8,6 +8,7 @@ import subprocess
 from json_schema import json_schema
 from json import JSONDecoder, JSONDecodeError
 from netaddr import IPAddress, IPNetwork, IPSet
+from filelock import Timeout, FileLock
 
 
 # returns a generator which seperates the json objects in file
@@ -352,10 +353,21 @@ def main():
                         required=True)
     hijack_arg = parser.parse_args()
 
-    with open("/root/admin_configs.json") as json_file:
-        admin_configs = json.load(json_file)
-        json_data = read_json_file(admin_configs["bgp_results_path"])
-        mitigate_prefix(hijack_arg.info_hijack, json_data, admin_configs)
+    # creation (if not exists) of file result.txt.lock in shared /tmp
+    # directory in order to implement lock-unlock technique to results.json
+    with open('/tmp/result.json.lock', 'w'):
+        pass
+
+    # we need this lock to elimininate concurrent access to results.json
+    # from other processes (auto mitigation mechanism) at the same time
+    lock = FileLock("/tmp/result.json.lock")
+    with lock.acquire(timeout=-1, poll_intervall=0.05):
+        # If timeout <= 0, there is no timeout and this
+        # method will block until the lock could be acquired
+        with open("/root/admin_configs.json") as json_file:
+            admin_configs = json.load(json_file)
+            json_data = read_json_file(admin_configs["bgp_results_path"])
+            mitigate_prefix(hijack_arg.info_hijack, json_data, admin_configs)
 
 
 if __name__ == '__main__':
