@@ -45,7 +45,6 @@ services:
             # uncomment after Step 2 of README
             - ./local_configs/backend/supervisor.d/:/etc/supervisor/conf.d/
             - ./backend/Diploma_Thesis/ansible/bgp_config_files/admin_configs.json:/root/admin_configs.json
-            - ./backend/Diploma_Thesis/ansible/bgp_config_files/results.json:/root/results.json
             - ./backend/Diploma_Thesis/ansible/playbooks/mitigation_playbook.yaml:/root/mitigation_playbook.yaml
             - ./backend/Diploma_Thesis/ansible/playbooks/tunnel_mitigation_playbook.yaml:/root/tunnel_mitigation_playbook.yaml
             - ./backend/Diploma_Thesis/ansible/hosts:/root/hosts

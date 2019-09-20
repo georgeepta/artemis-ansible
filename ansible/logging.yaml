@@ -1,0 +1,62 @@
+version: 1
+disable_existing_loggers: True
+formatters:
+    simple:
+        format: '%(module)s - %(asctime)s - %(levelname)s @ %(funcName)s: %(message)s'
+
+handlers:
+    console:
+        class: logging.StreamHandler
+        level: DEBUG
+        formatter: simple
+        stream: ext://sys.stdout
+
+    auto_configuration_info_file_handler:
+        class: logging.handlers.RotatingFileHandler
+        level: INFO
+        formatter: simple
+        filename: /var/log/artemis/auto_configuration/info.log
+        maxBytes: 10485760 # 10MB
+        backupCount: 20
+        encoding: utf8
+
+    auto_configuration_error_file_handler:
+        class: logging.handlers.RotatingFileHandler
+        level: ERROR
+        formatter: simple
+        filename: /var/log/artemis/auto_configuration/error.log
+        maxBytes: 10485760 # 10MB
+        backupCount: 20
+        encoding: utf8
+
+    auto_mitigation_info_file_handler:
+      class: logging.handlers.RotatingFileHandler
+      level: INFO
+      formatter: simple
+      filename: /var/log/artemis/auto_mitigation/info.log
+      maxBytes: 10485760 # 10MB
+      backupCount: 20
+      encoding: utf8
+
+    auto_mitigation_error_file_handler:
+      class: logging.handlers.RotatingFileHandler
+      level: ERROR
+      formatter: simple
+      filename: /var/log/artemis/auto_mitigation/error.log
+      maxBytes: 10485760 # 10MB
+      backupCount: 20
+      encoding: utf8
+
+
+loggers:
+    auto_configuration:
+        level: INFO
+        handlers: [console, auto_configuration_info_file_handler, auto_configuration_error_file_handler]
+        propagate: no
+    auto_mitigation:
+      level: INFO
+      handlers: [console, auto_mitigation_info_file_handler, auto_mitigation_error_file_handler]
+      propagate: no
+root:
+    level: INFO
+    handlers: []

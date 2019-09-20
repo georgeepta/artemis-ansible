@@ -2,9 +2,12 @@ import re
 import sys
 import conf_lib
 import json
+from python.logger import get_logger
 from netaddr import IPAddress, IPNetwork
 from json import JSONDecoder, JSONDecodeError
 
+
+log = get_logger(path="/etc/artemis/automation_tools/logging.yaml", logger="auto_configuration")
 
 # returns a generator which seperates the json objects in file
 def decode_stacked(document, pos=0, decoder=JSONDecoder()):
@@ -252,6 +255,8 @@ def create_rules_dict(json_data):
 
 def main():
 
+    log.info("Starting config generator...")
+
     with open(sys.argv[1]) as json_file:
         admin_configs = json.load(json_file)
         json_data = read_json_file(admin_configs["bgp_results_path"])
@@ -262,6 +267,7 @@ def main():
                                             admin_configs["mitigation_script_path"],
                                             admin_configs["artemis_config_file_path"])
 
+    log.info("Stoping config generator...")
 
 if __name__ == '__main__':
     main()
