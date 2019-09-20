@@ -61,6 +61,8 @@ services:
             - ./backend/Diploma_Thesis/ansible/playbooks/ios_playbook.yaml:/root/ios_playbook.yaml
             - ./backend/Diploma_Thesis/python/timer.py:/root/timer.py
             - ./backend/Diploma_Thesis/python/conf_lib.py:/root/conf_lib.py
+            - ./backend/Diploma_Thesis/python/logger.py:/root/logger.py
+            - ./backend/Diploma_Thesis/ansible/logging.yaml:/etc/artemis/automation_tools/logging.yaml
             
     frontend:
         image: inspiregroup/artemis-frontend:${SYSTEM_VERSION}

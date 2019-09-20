@@ -2,7 +2,7 @@ import re
 import sys
 import conf_lib
 import json
-from python.logger import get_logger
+from logger import get_logger
 from netaddr import IPAddress, IPNetwork
 from json import JSONDecoder, JSONDecodeError
 
