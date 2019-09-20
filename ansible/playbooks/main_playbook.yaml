@@ -8,7 +8,13 @@
     admin_configs: "{{ lookup('file', '/root/admin_configs.json') | from_json }}"
 
   tasks:
-    - name: Delete file with json representations
+    - name: Create results.json if it doesn't exists
+      file:
+        path: "{{ admin_configs['bgp_results_path'] }}"
+        state: touch
+        unsafe_writes: yes
+
+    - name: Delete results.json contents
       lineinfile:
         path: "{{ admin_configs['bgp_results_path'] }}"
         state: absent
