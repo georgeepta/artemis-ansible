@@ -1,0 +1,34 @@
+Sep 23 22:47:04.291 HYPERVISOR: Release 0.2.20-amd64/Linux (tag 2019022012)
+Sep 23 22:47:04.291 HYPERVISOR: Started on IP = 127.0.0.1, TCP port = 44935.
+Sep 23 22:47:04.303 HYPERVISOR: exec_cmd: hypervisor version 
+Sep 23 22:47:04.303 HYPERVISOR: exec_cmd: hypervisor working_dir /home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips 
+Sep 23 22:47:04.303 GENERAL: working_dir=/home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips
+Sep 23 22:47:04.303 HYPERVISOR: exec_cmd: hypervisor working_dir /home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips/93f2b73b-d289-41a2-a325-349ee80e8007 
+Sep 23 22:47:04.304 GENERAL: working_dir=/home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips/93f2b73b-d289-41a2-a325-349ee80e8007
+Sep 23 22:47:04.304 HYPERVISOR: exec_cmd: vm create Attacker 3 c3725 
+Sep 23 22:47:04.304 VM: VM Attacker created.
+Sep 23 22:47:04.305 HYPERVISOR: exec_cmd: vm set_con_tcp_port Attacker 5025 
+Sep 23 22:47:04.305 HYPERVISOR: exec_cmd: c3725 get_mac_addr Attacker 
+Sep 23 22:47:04.306 HYPERVISOR: exec_cmd: vm set_disk0 Attacker 0 
+Sep 23 22:47:04.306 HYPERVISOR: exec_cmd: vm get_status Attacker 
+Sep 23 22:47:04.306 HYPERVISOR: exec_cmd: vm set_idle_pc Attacker 0x0 
+Sep 23 22:47:04.307 HYPERVISOR: exec_cmd: vm set_ios Attacker /home/george/GNS3/images/IOS/c3725-adventerprisek9-mz.124-15.T14.image 
+Sep 23 22:47:04.308 HYPERVISOR: exec_cmd: c3725 set_mac_addr Attacker c203.26ae.0000 
+Sep 23 22:47:04.308 HYPERVISOR: exec_cmd: vm set_nvram Attacker 256 
+Sep 23 22:47:04.308 HYPERVISOR: exec_cmd: vm set_ram Attacker 256 
+Sep 23 22:47:04.309 HYPERVISOR: exec_cmd: vm get_status Attacker 
+Sep 23 22:47:04.309 HYPERVISOR: exec_cmd: vm slot_add_binding Attacker 1 0 NM-1FE-TX 
+Sep 23 22:47:04.309 HYPERVISOR: exec_cmd: vm get_status Attacker 
+Sep 23 22:47:04.309 HYPERVISOR: exec_cmd: vm slot_add_binding Attacker 2 0 NM-1FE-TX 
+Sep 23 22:47:04.310 HYPERVISOR: exec_cmd: vm slot_add_binding Attacker 0 16 WIC-2T 
+Sep 23 22:47:04.310 HYPERVISOR: exec_cmd: vm slot_add_binding Attacker 0 32 WIC-2T 
+Sep 23 22:47:04.310 HYPERVISOR: exec_cmd: vm slot_add_binding Attacker 0 48 WIC-2T 
+Sep 23 22:47:06.031 HYPERVISOR: exec_cmd: nio create_udp udp-8482d907-9339-43c3-87d0-8a3d1d04f718 10016 127.0.0.1 10017 
+Sep 23 22:47:06.249 HYPERVISOR: exec_cmd: vm slot_add_nio_binding Attacker 0 0 udp-8482d907-9339-43c3-87d0-8a3d1d04f718 
+Sep 23 22:47:06.250 HYPERVISOR: exec_cmd: vm get_status Attacker 
+Sep 23 22:47:06.324 HYPERVISOR: exec_cmd: nio create_udp udp-7ca1b99a-a835-440b-bd30-8646ace69781 10020 127.0.0.1 10021 
+Sep 23 22:47:06.325 HYPERVISOR: exec_cmd: vm slot_add_nio_binding Attacker 0 1 udp-7ca1b99a-a835-440b-bd30-8646ace69781 
+Sep 23 22:47:06.325 HYPERVISOR: exec_cmd: vm get_status Attacker 
+Sep 23 22:47:06.660 HYPERVISOR: exec_cmd: nio create_udp udp-9c356cea-851e-4e85-8923-c08c83d15487 10032 127.0.0.1 10033 
+Sep 23 22:47:06.661 HYPERVISOR: exec_cmd: vm slot_add_nio_binding Attacker 1 0 udp-9c356cea-851e-4e85-8923-c08c83d15487 
+Sep 23 22:47:06.661 HYPERVISOR: exec_cmd: vm get_status Attacker 

@@ -1,0 +1,83 @@
+Sep 23 22:47:04.582 HYPERVISOR: Release 0.2.20-amd64/Linux (tag 2019022012)
+Sep 23 22:47:04.582 HYPERVISOR: Started on IP = 127.0.0.1, TCP port = 54515.
+Sep 23 22:47:04.595 HYPERVISOR: exec_cmd: hypervisor version 
+Sep 23 22:47:04.596 HYPERVISOR: exec_cmd: hypervisor working_dir /home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips 
+Sep 23 22:47:04.596 GENERAL: working_dir=/home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips
+Sep 23 22:47:04.597 HYPERVISOR: exec_cmd: hypervisor working_dir /home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips/3924558a-8606-44ba-9d1b-1010b391f620 
+Sep 23 22:47:04.597 GENERAL: working_dir=/home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips/3924558a-8606-44ba-9d1b-1010b391f620
+Sep 23 22:47:04.598 HYPERVISOR: exec_cmd: vm create c7200_Stable 1 c7200 
+Sep 23 22:47:04.598 VM: VM c7200_Stable created.
+Sep 23 22:47:04.599 HYPERVISOR: exec_cmd: vm set_con_tcp_port c7200_Stable 5027 
+Sep 23 22:47:04.600 HYPERVISOR: exec_cmd: c7200 get_mac_addr c7200_Stable 
+Sep 23 22:47:04.601 HYPERVISOR: exec_cmd: vm get_status c7200_Stable 
+Sep 23 22:47:04.602 HYPERVISOR: exec_cmd: vm slot_add_binding c7200_Stable 0 0 C7200-IO-FE 
+Sep 23 22:47:04.603 HYPERVISOR: exec_cmd: vm set_disk0 c7200_Stable 0 
+Sep 23 22:47:04.604 HYPERVISOR: exec_cmd: vm get_status c7200_Stable 
+Sep 23 22:47:04.604 HYPERVISOR: exec_cmd: vm set_idle_pc c7200_Stable 0x62a60d88 
+Sep 23 22:47:04.605 HYPERVISOR: exec_cmd: vm set_ios c7200_Stable /home/george/GNS3/images/IOS/c7200-adventerprisek9-mz.152-4.S5.image 
+Sep 23 22:47:04.606 HYPERVISOR: exec_cmd: c7200 set_mac_addr c7200_Stable ca01.26c0.0000 
+Sep 23 22:47:04.606 HYPERVISOR: exec_cmd: vm set_nvram c7200_Stable 512 
+Sep 23 22:47:04.607 HYPERVISOR: exec_cmd: vm set_ram c7200_Stable 512 
+Sep 23 22:47:04.607 HYPERVISOR: exec_cmd: vm get_status c7200_Stable 
+Sep 23 22:47:04.608 HYPERVISOR: exec_cmd: vm slot_add_binding c7200_Stable 1 0 PA-2FE-TX 
+Sep 23 22:47:04.608 HYPERVISOR: exec_cmd: vm get_status c7200_Stable 
+Sep 23 22:47:04.608 HYPERVISOR: exec_cmd: vm slot_add_binding c7200_Stable 2 0 PA-2FE-TX 
+Sep 23 22:47:04.609 HYPERVISOR: exec_cmd: vm get_status c7200_Stable 
+Sep 23 22:47:04.609 HYPERVISOR: exec_cmd: vm slot_add_binding c7200_Stable 3 0 PA-2FE-TX 
+Sep 23 22:47:04.609 HYPERVISOR: exec_cmd: vm get_status c7200_Stable 
+Sep 23 22:47:04.609 HYPERVISOR: exec_cmd: vm slot_add_binding c7200_Stable 4 0 PA-2FE-TX 
+Sep 23 22:47:04.610 HYPERVISOR: exec_cmd: vm get_status c7200_Stable 
+Sep 23 22:47:04.610 HYPERVISOR: exec_cmd: vm slot_add_binding c7200_Stable 5 0 PA-2FE-TX 
+Sep 23 22:47:04.611 HYPERVISOR: exec_cmd: vm get_status c7200_Stable 
+Sep 23 22:47:04.611 HYPERVISOR: exec_cmd: vm slot_add_binding c7200_Stable 6 0 PA-2FE-TX 
+Sep 23 22:47:06.368 HYPERVISOR: exec_cmd: nio create_udp udp-5fa4e2a7-668f-4f76-9b44-bb6862cfaf6e 10026 127.0.0.1 10027 
+Sep 23 22:47:06.585 HYPERVISOR: exec_cmd: vm slot_add_nio_binding c7200_Stable 2 0 udp-5fa4e2a7-668f-4f76-9b44-bb6862cfaf6e 
+Sep 23 22:47:06.586 HYPERVISOR: exec_cmd: vm get_status c7200_Stable 
+Sep 23 22:47:06.721 HYPERVISOR: exec_cmd: nio create_udp udp-c3f11371-907d-45d1-bf6e-e7546de541f4 10036 127.0.0.1 10037 
+Sep 23 22:47:06.722 HYPERVISOR: exec_cmd: vm slot_add_nio_binding c7200_Stable 3 0 udp-c3f11371-907d-45d1-bf6e-e7546de541f4 
+Sep 23 22:47:06.722 HYPERVISOR: exec_cmd: vm get_status c7200_Stable 
+Sep 23 22:47:07.381 HYPERVISOR: exec_cmd: nio create_udp udp-2246a31b-8a44-4d6c-a94b-a92ceee9361b 10056 127.0.0.1 10057 
+Sep 23 22:47:07.382 HYPERVISOR: exec_cmd: vm slot_add_nio_binding c7200_Stable 1 0 udp-2246a31b-8a44-4d6c-a94b-a92ceee9361b 
+Sep 23 22:47:07.383 HYPERVISOR: exec_cmd: vm get_status c7200_Stable 
+Sep 23 22:47:08.126 HYPERVISOR: exec_cmd: nio create_udp udp-91913844-b38e-47ab-bfe1-d716f872dcbf 10070 127.0.0.1 10071 
+Sep 23 22:47:08.127 HYPERVISOR: exec_cmd: vm slot_add_nio_binding c7200_Stable 0 0 udp-91913844-b38e-47ab-bfe1-d716f872dcbf 
+Sep 23 22:47:08.127 HYPERVISOR: exec_cmd: vm get_status c7200_Stable 
+Sep 23 22:52:23.222 HYPERVISOR: exec_cmd: vm create Ghost 0 c7200 
+Sep 23 22:52:23.222 VM: VM Ghost created.
+Sep 23 22:52:23.223 HYPERVISOR: exec_cmd: vm set_ios Ghost /home/george/GNS3/images/IOS/c7200-adventerprisek9-mz.152-4.S5.image 
+Sep 23 22:52:23.224 HYPERVISOR: exec_cmd: vm set_ghost_status Ghost 1 
+Sep 23 22:52:23.225 HYPERVISOR: exec_cmd: vm set_ghost_file Ghost /home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips/c7200-adventerprisek9-mz.152-4.S5.image-512.ghost 
+Sep 23 22:52:23.225 HYPERVISOR: exec_cmd: vm set_ram Ghost 512 
+Sep 23 22:52:23.225 HYPERVISOR: exec_cmd: vm get_status Ghost 
+Sep 23 22:52:23.226 HYPERVISOR: exec_cmd: vm set_config Ghost configs/i0_startup-config.cfg 
+Sep 23 22:52:23.226 HYPERVISOR: exec_cmd: vm start Ghost 
+Sep 23 22:52:23.840 HYPERVISOR: exec_cmd: vm get_status Ghost 
+Sep 23 22:52:23.841 HYPERVISOR: exec_cmd: vm stop Ghost 
+Sep 23 22:52:24.052 VM: VM Ghost shutdown.
+Sep 23 22:52:24.053 HYPERVISOR: exec_cmd: vm extract_config Ghost 
+Sep 23 22:52:24.055 HYPERVISOR: exec_cmd: vm clean_delete Ghost 
+Sep 23 22:52:24.055 VM: VM Ghost destroyed.
+Sep 23 22:52:24.058 HYPERVISOR: exec_cmd: vm set_ghost_status c7200_Stable 2 
+Sep 23 22:52:24.059 HYPERVISOR: exec_cmd: vm set_ghost_file c7200_Stable /home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips/c7200-adventerprisek9-mz.152-4.S5.image-512.ghost 
+Sep 23 22:52:24.059 HYPERVISOR: exec_cmd: vm get_status c7200_Stable 
+Sep 23 22:52:24.060 HYPERVISOR: exec_cmd: vm set_config c7200_Stable configs/i1_startup-config.cfg configs/i1_private-config.cfg 
+Sep 23 22:52:24.061 HYPERVISOR: exec_cmd: vm start c7200_Stable 
+Sep 23 22:52:54.316 HYPERVISOR: exec_cmd: vm extract_config c7200_Stable 
+Sep 23 22:52:56.706 HYPERVISOR: exec_cmd: vm get_status c7200_Stable 
+Sep 23 22:52:56.706 HYPERVISOR: exec_cmd: vm stop c7200_Stable 
+Sep 23 22:52:56.877 VM: VM c7200_Stable shutdown.
+Sep 23 22:52:56.878 HYPERVISOR: exec_cmd: vm extract_config c7200_Stable 
+Sep 23 22:55:31.836 HYPERVISOR: exec_cmd: vm set_ghost_status c7200_Stable 2 
+Sep 23 22:55:31.836 HYPERVISOR: exec_cmd: vm set_ghost_file c7200_Stable /home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips/c7200-adventerprisek9-mz.152-4.S5.image-512.ghost 
+Sep 23 22:55:31.837 HYPERVISOR: exec_cmd: vm get_status c7200_Stable 
+Sep 23 22:55:31.837 HYPERVISOR: exec_cmd: vm set_config c7200_Stable configs/i1_startup-config.cfg configs/i1_private-config.cfg 
+Sep 23 22:55:31.838 HYPERVISOR: exec_cmd: vm start c7200_Stable 
+Sep 23 23:00:52.300 HYPERVISOR: exec_cmd: vm get_status c7200_Stable 
+Sep 23 23:00:52.302 HYPERVISOR: exec_cmd: vm stop c7200_Stable 
+Sep 23 23:00:52.450 VM: VM c7200_Stable shutdown.
+Sep 23 23:00:52.453 HYPERVISOR: exec_cmd: vm extract_config c7200_Stable 
+Sep 23 23:01:52.771 HYPERVISOR: exec_cmd: vm set_ghost_status c7200_Stable 2 
+Sep 23 23:01:52.771 HYPERVISOR: exec_cmd: vm set_ghost_file c7200_Stable /home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips/c7200-adventerprisek9-mz.152-4.S5.image-512.ghost 
+Sep 23 23:01:52.771 HYPERVISOR: exec_cmd: vm get_status c7200_Stable 
+Sep 23 23:01:52.772 HYPERVISOR: exec_cmd: vm set_config c7200_Stable configs/i1_startup-config.cfg configs/i1_private-config.cfg 
+Sep 23 23:01:52.773 HYPERVISOR: exec_cmd: vm start c7200_Stable 
