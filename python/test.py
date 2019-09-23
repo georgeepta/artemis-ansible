@@ -1,5 +1,6 @@
 from netaddr import IPNetwork, IPSet, IPAddress
-import radix, json, ruamel.yaml
+import radix, json, ruamel.yaml, traceback, sys
+from python.logger import get_logger
 from json_schema import json_schema
 
 
@@ -47,6 +48,21 @@ filter_dict.update({"10.10.0.0/16":{65001}})
 filter_dict.update({"20.10.0.0/16":{65005}})
 
 
+def func():
+    with open("/home/george/Desktop/config.yaml") as json_file:
+        admin_configs = json.load(json_file)
+
+def g():
+    func()
+
+def call():
+    try:
+        g()
+    except Exception as e:
+        print(e)
+
+call()
+
 print(filter_dict)
 
 filter_dict["10.10.0.0/16"].add(65002)
@@ -55,3 +71,4 @@ print(filter_dict)
 
 x = str(IPNetwork("10.10.0.0/255.255.255.240"))
 print(x)
+

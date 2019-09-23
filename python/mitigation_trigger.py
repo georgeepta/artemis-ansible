@@ -5,10 +5,14 @@ import json
 import radix
 import re
 import subprocess
+from logger import get_logger
 from json_schema import json_schema
 from json import JSONDecoder, JSONDecodeError
 from netaddr import IPAddress, IPNetwork, IPSet
-from filelock import Timeout, FileLock
+from filelock import FileLock
+
+
+log = get_logger(path="/etc/artemis/automation_tools/logging.yaml", logger="auto_mitigation")
 
 
 # returns a generator which seperates the json objects in file
@@ -22,22 +26,24 @@ def decode_stacked(document, pos=0, decoder=JSONDecoder()):
 
         try:
             obj, pos = decoder.raw_decode(document, pos)
-        except JSONDecodeError:
-            # do something sensible if there's some error
-            raise
+        except JSONDecodeError as e:
+            raise e
         yield obj
 
 
 # returns a list with json objects, each object corresponds to bgp
 # configuration of each router with which artemis is connected
 def read_json_file(filename):
-    json_data = []
-    with open(filename, 'r') as json_file:
-        json_stacked_data = json_file.read()
-        for obj in decode_stacked(json_stacked_data):
-            json_data.append(obj)
+    try:
+        json_data = []
+        with open(filename, 'r') as json_file:
+            json_stacked_data = json_file.read()
+            for obj in decode_stacked(json_stacked_data):
+                json_data.append(obj)
 
-    return json_data
+        return json_data
+    except Exception as e:
+        raise e
 
 
 # create radix-prefix tree with json data (config-file) of each router
@@ -96,7 +102,7 @@ def isInputValid(rtree, json_data, admin_configs):
     prefix_keys_list = list(admin_configs["mitigation"]["configured_prefix"].keys())
     if not prefix_keys_list:
         # empty prefix_keys_list
-        print("No prefixes have been added in configured_prefix dictionary !!!")
+        log.error("No prefixes have been added in configured_prefix dictionary !!!")
         return False
     else:
         # list prefix_keys_list has elements
@@ -108,12 +114,12 @@ def isInputValid(rtree, json_data, admin_configs):
             r"^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$")
         for prefix in admin_configs["mitigation"]["configured_prefix"]:
             if type(prefix) != str or not ipv4_cidr_regex.match(prefix):
-                print("Invalid configured prefix string-cidr format !!!")
+                log.error("Invalid configured prefix string-cidr format !!!")
                 return False
             else:
                 mitigation_json_input = json.dumps(admin_configs["mitigation"]["configured_prefix"][prefix])
                 if not json_schema.match(mitigation_json_input, mitigation_json_schema):
-                    print("Mitigation json input schema not matched !!!")
+                    log.error("Mitigation json input schema not matched !!!")
                     return False
 
         # check the values-fields
@@ -150,7 +156,7 @@ def isInputValid(rtree, json_data, admin_configs):
             # check prefix value
             node = rtree.search_exact(prefix)
             if node == None:
-                print("Invalid configured prefix !!!")
+                log.error("Invalid configured prefix !!!")
                 return False
 
             # check netmask_threshold, less_than_threshold, equal_greater_than_threshold values
@@ -158,7 +164,7 @@ def isInputValid(rtree, json_data, admin_configs):
                                                                                               "deaggregate+tunnel",
                                                                                               "manual"] or equal_greater_than_threshold not in [
                 "tunnel", "manual"]:
-                print("netmask_threshold or less_than_threshold or equal_greater_than_threshold field is invalid")
+                log.error("netmask_threshold or less_than_threshold or equal_greater_than_threshold field is invalid")
                 return False
 
             # check asn, router_id, tunnel_interface_name,
@@ -176,7 +182,7 @@ def isInputValid(rtree, json_data, admin_configs):
                         # fields were found
                         break
             if check_flag == 0:
-                print(
+                log.error(
                     "asn or router_id or tunnel_interface_name or tunnel_interface_ip_address or tunnel_interface_ip_mask field is invalid")
                 return False
 
@@ -189,7 +195,7 @@ def isInputValid(rtree, json_data, admin_configs):
                 prefix = str(IPNetwork(cidr).network) + "/" + mask
                 node = rtree.search_exact(prefix)
                 if node != None:
-                    print("Physical source interface of tunnel must not has hijacked ip !!!")
+                    log.error("Physical source interface of tunnel must not has hijacked ip !!!")
                     return False
                 else:
                     check_flag = 0
@@ -203,9 +209,10 @@ def isInputValid(rtree, json_data, admin_configs):
                             # fields were found
                             break
                     if check_flag == 0:
-                        print("Invalid physical tunnnel source interface !!!")
+                        log.error("Invalid physical tunnnel source interface !!!")
+                        return False
             else:
-                print("Invalid physical tunnel_source_ip_address or tunnel_source_ip_mask format !!!")
+                log.error("Invalid physical tunnel_source_ip_address or tunnel_source_ip_mask format !!!")
                 return False
 
             # check tunnel_destination_ip_address, tunnel_destination_ip_mask fields
@@ -215,7 +222,7 @@ def isInputValid(rtree, json_data, admin_configs):
                 prefix = str(IPNetwork(cidr).network) + "/" + mask
                 node = rtree.search_exact(prefix)
                 if node != None:
-                    print("Physical destination interface of tunnel must not has hijacked ip !!!")
+                    log.error("Physical destination interface of tunnel must not has hijacked ip !!!")
                     return False
                 else:
                     check_flag = 0
@@ -229,10 +236,11 @@ def isInputValid(rtree, json_data, admin_configs):
                             # fields were found
                             break
                     if check_flag == 0:
-                        print("Invalid physical tunnnel destination interface !!!")
+                        log.error("Invalid physical tunnnel destination interface !!!")
+                        return False
 
             else:
-                print("Invalid physical tunnel_destination_ip_address or tunnel_destination_ip_mask format !!!")
+                log.error("Invalid physical tunnel_destination_ip_address or tunnel_destination_ip_mask format !!!")
                 return False
 
     return True
@@ -299,8 +307,8 @@ def mitigate_prefix(hijack_json, json_data, admin_configs):
     rtree = create_prefix_tree(json_data)
 
     if not isInputValid(rtree, json_data, admin_configs):
-        print("Invalid json input !!!")
-        return False
+        log.error("Invalid json input !!!")
+        return
     else:
         json_prefix_key = ""
         for prefix in list(admin_configs["mitigation"]["configured_prefix"].keys()):
@@ -310,12 +318,9 @@ def mitigate_prefix(hijack_json, json_data, admin_configs):
                 break
 
         if json_prefix_key == "":
-            # better call the logger from utils
-            # from utils import get_logger
-            # log = get_logger() , log.info("...")
             # or you can apply a default mitigation method
-            print("Mitigation definition for this prefix not found")
-            return False
+            log.error("Mitigation definition for this prefix not found")
+            return
         else:
             # perform user mitigation technique
             netmask_threshold = admin_configs["mitigation"]["configured_prefix"][json_prefix_key]["netmask_threshold"]
@@ -337,37 +342,45 @@ def mitigate_prefix(hijack_json, json_data, admin_configs):
                     tunnel_technique(hijacked_prefix, json_prefix_key, rtree, admin_configs)
                 else:
                     # manual
-                    print("Manual mitigiation !!!")
+                    log.info("Manual mitigation !!!")
             else:
                 if equal_greater_than_threshold == "tunnel":
                     # perform tunnel technique
                     tunnel_technique(hijacked_prefix, json_prefix_key, rtree, admin_configs)
                 else:
                     # manual
-                    print("Manual mitigiation !!!")
+                    log.info("Manual mitigation !!!")
 
 
 def main():
-    parser = argparse.ArgumentParser(description="ARTEMIS mitigation")
-    parser.add_argument("-i", "--info_hijack", dest="info_hijack", type=str, help="hijack event information",
-                        required=True)
-    hijack_arg = parser.parse_args()
 
-    # creation (if not exists) of file result.txt.lock in shared /tmp
-    # directory in order to implement lock-unlock technique to results.json
-    with open('/tmp/result.json.lock', 'w'):
-        pass
+    log.info("Starting mitigation...")
 
-    # we need this lock to elimininate concurrent access to results.json
-    # from other processes (auto mitigation mechanism) at the same time
-    lock = FileLock("/tmp/result.json.lock")
-    with lock.acquire(timeout=-1, poll_intervall=0.05):
-        # If timeout <= 0, there is no timeout and this
-        # method will block until the lock could be acquired
-        with open("/root/admin_configs.json") as json_file:
-            admin_configs = json.load(json_file)
-            json_data = read_json_file(admin_configs["bgp_results_path"])
-            mitigate_prefix(hijack_arg.info_hijack, json_data, admin_configs)
+    try:
+        parser = argparse.ArgumentParser(description="ARTEMIS mitigation")
+        parser.add_argument("-i", "--info_hijack", dest="info_hijack", type=str, help="hijack event information",
+                            required=True)
+        hijack_arg = parser.parse_args()
+
+        # creation (if not exists) of file result.txt.lock in shared /tmp
+        # directory in order to implement lock-unlock technique to results.json
+        with open('/tmp/result.json.lock', 'w'):
+            pass
+
+        # we need this lock to elimininate concurrent access to results.json
+        # from other processes (auto mitigation mechanism) at the same time
+        lock = FileLock("/tmp/result.json.lock")
+        with lock.acquire(timeout=-1, poll_intervall=0.05):
+            # If timeout <= 0, there is no timeout and this
+            # method will block until the lock could be acquired
+            with open("/root/admin_configs.json") as json_file:
+                admin_configs = json.load(json_file)
+                json_data = read_json_file(admin_configs["bgp_results_path"])
+                mitigate_prefix(hijack_arg.info_hijack, json_data, admin_configs)
+    except Exception as e:
+        log.error(e, exc_info=True)
+
+    log.info("Stoping mitigation...")
 
 
 if __name__ == '__main__':

@@ -11,31 +11,32 @@ log = get_logger(path="/etc/artemis/automation_tools/logging.yaml", logger="auto
 
 # returns a generator which seperates the json objects in file
 def decode_stacked(document, pos=0, decoder=JSONDecoder()):
-    NOT_WHITESPACE = re.compile(r'[^\s]')
+    not_whitespace = re.compile(r'[^\s]')
     while True:
-        match = NOT_WHITESPACE.search(document, pos)
+        match = not_whitespace.search(document, pos)
         if not match:
             return
         pos = match.start()
 
         try:
             obj, pos = decoder.raw_decode(document, pos)
-        except JSONDecodeError:
-            # do something sensible if there's some error
-            raise
+        except JSONDecodeError as e:
+            raise e
         yield obj
 
 
 # returns a list with json objects, each object corresponds to bgp
 # configuration of each router with which artemis is connected
 def read_json_file(filename):
-    json_data = []
-    with open(filename, 'r') as json_file:
-        json_stacked_data = json_file.read()
-        for obj in decode_stacked(json_stacked_data):
-            json_data.append(obj)
-
-    return json_data
+    try:
+        json_data = []
+        with open(filename, 'r') as json_file:
+            json_stacked_data = json_file.read()
+            for obj in decode_stacked(json_stacked_data):
+                json_data.append(obj)
+        return json_data
+    except Exception as e:
+        raise e
 
 
 # returns a dictionary with prefixes
@@ -55,6 +56,7 @@ def create_prefixes_dict(json_data):
         counter = counter + 1
 
     return prefixes_dict
+
 
 
 # returns a dictionary with asn as keys
@@ -79,8 +81,10 @@ def create_asns_dict(json_data):
     return asns
 
 
+
 # update filter dictionary with new keys or values per key
 def update_filter_dict(filter_dict, prefix_cidr, element, routemap_per_neighbor):
+
     # add or create prefix key in filter_dict
     # prefix as key and set as value with asns
 
@@ -125,6 +129,7 @@ def update_filter_dict(filter_dict, prefix_cidr, element, routemap_per_neighbor)
                     break
 
 
+
 # creates a dict with the following contents
 # prefix N should not be announced to asn1 , ... ,asnN
 # {
@@ -135,6 +140,7 @@ def update_filter_dict(filter_dict, prefix_cidr, element, routemap_per_neighbor)
 # }
 
 def create_filter_dict(json_data):
+
     filter_dict = {}
 
     for element in json_data:
@@ -212,6 +218,7 @@ def create_filter_dict(json_data):
 
 # returns a dictionary with rules for each prefix
 def create_rules_dict(json_data):
+
     prefix_pols = {}
     for i in json_data:
         # process each json element (configuration file) in list
@@ -253,21 +260,26 @@ def create_rules_dict(json_data):
     return prefix_pols
 
 
+
 def main():
 
     log.info("Starting config generator...")
 
-    with open(sys.argv[1]) as json_file:
-        admin_configs = json.load(json_file)
-        json_data = read_json_file(admin_configs["bgp_results_path"])
-        prefixes = create_prefixes_dict(json_data)
-        asns = create_asns_dict(json_data)
-        prefix_pols = create_rules_dict(json_data)
-        conf_lib.generate_config_yml(prefixes, admin_configs["monitors"], asns, prefix_pols,
-                                            admin_configs["mitigation_script_path"],
-                                            admin_configs["artemis_config_file_path"])
+    try:
+        with open(sys.argv[1]) as json_file:
+            admin_configs = json.load(json_file)
+            json_data = read_json_file(admin_configs["bgp_results_path"])
+            prefixes = create_prefixes_dict(json_data)
+            asns = create_asns_dict(json_data)
+            prefix_pols = create_rules_dict(json_data)
+            conf_lib.generate_config_yml(prefixes, admin_configs["monitors"], asns, prefix_pols,
+                                                admin_configs["mitigation_script_path"],
+                                                admin_configs["artemis_config_file_path"])
+    except Exception as e:
+        log.error(e, exc_info=True)
 
     log.info("Stoping config generator...")
+
 
 if __name__ == '__main__':
     main()
