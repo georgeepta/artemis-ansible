@@ -1,1 +1,0 @@
-[["router bgp 65001", " bgp log-neighbor-changes", " network 2.2.0.0 mask 255.255.254.0", " neighbor 2.2.1.2 remote-as 65002", " neighbor 192.168.10.2 remote-as 65010", " neighbor 192.168.10.2 ebgp-multihop 2"]]
