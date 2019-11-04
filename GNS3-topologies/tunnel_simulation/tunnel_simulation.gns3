@@ -1423,8 +1423,8 @@
                 "properties": {},
                 "symbol": ":/symbols/vpcs_guest.svg",
                 "width": 65,
-                "x": 259,
-                "y": -428,
+                "x": 260,
+                "y": -429,
                 "z": 0
             }
         ]
@@ -1432,5 +1432,5 @@
     "type": "topology",
     "variables": null,
     "version": "2.1.14",
-    "zoom": 50
+    "zoom": 71
 }
