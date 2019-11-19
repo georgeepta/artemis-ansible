@@ -181,3 +181,30 @@
    ansible_become_method=enable 
 
 
+10. In order to start Auto-Configuration Mechanism: 
+
+    Open a terminal in ../artemis directory and type the following to start ARTEMIS:
+
+    - docker-compose -f docker-compose.yaml -f docker-compose.exabgp.yaml up -d
+
+    Then type: 
+    
+    - docker-compose exec backend bash
+    
+    You will see the backend terminal. Here you must type the following to start the timer (router polling mechanism):
+
+    - ./timer.py /root/admin_configs.json
+
+    That's it !!! From now on Auto-Configuration Mechanism executes its work. All changes in ARTEMIS Configurations File 
+    must be appeared in ARTEMIS Web Interface.
+
+
+    
+
+
+
+
+
+
+
+
