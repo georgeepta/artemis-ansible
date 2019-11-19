@@ -36,3 +36,15 @@
    - json-schema-matcher==0.1.7.1
    - ciscoconfparse==1.4.7 
    - filelock==3.0.12 
+
+
+6. In ../artemis/backend/Dockerfile before "WORKDIR /root" command add the below commands in order to install Ansible 
+   software in backend container:
+
+   RUN apt-get update
+   RUN apt-get -y install software-properties-common
+   RUN apt-get update
+   RUN apt-get install nano
+   RUN apt-get -y install ansible
+   RUN pip3 install --upgrade ansible
+   RUN pip3 install paramiko
