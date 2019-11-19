@@ -8,7 +8,7 @@
 3. In ../artemis/docker-compose.yaml in section services at tag backend change this:
    image: inspiregroup/artemis-backend:${SYSTEM_VERSION}  to  build: ./backend
 
-4. Add the below mappings at tag volumes in section services :
+4. In ../artemis/docker-compose.yaml add the below mappings at tag volumes in section services :
 
    - ./backend/Diploma_Thesis/automation_tools/configs/admin_configs.json:/root/admin_configs.json
    - ./backend/Diploma_Thesis/automation_tools/auto_mitigation/playbooks/mitigation_playbook.yaml:/root/mitigation_playbook.yaml
@@ -47,4 +47,137 @@
    - RUN apt-get -y install ansible
    - RUN pip3 install --upgrade ansible
    - RUN pip3 install paramiko
+
+7. In ../artemis/backend/Dockerfile after "COPY . ./" command add the below commands in order to save log messages from
+   both of mechanisms:
+
+   - RUN mkdir -p /var/log/artemis/auto_configuration/
+   - RUN mkdir -p /var/log/artemis/auto_mitigation/ 
+
+8. Open a terminal in ../artemis directory and type the following:
+
+   - sudo docker ps                     (in order to check that we dont have another docker process open for artemis)
+   - sudo docker-compose build          (in order to build container with the above changes)
+
+9. In ../artemis/backend/Diploma_Thesis/automation_tools/configs/ansible/hosts you must define the directly connected 
+   routers from which auto_configuration mechanism gets feed in order to produce the ARTEMIS Configuration File. 
+   
+   Important !!!, this file must have the following structure:
+
+
+   [ASN:children]
+   vendor1-ASN
+   vendor2-ASN
+      .....
+   vendorX-ASN
+
+
+   [vendor1-ASN:children]
+   ASN_router-id1
+   ASN_router-id2
+      .....
+   ASN_router-idX
+
+
+   [ASN_router-id1]
+   ansible_host=router-id1
+
+   [ASN_router-id2]
+   ansible_host=router-id2
+
+   ......
+
+   [ASN_router-idX]
+   ansible_host=router-idX
+  
+ 
+   [vendor1-ASN:vars]
+   ansible_user= "ssh username for router"
+   ansible_ssh_pass="ssh password for router"
+   ansible_connection=network_cli
+   ansible_network_os={ios, eos, junos, ...}
+   ansible_become=yes
+   ansible_become_method=enable 
+
+
+  
+            ........
+
+
+
+   [vendorX-ASN:children]
+   ASN_router-idY
+   ASN_router-idZ
+      .....
+   ASN_router-idW
+
+  
+   [ASN_router-idY]
+   ansible_host=router-idY
+
+   [ASN_router-idZ]
+   ansible_host=router-idZ
+
+   ......
+
+   [ASN_router-idW]
+   ansible_host=router-idW
+
+
+   [vendorX-ASN:vars]
+   ansible_user= "ssh username for router"
+   ansible_ssh_pass="ssh password for router"
+   ansible_connection=network_cli
+   ansible_network_os={ios, eos, junos, ...}
+   ansible_become=yes
+   ansible_become_method=enable
+   
+
+   - Where "ASN" is the real Autonomous System Number of AS in which directly connected routers "ASN_router-id{1,2, N}" belongs to.    
+   - You must specify the real ASN number and the real router-id in groups and subgroups in host file. 
+     For example parent group [ASN:children] could be in format [65001:children] or [40:children].
+     For example children group [ASN_router-idX] could be in format [65001_192.168.10.1] or [40_c3725]. 
+   - If you have directly connected routers which belongs to different ASNs, you must create exactly the above schema multiple times
+     (for each ASN)    
+
+   
+   For Example a host file could be the above:
+
+
+   [65001:children]
+   CISCO-ROUTERS-65001
+
+   [65006:children]
+   CISCO-ROUTERS-65006
+
+
+   [CISCO-ROUTERS-65001:children]
+   65001_192.168.10.1
+
+   [CISCO-ROUTERS-65006:children]
+   65006_192.168.100.2
+
+
+   [65001_192.168.10.1]
+   c7200_Stable ansible_host=192.168.10.1
+
+   [65006_192.168.100.2]
+   helper_as ansible_host=192.168.100.2
+
+   [CISCO-ROUTERS-65001:vars]
+   ansible_user=admin
+   ansible_ssh_pass=george
+   ansible_connection=network_cli
+   ansible_network_os=ios
+   ansible_become=yes
+   ansible_become_method=enable 
+
+   [CISCO-ROUTERS-65006:vars]
+   ansible_user=admin1234
+   ansible_ssh_pass=george1234
+   ansible_connection=network_cli
+   ansible_network_os=ios
+   ansible_become=yes
+   ansible_become_method=enable 
+
 
