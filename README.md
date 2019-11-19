@@ -65,8 +65,8 @@
    Important !!!, this file must have the following structure:
 
 
-   [ASN:children]__
-   vendor1-ASN__
+   [ASN:children]<br>
+   vendor1-ASN<br>
    vendor2-ASN_
       ....._
    vendorX-ASN_
