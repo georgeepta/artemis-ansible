@@ -67,37 +67,37 @@
 
    [ASN:children]<br>
    vendor1-ASN<br>
-   vendor2-ASN_
-      ....._
-   vendorX-ASN_
+   vendor2-ASN<br>
+      .....<br>
+   vendorX-ASN
 
 
-   [vendor1-ASN:children]_
-   ASN_router-id1_
-   ASN_router-id2_
-      ....._
-   ASN_router-idX_
+   [vendor1-ASN:children]<br>
+   ASN_router-id1<br>
+   ASN_router-id2<br>
+      .....<br>
+   ASN_router-idX
 
 
-   [ASN_router-id1]_
-   ansible_host=router-id1_
+   [ASN_router-id1]<br>
+   ansible_host=router-id1
 
-   [ASN_router-id2]_
-   ansible_host=router-id2_
+   [ASN_router-id2]<br>
+   ansible_host=router-id2
 
-   ......_
+   ......
 
-   [ASN_router-idX]_
-   ansible_host=router-idX_
+   [ASN_router-idX]<br>
+   ansible_host=router-idX
   
  
-   [vendor1-ASN:vars]_
-   ansible_user= "ssh username for router"_
-   ansible_ssh_pass="ssh password for router"_
-   ansible_connection=network_cli_
-   ansible_network_os={ios, eos, junos, ...}_
-   ansible_become=yes_
-   ansible_become_method=enable_ 
+   [vendor1-ASN:vars]<br>
+   ansible_user= "ssh username for router"<br>
+   ansible_ssh_pass="ssh password for router"<br>
+   ansible_connection=network_cli<br>
+   ansible_network_os={ios, eos, junos, ...}<br>
+   ansible_become=yes<br>
+   ansible_become_method=enable 
 
 
   
@@ -105,31 +105,31 @@
 
 
 
-   [vendorX-ASN:children]
-   ASN_router-idY
-   ASN_router-idZ
-      .....
+   [vendorX-ASN:children]<br>
+   ASN_router-idY<br>
+   ASN_router-idZ<br>
+      .....<br>
    ASN_router-idW
 
   
-   [ASN_router-idY]
+   [ASN_router-idY]<br>
    ansible_host=router-idY
 
-   [ASN_router-idZ]
+   [ASN_router-idZ]<br>
    ansible_host=router-idZ
 
    ......
 
-   [ASN_router-idW]
+   [ASN_router-idW]<br>
    ansible_host=router-idW
 
 
-   [vendorX-ASN:vars]
-   ansible_user= "ssh username for router"
-   ansible_ssh_pass="ssh password for router"
-   ansible_connection=network_cli
-   ansible_network_os={ios, eos, junos, ...}
-   ansible_become=yes
+   [vendorX-ASN:vars]<br>
+   ansible_user= "ssh username for router"<br>
+   ansible_ssh_pass="ssh password for router"<br>
+   ansible_connection=network_cli<br>
+   ansible_network_os={ios, eos, junos, ...}<br>
+   ansible_become=yes<br>
    ansible_become_method=enable
    
 
@@ -144,40 +144,40 @@
    For Example a host file could be the above:
 
 
-   [65001:children]
+   [65001:children]<br>
    CISCO-ROUTERS-65001
 
-   [65006:children]
+   [65006:children]<br>
    CISCO-ROUTERS-65006
 
 
-   [CISCO-ROUTERS-65001:children]
+   [CISCO-ROUTERS-65001:children]<br>
    65001_192.168.10.1
 
-   [CISCO-ROUTERS-65006:children]
+   [CISCO-ROUTERS-65006:children]<br>
    65006_192.168.100.2
 
 
-   [65001_192.168.10.1]
+   [65001_192.168.10.1]<br>
    c7200_Stable ansible_host=192.168.10.1
 
-   [65006_192.168.100.2]
+   [65006_192.168.100.2]<br>
    helper_as ansible_host=192.168.100.2
 
-   [CISCO-ROUTERS-65001:vars]
-   ansible_user=admin
-   ansible_ssh_pass=george
-   ansible_connection=network_cli
-   ansible_network_os=ios
-   ansible_become=yes
+   [CISCO-ROUTERS-65001:vars]<br>
+   ansible_user=admin<br>
+   ansible_ssh_pass=george<br>
+   ansible_connection=network_cli<br>
+   ansible_network_os=ios<br>
+   ansible_become=yes<br>
    ansible_become_method=enable 
 
-   [CISCO-ROUTERS-65006:vars]
-   ansible_user=admin1234
-   ansible_ssh_pass=george1234
-   ansible_connection=network_cli
-   ansible_network_os=ios
-   ansible_become=yes
+   [CISCO-ROUTERS-65006:vars]<br>
+   ansible_user=admin1234<br>
+   ansible_ssh_pass=george1234<br>
+   ansible_connection=network_cli<br>
+   ansible_network_os=ios<br>
+   ansible_become=yes<br>
    ansible_become_method=enable 
 
 
