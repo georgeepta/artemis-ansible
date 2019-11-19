@@ -1,11 +1,11 @@
-# Setup and Run Auto-Configuration and Auto-Mitigation Mechanisms in ARTEMIS
+# Setup and Run Auto-Configuration and Auto-Mitigation Mechanisms in ARTEMIS tool
 
 1. You must have install the ARTEMIS tool in your host machine following exactly all the steps described in ARTEMIS wiki
    (https://github.com/FORTH-ICS-INSPIRE/artemis/wiki)
   
 2. Clone https://github.com/georgeepta/Diploma_Thesis repository in ../artemis/backend/ directory 
 
-3. In ../artemis/docker-compose.yaml in section services at tag backend change this :
+3. In ../artemis/docker-compose.yaml in section services at tag backend change this:
    image: inspiregroup/artemis-backend:${SYSTEM_VERSION}  to  build: ./backend
 
 4. Add the below mappings at tag volumes in section services :
@@ -29,3 +29,10 @@
    - ./backend/Diploma_Thesis/automation_tools/utils/logger.py:/root/logger.py
    - ./backend/Diploma_Thesis/automation_tools/configs/logging.yaml:/etc/artemis/automation_tools/logging.yaml
    
+
+5. In ../artemis/backend/requirements.txt add the below modules:
+
+   - py-radix==0.10.0
+   - json-schema-matcher==0.1.7.1
+   - ciscoconfparse==1.4.7 
+   - filelock==3.0.12 
