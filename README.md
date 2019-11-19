@@ -39,11 +39,12 @@
 
 
 6. In ../artemis/backend/Dockerfile before "WORKDIR /root" command add the below commands in order to install Ansible 
-   software in backend container:
+   software in backend container (Be careful with the sequence):
 
-   RUN apt-get update
-   RUN apt-get -y install software-properties-common
-   RUN apt-get update
-   RUN apt-get -y install ansible
-   RUN pip3 install --upgrade ansible
-   RUN pip3 install paramiko
+   - RUN apt-get update
+   - RUN apt-get -y install software-properties-common
+   - RUN apt-get update
+   - RUN apt-get -y install ansible
+   - RUN pip3 install --upgrade ansible
+   - RUN pip3 install paramiko
+
