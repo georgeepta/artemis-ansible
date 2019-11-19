@@ -44,7 +44,6 @@
    RUN apt-get update
    RUN apt-get -y install software-properties-common
    RUN apt-get update
-   RUN apt-get install nano
    RUN apt-get -y install ansible
    RUN pip3 install --upgrade ansible
    RUN pip3 install paramiko
