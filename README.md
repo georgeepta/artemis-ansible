@@ -65,39 +65,39 @@
    Important !!!, this file must have the following structure:
 
 
-   [ASN:children]
-   vendor1-ASN
-   vendor2-ASN
-      .....
-   vendorX-ASN
+   [ASN:children]_
+   vendor1-ASN_
+   vendor2-ASN_
+      ....._
+   vendorX-ASN_
 
 
-   [vendor1-ASN:children]
-   ASN_router-id1
-   ASN_router-id2
-      .....
-   ASN_router-idX
+   [vendor1-ASN:children]_
+   ASN_router-id1_
+   ASN_router-id2_
+      ....._
+   ASN_router-idX_
 
 
-   [ASN_router-id1]
-   ansible_host=router-id1
+   [ASN_router-id1]_
+   ansible_host=router-id1_
 
-   [ASN_router-id2]
-   ansible_host=router-id2
+   [ASN_router-id2]_
+   ansible_host=router-id2_
 
-   ......
+   ......_
 
-   [ASN_router-idX]
-   ansible_host=router-idX
+   [ASN_router-idX]_
+   ansible_host=router-idX_
   
  
-   [vendor1-ASN:vars]
-   ansible_user= "ssh username for router"
-   ansible_ssh_pass="ssh password for router"
-   ansible_connection=network_cli
-   ansible_network_os={ios, eos, junos, ...}
-   ansible_become=yes
-   ansible_become_method=enable 
+   [vendor1-ASN:vars]_
+   ansible_user= "ssh username for router"_
+   ansible_ssh_pass="ssh password for router"_
+   ansible_connection=network_cli_
+   ansible_network_os={ios, eos, junos, ...}_
+   ansible_become=yes_
+   ansible_become_method=enable_ 
 
 
   
