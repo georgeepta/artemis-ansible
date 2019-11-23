@@ -95,15 +95,15 @@ This repository contains prototype software to enable auto-configuration and aut
    ASN_router-idX
 
    [ASN_router-id1]
-   ansible_host=router-id1
+   ansible_host="IP address or the domain name of the host to connect to"
 
    [ASN_router-id2]
-   ansible_host=router-id2
+   ansible_host="IP address or the domain name of the host to connect to"
 
    ......
 
    [ASN_router-idX]
-   ansible_host=router-idX
+   ansible_host="IP address or the domain name of the host to connect to"
   
    [vendor1-ASN:vars]
    ansible_user= "ssh username for router"
