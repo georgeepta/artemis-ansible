@@ -1,8 +1,14 @@
 # Setup and Run Ansible-based Auto-Configuration and Auto-Mitigation Mechanisms in ARTEMIS
 
+## Information
+
+This repository contains prototype software to enable auto-configuration and auto-mitigation in ARTEMIS using Ansible. Note that while this has been tested in an emulatiomn environment (GNS3) and works in the current form, we are in the process of integrating it as a set of auto-configuration and auto-mitigation microservices in the ARTEMIS container-based architecture.
+
+(TBD: Placeholder for figure)
+
 ## Setup and Install
 
-1. Firts, install ARTEMIS on your host machine following exactly the steps described in [ARTEMIS wiki](https://github.com/FORTH-ICS-INSPIRE/artemis/wiki#artemis-installation-and-setup).
+1. First, install ARTEMIS on your host machine following exactly the steps described in [ARTEMIS wiki](https://github.com/FORTH-ICS-INSPIRE/artemis/wiki#artemis-installation-and-setup).
   
 2. Clone the current repository within `artemis/backend` directory. 
 
