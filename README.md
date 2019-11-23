@@ -6,7 +6,7 @@ Ansible-based Auto-Configuration and Auto-Mitigation Mechanisms in ARTEMIS
 
 ## General
 
-This repository contains prototype software to enable auto-configuration and auto-mitigation in ARTEMIS using Ansible. Note that while this has been tested in an emulatiomn environment (GNS3) and works in the current form, we are in the process of integrating it as a set of auto-configuration and auto-mitigation microservices in the ARTEMIS container-based architecture.
+This repository contains prototype software to enable auto-configuration and auto-mitigation in ARTEMIS using Ansible. Note that while this has been tested in an emulation environment (GNS3) and works in the current form, we are in the process of integrating it as a set of auto-configuration and auto-mitigation microservices in the ARTEMIS container-based architecture.
 
 (TBD: Placeholder for architecture figure)
 
@@ -58,12 +58,8 @@ This repository contains prototype software to enable auto-configuration and aut
 
 6. In `artemis/backend/Dockerfile` before `WORKDIR /root` command add the following commands in order to install Ansible on the backend container:
    ```
-   RUN apt-get update
-   RUN apt-get -y install software-properties-common
-   RUN apt-get update
-   RUN apt-get -y install ansible
-   RUN pip3 install --upgrade ansible
-   RUN pip3 install paramiko
+   RUN apk update
+   RUN apk add --no-cache ansible
    ```
 
 7. In `artemis/backend/Dockerfile` after `COPY . ./` command add the following commands in order to save log messages from both auto-configuration and auto-mitigation mechanisms:
