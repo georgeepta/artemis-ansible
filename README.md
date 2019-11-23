@@ -1,10 +1,14 @@
-# Setup and Run Ansible-based Auto-Configuration and Auto-Mitigation Mechanisms in ARTEMIS
+Ansible-based Auto-Configuration and Auto-Mitigation Mechanisms in ARTEMIS
+  * [General](#general)
+  * [Setup and Install](#setup-and-install)
+  * [Configure](#configure)
+  * [Run](#run)
 
-## Information
+## General
 
 This repository contains prototype software to enable auto-configuration and auto-mitigation in ARTEMIS using Ansible. Note that while this has been tested in an emulatiomn environment (GNS3) and works in the current form, we are in the process of integrating it as a set of auto-configuration and auto-mitigation microservices in the ARTEMIS container-based architecture.
 
-(TBD: Placeholder for figure)
+(TBD: Placeholder for architecture figure)
 
 ## Setup and Install
 
@@ -152,6 +156,8 @@ This repository contains prototype software to enable auto-configuration and aut
    ansible_become=yes
    ansible_become_method=enable 
    ```
+2. Edit `admin_configs.json` according to your preferences. For more details, check the example in the repository, and contact the ARTEMIS dev team.
+
 ## Run
 
 1. First, boot ARTEMIS:
