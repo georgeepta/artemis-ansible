@@ -1,10 +1,10 @@
 Sep 23 22:47:04.582 HYPERVISOR: Release 0.2.20-amd64/Linux (tag 2019022012)
 Sep 23 22:47:04.582 HYPERVISOR: Started on IP = 127.0.0.1, TCP port = 54515.
 Sep 23 22:47:04.595 HYPERVISOR: exec_cmd: hypervisor version 
-Sep 23 22:47:04.596 HYPERVISOR: exec_cmd: hypervisor working_dir /home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips 
-Sep 23 22:47:04.596 GENERAL: working_dir=/home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips
-Sep 23 22:47:04.597 HYPERVISOR: exec_cmd: hypervisor working_dir /home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips/3924558a-8606-44ba-9d1b-1010b391f620 
-Sep 23 22:47:04.597 GENERAL: working_dir=/home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips/3924558a-8606-44ba-9d1b-1010b391f620
+Sep 23 22:47:04.596 HYPERVISOR: exec_cmd: hypervisor working_dir /home/george/UOC-CSD/artemis-ansible/GNS3-topologies/tunnel_simulation/project-files/dynamips
+Sep 23 22:47:04.596 GENERAL: working_dir=/home/george/UOC-CSD/artemis-ansible/GNS3-topologies/tunnel_simulation/project-files/dynamips
+Sep 23 22:47:04.597 HYPERVISOR: exec_cmd: hypervisor working_dir /home/george/UOC-CSD/artemis-ansible/GNS3-topologies/tunnel_simulation/project-files/dynamips/3924558a-8606-44ba-9d1b-1010b391f620
+Sep 23 22:47:04.597 GENERAL: working_dir=/home/george/UOC-CSD/artemis-ansible/GNS3-topologies/tunnel_simulation/project-files/dynamips/3924558a-8606-44ba-9d1b-1010b391f620
 Sep 23 22:47:04.598 HYPERVISOR: exec_cmd: vm create c7200_Stable 1 c7200 
 Sep 23 22:47:04.598 VM: VM c7200_Stable created.
 Sep 23 22:47:04.599 HYPERVISOR: exec_cmd: vm set_con_tcp_port c7200_Stable 5027 
@@ -46,7 +46,7 @@ Sep 23 22:52:23.222 HYPERVISOR: exec_cmd: vm create Ghost 0 c7200
 Sep 23 22:52:23.222 VM: VM Ghost created.
 Sep 23 22:52:23.223 HYPERVISOR: exec_cmd: vm set_ios Ghost /home/george/GNS3/images/IOS/c7200-adventerprisek9-mz.152-4.S5.image 
 Sep 23 22:52:23.224 HYPERVISOR: exec_cmd: vm set_ghost_status Ghost 1 
-Sep 23 22:52:23.225 HYPERVISOR: exec_cmd: vm set_ghost_file Ghost /home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips/c7200-adventerprisek9-mz.152-4.S5.image-512.ghost 
+Sep 23 22:52:23.225 HYPERVISOR: exec_cmd: vm set_ghost_file Ghost /home/george/UOC-CSD/artemis-ansible/GNS3-topologies/tunnel_simulation/project-files/dynamips/c7200-adventerprisek9-mz.152-4.S5.image-512.ghost
 Sep 23 22:52:23.225 HYPERVISOR: exec_cmd: vm set_ram Ghost 512 
 Sep 23 22:52:23.225 HYPERVISOR: exec_cmd: vm get_status Ghost 
 Sep 23 22:52:23.226 HYPERVISOR: exec_cmd: vm set_config Ghost configs/i0_startup-config.cfg 
@@ -58,7 +58,7 @@ Sep 23 22:52:24.053 HYPERVISOR: exec_cmd: vm extract_config Ghost
 Sep 23 22:52:24.055 HYPERVISOR: exec_cmd: vm clean_delete Ghost 
 Sep 23 22:52:24.055 VM: VM Ghost destroyed.
 Sep 23 22:52:24.058 HYPERVISOR: exec_cmd: vm set_ghost_status c7200_Stable 2 
-Sep 23 22:52:24.059 HYPERVISOR: exec_cmd: vm set_ghost_file c7200_Stable /home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips/c7200-adventerprisek9-mz.152-4.S5.image-512.ghost 
+Sep 23 22:52:24.059 HYPERVISOR: exec_cmd: vm set_ghost_file c7200_Stable /home/george/UOC-CSD/artemis-ansible/GNS3-topologies/tunnel_simulation/project-files/dynamips/c7200-adventerprisek9-mz.152-4.S5.image-512.ghost
 Sep 23 22:52:24.059 HYPERVISOR: exec_cmd: vm get_status c7200_Stable 
 Sep 23 22:52:24.060 HYPERVISOR: exec_cmd: vm set_config c7200_Stable configs/i1_startup-config.cfg configs/i1_private-config.cfg 
 Sep 23 22:52:24.061 HYPERVISOR: exec_cmd: vm start c7200_Stable 
@@ -68,7 +68,7 @@ Sep 23 22:52:56.706 HYPERVISOR: exec_cmd: vm stop c7200_Stable
 Sep 23 22:52:56.877 VM: VM c7200_Stable shutdown.
 Sep 23 22:52:56.878 HYPERVISOR: exec_cmd: vm extract_config c7200_Stable 
 Sep 23 22:55:31.836 HYPERVISOR: exec_cmd: vm set_ghost_status c7200_Stable 2 
-Sep 23 22:55:31.836 HYPERVISOR: exec_cmd: vm set_ghost_file c7200_Stable /home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips/c7200-adventerprisek9-mz.152-4.S5.image-512.ghost 
+Sep 23 22:55:31.836 HYPERVISOR: exec_cmd: vm set_ghost_file c7200_Stable /home/george/UOC-CSD/artemis-ansible/GNS3-topologies/tunnel_simulation/project-files/dynamips/c7200-adventerprisek9-mz.152-4.S5.image-512.ghost
 Sep 23 22:55:31.837 HYPERVISOR: exec_cmd: vm get_status c7200_Stable 
 Sep 23 22:55:31.837 HYPERVISOR: exec_cmd: vm set_config c7200_Stable configs/i1_startup-config.cfg configs/i1_private-config.cfg 
 Sep 23 22:55:31.838 HYPERVISOR: exec_cmd: vm start c7200_Stable 
@@ -77,7 +77,7 @@ Sep 23 23:00:52.302 HYPERVISOR: exec_cmd: vm stop c7200_Stable
 Sep 23 23:00:52.450 VM: VM c7200_Stable shutdown.
 Sep 23 23:00:52.453 HYPERVISOR: exec_cmd: vm extract_config c7200_Stable 
 Sep 23 23:01:52.771 HYPERVISOR: exec_cmd: vm set_ghost_status c7200_Stable 2 
-Sep 23 23:01:52.771 HYPERVISOR: exec_cmd: vm set_ghost_file c7200_Stable /home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips/c7200-adventerprisek9-mz.152-4.S5.image-512.ghost 
+Sep 23 23:01:52.771 HYPERVISOR: exec_cmd: vm set_ghost_file c7200_Stable /home/george/UOC-CSD/artemis-ansible/GNS3-topologies/tunnel_simulation/project-files/dynamips/c7200-adventerprisek9-mz.152-4.S5.image-512.ghost
 Sep 23 23:01:52.771 HYPERVISOR: exec_cmd: vm get_status c7200_Stable 
 Sep 23 23:01:52.772 HYPERVISOR: exec_cmd: vm set_config c7200_Stable configs/i1_startup-config.cfg configs/i1_private-config.cfg 
 Sep 23 23:01:52.773 HYPERVISOR: exec_cmd: vm start c7200_Stable 

@@ -1,10 +1,10 @@
 Sep 23 22:47:05.279 HYPERVISOR: Release 0.2.20-amd64/Linux (tag 2019022012)
 Sep 23 22:47:05.279 HYPERVISOR: Started on IP = 127.0.0.1, TCP port = 47627.
 Sep 23 22:47:05.292 HYPERVISOR: exec_cmd: hypervisor version 
-Sep 23 22:47:05.293 HYPERVISOR: exec_cmd: hypervisor working_dir /home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips 
-Sep 23 22:47:05.293 GENERAL: working_dir=/home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips
-Sep 23 22:47:05.293 HYPERVISOR: exec_cmd: hypervisor working_dir /home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips/5b317ffa-2d9b-4e80-8846-6dcb0590367b 
-Sep 23 22:47:05.293 GENERAL: working_dir=/home/george/UOC-CSD/Diploma_Thesis/GNS3-topologies/tunnel_simulation/project-files/dynamips/5b317ffa-2d9b-4e80-8846-6dcb0590367b
+Sep 23 22:47:05.293 HYPERVISOR: exec_cmd: hypervisor working_dir /home/george/UOC-CSD/artemis-ansible/GNS3-topologies/tunnel_simulation/project-files/dynamips
+Sep 23 22:47:05.293 GENERAL: working_dir=/home/george/UOC-CSD/artemis-ansible/GNS3-topologies/tunnel_simulation/project-files/dynamips
+Sep 23 22:47:05.293 HYPERVISOR: exec_cmd: hypervisor working_dir /home/george/UOC-CSD/artemis-ansible/GNS3-topologies/tunnel_simulation/project-files/dynamips/5b317ffa-2d9b-4e80-8846-6dcb0590367b
+Sep 23 22:47:05.293 GENERAL: working_dir=/home/george/UOC-CSD/artemis-ansible/GNS3-topologies/tunnel_simulation/project-files/dynamips/5b317ffa-2d9b-4e80-8846-6dcb0590367b
 Sep 23 22:47:05.294 HYPERVISOR: exec_cmd: vm create R5 6 c3725 
 Sep 23 22:47:05.294 VM: VM R5 created.
 Sep 23 22:47:05.295 HYPERVISOR: exec_cmd: vm set_con_tcp_port R5 5006 

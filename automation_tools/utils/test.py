@@ -4,7 +4,7 @@ from python.logger import get_logger
 from json_schema import json_schema
 
 
-with open("/home/george/UOC-CSD/Diploma_Thesis/ansible/bgp_config_files/admin_configs.json") as json_file:
+with open("/home/george/UOC-CSD/artemis-ansible/ansible/bgp_config_files/admin_configs.json") as json_file:
     admin_configs = json.load(json_file)
 
     prefix_keys_list = list(admin_configs["mitigation"]["configured_prefix"].keys())
