@@ -231,32 +231,23 @@ This repository contains prototype software to enable auto-configuration and aut
 
    Where, `configured_prefix` dict contains prefixes `x.x.x.x/x` which are configured in ARTEMIS Configuration File. For each `configured_prefix` you have the ability to define the mitigation technique which you want to apply according to the hijacked prefix length. Available mitigation techniques are prefix_deaggregation and tunneling.
 
-   `mitigation` dictionary keys explanation:
+    ```
+    `mitigation` dictionary keys explanation:
 
     - "x.x.x.x/x" : A valid configured prefix which are configured in ARTEMIS Configuration File.
-
     - "netmask_threshold" : Hijacked prefix length threshold.
-
     - "less_than_threshold" : Which technique to apply if hijacked prefix length < "netmask_threshold". You can declare, "deaggregate" which means apply deaggregation technique, "tunnel" which means apply tunneling technique, "deaggregate+tunnel" which means apply deaggregation and tunneling technique and "manual" which means do not apply any mitigation technique.
-
     - "equal_greater_than_threshold" : Which technique to apply if hijacked prefix length >= "netmask_threshold". You can declare, "tunnel" which means apply tunneling technique and "manual" which means do not apply any mitigation technique.
     - "asn" : ASN of AS from which we ask help (tunnel technique).
-
     - "router_id" : Real router-id of helper AS router with which ARTEMIS VM and at least one router in our AS is directly connected (via physical links). Over the physical link beetween helper AS router and router in our AS (origin AS router) we suppose a pre-installed GRE tunnel in which all hijacked traffic attracted by helper AS will be redirected.
-
     - "tunnel_interface_name" : Tunnel interface name of helper AS router in which hijacked traffic will be redirected.
-
     - "tunnel_interface_ip_address" : Tunnel interface ip address of helper AS router in which hijacked traffic will be redirected.
-
     - "tunnel_interface_ip_mask" : Tunnel interface ip netmask of helper AS router in which hijacked traffic will be redirected.
-
     - "tunnel_source_ip_address" : Physical source interface ip address of GRE tunnel (helper AS router).
-
     - "tunnel_source_ip_mask" : Physical source interface ip netmask of GRE tunnel (helper AS router).
-
     - "tunnel_destination_ip_address" : Physical destination interface ip address of GRE tunnel (origin AS router).
-
     - "tunnel_destination_ip_mask" : Physical destination interface netmask of GRE tunnel (origin AS router).
+    ```
 
 ## Run
 
