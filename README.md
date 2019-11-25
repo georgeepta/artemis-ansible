@@ -8,7 +8,9 @@ Ansible-based Auto-Configuration and Auto-Mitigation Mechanisms in ARTEMIS
 
 This repository contains prototype software to enable auto-configuration and auto-mitigation in ARTEMIS using Ansible. Note that while this has been tested in an emulation environment (GNS3) and works in the current form, we are in the process of integrating it as a set of auto-configuration and auto-mitigation microservices in the ARTEMIS container-based architecture.
 
-(TBD: Placeholder for architecture figure)
+## System Architecture
+
+![Architecture](docs/images/auto-configuration.jpg)
 
 ## Setup and Install
 
