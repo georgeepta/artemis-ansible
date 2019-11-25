@@ -156,6 +156,108 @@ This repository contains prototype software to enable auto-configuration and aut
    ```
 2. Edit `admin_configs.json` according to your preferences. For more details, check the example in the repository, and contact the ARTEMIS dev team.
 
+   a) You must add the following default backend container paths for the below files:
+
+      ```
+      "main_playbook_path": "/root/main_playbook.yaml",
+      "mitigation_playbook_path": "/root/mitigation_playbook.yaml",
+      "tunnel_mitigation_playbook_path": "/root/tunnel_mitigation_playbook.yaml",
+      "ansible_hosts_file_path": "/root/hosts",
+      "artemis_config_file_path": "/root/config.yaml",
+      "config_generator_path": "/root/conf_generator.py",
+      "bgp_results_path": "/root/results.json",
+      "mitigation_script_path": "/root/mitigation_trigger.py",
+      ``` 
+     
+      You can change the default paths but is not recommended !!!
+
+   
+   b) Add CISCO IOS router configuration file parser path as following:
+
+      ```
+      "parsers_paths": {
+        "ios_parser": "/root/ios_parser.py",
+      },
+      ```
+
+      You can change the default path but is not recommended !!!
+          
+   
+   c) Add all monitors that will provide BGP updates as following:
+
+      ```
+      "monitors": {
+        "riperis": [""],
+        "bgpstreamlive": ["routeviews", "ris"],
+        "betabmp": ["betabmp"],
+        "exabgp":[{
+          "ip": "exabgp",
+          "port": 5000
+        }]
+      },
+      ```
+ 
+     For more details check Monitor Section of [ARTEMIS Configuration File wiki](https://github.com/FORTH-ICS-INSPIRE/artemis/wiki/Configuration-file#monitors)
+
+
+   d) Optionally, if you want to also configure auto-mitigation mechanism, please add the following:
+
+
+   ```
+   "mitigation": {
+     "configured_prefix":{
+       "x.x.x.x/x": {
+         "netmask_threshold": (integer),
+         "less_than_threshold": {"deaggregate" | "tunnel" | "deaggregate+tunnel" | "manual"},
+         "equal_greater_than_threshold": {"tunnel" | "manual"},
+         "tunnel_definitions": {
+           "helperAS": {
+             "asn": (integer),
+             "router_id": (string),
+             "tunnel_interface_name": (string),
+             "tunnel_interface_ip_address": "x.x.x.x",
+             "tunnel_interface_ip_mask": "x.x.x.x",
+             "tunnel_source_ip_address": "x.x.x.x",
+             "tunnel_source_ip_mask": "x.x.x.x",
+             "tunnel_destination_ip_address": "x.x.x.x",
+             "tunnel_destination_ip_mask": "x.x.x.x"
+           }
+         }
+       },
+       ....
+     }
+   }
+   ```
+
+   Where, `configured_prefix` dict contains prefixes `x.x.x.x/x` which are configured in ARTEMIS Configuration File. For each `configured_prefix` you have the ability to define the mitigation technique which you want to apply according to the hijacked prefix length. Available mitigation techniques are prefix_deaggregation and tunneling.
+
+   `mitigation` dictionary keys explanation:
+
+    - "x.x.x.x/x" : A valid configured prefix which are configured in ARTEMIS Configuration File.
+
+    - "netmask_threshold" : Hijacked prefix length threshold.
+
+    - "less_than_threshold" : Which technique to apply if hijacked prefix length < "netmask_threshold". You can declare, "deaggregate" which means apply deaggregation technique, "tunnel" which means apply tunneling technique, "deaggregate+tunnel" which means apply deaggregation and tunneling technique and "manual" which means do not apply any mitigation technique.
+
+    - "equal_greater_than_threshold" : Which technique to apply if hijacked prefix length >= "netmask_threshold". You can declare, "tunnel" which means apply tunneling technique and "manual" which means do not apply any mitigation technique.
+    - "asn" : ASN of AS from which we ask help (tunnel technique).
+
+    - "router_id" : Real router-id of helper AS router with which ARTEMIS VM and at least one router in our AS is directly connected (via physical links). Over the physical link beetween helper AS router and router in our AS (origin AS router) we suppose a pre-installed GRE tunnel in which all hijacked traffic attracted by helper AS will be redirected.
+
+    - "tunnel_interface_name" : Tunnel interface name of helper AS router in which hijacked traffic will be redirected.
+
+    - "tunnel_interface_ip_address" : Tunnel interface ip address of helper AS router in which hijacked traffic will be redirected.
+
+    - "tunnel_interface_ip_mask" : Tunnel interface ip netmask of helper AS router in which hijacked traffic will be redirected.
+
+    - "tunnel_source_ip_address" : Physical source interface ip address of GRE tunnel (helper AS router).
+
+    - "tunnel_source_ip_mask" : Physical source interface ip netmask of GRE tunnel (helper AS router).
+
+    - "tunnel_destination_ip_address" : Physical destination interface ip address of GRE tunnel (origin AS router).
+
+    - "tunnel_destination_ip_mask" : Physical destination interface netmask of GRE tunnel (origin AS router).
+
 ## Run
 
 1. First, boot ARTEMIS:
