@@ -6,7 +6,9 @@ Ansible-based Auto-Configuration and Auto-Mitigation Mechanisms in ARTEMIS
 
 ## General
 
-This repository contains prototype software to enable auto-configuration and auto-mitigation in ARTEMIS using Ansible. Note that while this has been tested in an emulation environment (GNS3) and works in the current form, we are in the process of integrating it as a set of auto-configuration and auto-mitigation microservices in the ARTEMIS container-based architecture.
+This repository contains prototype software to enable auto-configuration and auto-mitigation in ARTEMIS using Ansible. 
+
+*Note that while this has been tested in an emulation environment (GNS3) and works in the current form, we are in the process of integrating it as a set of auto-configuration and auto-mitigation microservices in the ARTEMIS container-based architecture.*
 
 ## System Architecture
 
@@ -16,7 +18,7 @@ This repository contains prototype software to enable auto-configuration and aut
 
 1. First, install ARTEMIS on your host machine following exactly the steps described in [ARTEMIS wiki](https://github.com/FORTH-ICS-INSPIRE/artemis/wiki#artemis-installation-and-setup).
   
-2. Clone the current repository within `artemis/backend` directory. 
+2. Clone the current repository (`artemis-ansible`) within `artemis/backend` directory. 
 
 3. In `artemis/docker-compose.yaml`, under section `services` and tag `backend` replace the following line:
    ```
@@ -26,13 +28,11 @@ This repository contains prototype software to enable auto-configuration and aut
    ```
    build: ./backend
    ```
-
 4. In `artemis/docker-compose.yaml` add the following mappings under section `services`, tag `backend`, sub-tag `volumes`:
    ```
    - ./backend/artemis-ansible/automation_tools/configs/admin_configs.json:/root/admin_configs.json
    - ./backend/artemis-ansible/automation_tools/configs/ansible/hosts:/root/hosts
    - ./backend/artemis-ansible/automation_tools/configs/ansible/ansible.cfg:/root/ansible.cfg
-   - ./backend/artemis-ansible/automation_tools/utils/test.py:/root/test.py
    - ./backend/artemis-ansible/automation_tools/auto_configuration/playbooks/main_playbook.yaml:/root/main_playbook.yaml
    - ./local_configs/backend/config.yaml:/root/config.yaml
    - ./backend/artemis-ansible/automation_tools/auto_configuration/core/conf_generator.py:/root/conf_generator.py
@@ -43,7 +43,7 @@ This repository contains prototype software to enable auto-configuration and aut
    - ./backend/artemis-ansible/automation_tools/utils/logger.py:/root/logger.py
    - ./backend/artemis-ansible/automation_tools/configs/logging.yaml:/etc/artemis/automation_tools/logging.yaml
    ```
-   Optionally, if you want to also enable auto-mitigation capabilities, please add the following mappings:
+   Optionally, if you want to also enable auto-mitigation (besides auto-configuration) capabilities, please add the following mappings:
    ```
    - ./backend/artemis-ansible/automation_tools/auto_mitigation/playbooks/mitigation_playbook.yaml:/root/mitigation_playbook.yaml
    - ./backend/artemis-ansible/automation_tools/auto_mitigation/playbooks/tunnel_mitigation_playbook.yaml:/root/tunnel_mitigation_playbook.yaml
@@ -51,13 +51,13 @@ This repository contains prototype software to enable auto-configuration and aut
    - ./backend/artemis-ansible/automation_tools/auto_mitigation/playbooks/ios_mitigation.yaml:/root/ios_mitigation.yaml
    - ./backend/artemis-ansible/automation_tools/auto_mitigation/playbooks/ios_tunnel_mitigation.yaml:/root/ios_tunnel_mitigation.yaml
    ```
-
 5. In `artemis/backend/requirements.txt` add the following modules:
+   ```
    - py-radix==0.10.0
    - json-schema-matcher==0.1.7.1
    - ciscoconfparse==1.4.7 
    - filelock==3.0.12 
-
+   ```
 6. In `artemis/backend/Dockerfile` before `WORKDIR /root` command add the following commands in order to install Ansible on the backend container:
    ```
    RUN apk update
@@ -115,10 +115,10 @@ This repository contains prototype software to enable auto-configuration and aut
    ```   
    Note that the following primitives are involved:
    - `ASN` is the Autonomous System Number to which directly connected routers `ASN_router-id{1,2, N}` belong.    
-   - You must specify the ASN and the real router-id in groups and subgroups in host file. For example parent group `[ASN:children]` could be in format `[65001:children]` or `[40:children]`. Children group `[ASN_router-idX]` could be in format `[65001_192.168.10.1]` or `[40_c3725]`. 
+   - You must specify the ASN and the real router-id in groups and subgroups in host file. For example parent group `[ASN:children]` could be in format `[65001:children]`. Children group `[ASN_router-idX]` could be in format `[65001_192.168.10.1]` or `[40_c3725]`. 
    - If you have directly connected routers which belong to different ASNs, you must create exactly the above schema multiple times (for each ASN).
 
-   For Example a real host file could look as follows:
+   For Example a real host file would look as follows:
    ```
    [65001:children]
    CISCO-ROUTERS-65001
@@ -154,10 +154,9 @@ This repository contains prototype software to enable auto-configuration and aut
    ansible_become=yes
    ansible_become_method=enable 
    ```
-2. Edit `admin_configs.json` according to your preferences. For more details, check the example in the repository, and contact the ARTEMIS dev team.
+2. Edit `admin_configs.json` according to your preferences. For more details, check the example in the repository.
 
-   a) You must add the following default backend container paths for the below files:
-
+   a) You must add the following backend container paths for the following files (here we show default values):
       ```
       "main_playbook_path": "/root/main_playbook.yaml",
       "mitigation_playbook_path": "/root/mitigation_playbook.yaml",
@@ -169,40 +168,32 @@ This repository contains prototype software to enable auto-configuration and aut
       "mitigation_script_path": "/root/mitigation_trigger.py",
       ``` 
      
-      You can change the default paths but is not recommended !!!
-
+      *You may change the default paths; however, it is not recommended !!!*
    
-   b) Add CISCO IOS router configuration file parser path as following:
-
+   b) Add the CISCO IOS router configuration file parser path as following:
       ```
       "parsers_paths": {
         "ios_parser": "/root/ios_parser.py",
       },
       ```
-
-      You can change the default path but is not recommended !!!
+      *This is the default parser that we have implemented and use.
+      If you want to add your own additional parsers contact developers for additional information on code support.*
           
    
-   c) Add all monitors that will provide BGP updates as following:
-
+   c) Add all monitors that will provide BGP updates as follows:
       ```
       "monitors": {
         "riperis": [""],
-        "bgpstreamlive": ["routeviews", "ris"],
-        "betabmp": ["betabmp"],
+        "bgpstreamlive": ["routeviews", "ris", "caida"],
         "exabgp":[{
           "ip": "exabgp",
           "port": 5000
         }]
       },
       ```
- 
-     For more details check Monitor Section of [ARTEMIS Configuration File wiki](https://github.com/FORTH-ICS-INSPIRE/artemis/wiki/Configuration-file#monitors)
+     For more details check Monitor Section of [ARTEMIS Configuration File wiki](https://github.com/FORTH-ICS-INSPIRE/artemis/wiki/Configuration-file#monitors).
 
-
-   d) Optionally, if you want to also configure auto-mitigation mechanism, please add the following:
-
-
+   d) Optionally, if you want to also configure the auto-mitigation mechanism, please add the following:
    ```
    "mitigation": {
      "configured_prefix":{
@@ -228,27 +219,23 @@ This repository contains prototype software to enable auto-configuration and aut
      }
    }
    ```
-
-   Where, `configured_prefix` dict contains prefixes `x.x.x.x/x` which are configured in ARTEMIS Configuration File. For each `configured_prefix` you have the ability to define the mitigation technique which you want to apply according to the hijacked prefix length. Available mitigation techniques are prefix_deaggregation and tunneling.
-
-    ```
-    `mitigation` dictionary keys explanation:
-
-    - "x.x.x.x/x" : A valid configured prefix which are configured in ARTEMIS Configuration File.
-    - "netmask_threshold" : Hijacked prefix length threshold.
-    - "less_than_threshold" : Which technique to apply if hijacked prefix length < "netmask_threshold". You can declare, "deaggregate" which means apply deaggregation technique, "tunnel" which means apply tunneling technique, "deaggregate+tunnel" which means apply deaggregation and tunneling technique and "manual" which means do not apply any mitigation technique.
-    - "equal_greater_than_threshold" : Which technique to apply if hijacked prefix length >= "netmask_threshold". You can declare, "tunnel" which means apply tunneling technique and "manual" which means do not apply any mitigation technique.
+   Where the `configured_prefix` dictionary contains prefixes `x.x.x.x/x` which are configured in ARTEMIS Configuration File. For each `configured_prefix` you have the ability to define the mitigation technique which you want to apply according to the hijacked prefix length. Available mitigation techniques are `prefix_deaggregation` and `tunneling`. A detailed explanation of the different keys is as follows:
+   - "x.x.x.x/x" : A valid configured prefix which is configured in ARTEMIS Configuration File.
+   - "netmask_threshold" : Hijacked prefix length threshold.
+   - "less_than_threshold" : Which technique to apply if hijacked prefix length < "netmask_threshold". You can declare, "deaggregate" which means apply deaggregation technique, "tunnel" which means apply tunneling technique, "deaggregate+tunnel" which means apply deaggregation and tunneling technique and "manual" which means do not apply any mitigation technique.
+    - "equal_greater_than_threshold" : Which technique to apply if hijacked prefix length >= "netmask_threshold". You can declare, "tunnel" which means apply tunneling technique and "manual" which means do not apply any mitigation technique. Deaggregation is not meaningfull for very specific prefixes due to filtering.
     - "asn" : ASN of AS from which we ask help (tunnel technique).
-    - "router_id" : Real router-id of helper AS router with which ARTEMIS VM and at least one router in our AS is directly connected (via physical links). Over the physical link beetween helper AS router and router in our AS (origin AS router) we suppose a pre-installed GRE tunnel in which all hijacked traffic attracted by helper AS will be redirected.
-    - "tunnel_interface_name" : Tunnel interface name of helper AS router in which hijacked traffic will be redirected.
-    - "tunnel_interface_ip_address" : Tunnel interface ip address of helper AS router in which hijacked traffic will be redirected.
-    - "tunnel_interface_ip_mask" : Tunnel interface ip netmask of helper AS router in which hijacked traffic will be redirected.
+    - "router_id" : Real router-id of helper AS router with which ARTEMIS VM and at least one router in our AS is directly connected (via physical links). Over the physical link beetween helper AS router and router in our AS (origin AS router) we assume a pre-installed GRE tunnel to which all hijacked traffic attracted by helper AS will be redirected.
+    - "tunnel_interface_name" : Tunnel interface name of helper AS router to which hijacked traffic will be redirected.
+    - "tunnel_interface_ip_address" : Tunnel interface ip address of helper AS router to which hijacked traffic will be redirected.
+    - "tunnel_interface_ip_mask" : Tunnel interface ip netmask of helper AS router to which hijacked traffic will be redirected.
     - "tunnel_source_ip_address" : Physical source interface ip address of GRE tunnel (helper AS router).
     - "tunnel_source_ip_mask" : Physical source interface ip netmask of GRE tunnel (helper AS router).
     - "tunnel_destination_ip_address" : Physical destination interface ip address of GRE tunnel (origin AS router).
     - "tunnel_destination_ip_mask" : Physical destination interface netmask of GRE tunnel (origin AS router).
     ```
-
+ For more information on the different mitigation techniques please consult [the ARTEMIS paper](https://arxiv.org/pdf/1801.01085.pdf).
+ 
 ## Run
 
 1. First, boot ARTEMIS:
