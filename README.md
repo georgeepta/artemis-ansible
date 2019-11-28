@@ -3,6 +3,7 @@ Ansible-based Auto-Configuration and Auto-Mitigation Mechanisms in ARTEMIS
   * [Setup and Install](#setup-and-install)
   * [Configure](#configure)
   * [Run](#run)
+  * [Contact](#contact)
 
 ## General
 
@@ -252,3 +253,6 @@ This repository contains prototype software to enable auto-configuration and aut
    ```
 
 That's it !!! From now on, the Auto-Configuration Mechanism executes its work periodically, by polling the connected routers. All changes in ARTEMIS Configurations File will appear in ARTEMIS UI.
+
+## Contact
+In case of questions or requests for contributions please contact `csd3590[at]csd[dot]uoc[dot]gr`.
