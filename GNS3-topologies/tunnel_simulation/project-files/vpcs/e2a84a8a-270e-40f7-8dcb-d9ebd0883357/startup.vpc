@@ -1,2 +1,2 @@
-set pcname PC-5
+set pcname PROTECTED_SERVICE
 ip 130.10.1.2 130.10.1.1 21

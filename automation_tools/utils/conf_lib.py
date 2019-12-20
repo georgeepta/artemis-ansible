@@ -24,7 +24,7 @@ def create_monitor_defs(yaml_conf, monitors):
 
     # check monitors validity
     for monitor in monitors:
-        if monitor not in ["riperis", "bgpstreamlive", "betabmp", "exabgp"]:
+        if monitor not in ["riperis", "bgpstreamlive", "exabgp"]:
             # invalid monitor definition
             raise Exception("Invalid monitor definition !!!")
 
