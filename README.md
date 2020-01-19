@@ -33,7 +33,7 @@ This repository contains prototype software to enable auto-configuration and aut
    ```
    - ./backend/artemis-ansible/automation_tools/configs/admin_configs.json:/root/admin_configs.json
    - ./backend/artemis-ansible/automation_tools/configs/ansible/hosts:/root/hosts
-   - ./backend/artemis-ansible/automation_tools/configs/ansible/ansible.cfg:/root/ansible.cfg
+   - ./backend/artemis-ansible/automation_tools/configs/ansible/ansible.cfg:/etc/ansible/ansible.cfg
    - ./backend/artemis-ansible/automation_tools/auto_configuration/playbooks/main_playbook.yaml:/root/main_playbook.yaml
    - ./local_configs/backend/config.yaml:/root/config.yaml
    - ./backend/artemis-ansible/automation_tools/auto_configuration/core/conf_generator.py:/root/conf_generator.py
@@ -69,6 +69,7 @@ This repository contains prototype software to enable auto-configuration and aut
    ```
    RUN mkdir -p /var/log/artemis/auto_configuration/
    RUN mkdir -p /var/log/artemis/auto_mitigation/
+   RUN mkdir -p /etc/ansible/
    ``` 
 
 8. Open a terminal in `artemis` directory, stop and re-build ARTEMIS with ansible:
